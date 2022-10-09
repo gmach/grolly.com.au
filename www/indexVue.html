@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="seachbar">
+    <p>
+        Enter your product search for Woolworths:
+        <input v-model="searchTerm">
+    </p>
+    <search-result
+            v-for="item in items"
+            :key="item.barcode"
+            :item="item"
+            inline-template>
+        <div class="searchResult">
+            <div class="score">Score: {{ item.score }}</div>
+            <div class="image"><img :src="item.woolworths.SmallImageFile"></div>
+            <div class="barcode">Barcode: {{ item.barcode }}</div>
+            <div class="stockcode">Woolworths Stockcode: {{ item.woolworths.Stockcode }}</div>
+            <div class="name">Woolworths Name: {{ item.woolworths.Name }}</div>
+            <div class="price">Woolworths Price: {{ item.woolworths.Price }}</div>
+        </div>
+
+    </search-result>
+</div>
+<div id="main" class="container">
+    <div class="left-main">
+        <h1>Categories</h1>
+        <div class="category" v-for="(category, key) in CATEGORIES">
+            <a :href="`http://localhost:1234/category/${key}/1`">{{ category }}</a>
+        </div>
+    </div>
+    <div class="right-main"></div>
+</div>
+
+<div id="app"></div>
+
+<div id="secondaryMatches">
+    <secondary-product-item
+            v-for="item in items"
+            :key="item.result._id"
+            :item="item"
+            inline-template>
+        <div class="secondary">
+            <div class="score">Barcode: {{ item.result.barcode }}</div>
+            <div class="image"><img :src="'https://shop.coles.com.au' + item.result.coles.t"></div>
+            <div class="barcode">Coles Name: {{ item.result.coles.n }}</div>
+            <div class="stockcode">Coles Stockcode: {{ item.result.coles.p }}</div>
+            <div class="price">Coles Price: {{ item.result.coles.p1.o }}</div>
+
+            Found Matches :
+            <div v-for="match in item.foundMatches"
+                 :key="match._id"
+                 :match="match">
+                <div class="searchResult">
+                    <div class="score">Score: {{ match.score }}</div>
+                    <div class="image"><img :src="match.woolworths.SmallImageFile"></div>
+                    <div class="barcode">Barcode: {{ match.barcode }}</div>
+                    <div class="stockcode">Woolworths Stockcode: {{ match.woolworths.Stockcode }}</div>
+                    <div class="name">Woolworths Name: {{ match.woolworths.Name }}</div>
+                    <div class="price">Woolworths Price: {{ match.woolworths.Price }}</div>
+                </div>
+            </div>
+        </div>
+    </secondary-product-item>
+</div>
+
+<div id="diffs">
+    <!--<div>{{ item.diff }} {{ item.name }} {{ item.percent }}</div>-->
+
+    <product-item
+        v-for="item in items"
+        :key="item.product._id"
+        :item="item"
+        inline-template
+    >
+        <div class="container">
+            <woolworths :item="item" inline-template>
+                <div class="woolworths">
+                    <img src="/img/woolies-logo.png">
+                    <img class='image' :src="item.product.woolworths.SmallImageFile">
+                    <div class="product-info">
+                        <span v-if="item.winner == 'Woolworths'" class="winner">WINNER {{ item.percent }}% ({{ item.diff }})</span>
+                        <a :href="`https://www.woolworths.com.au/shop/productdetails/${item.product.woolworths.Stockcode}/${item.product.woolworths.UrlFriendlyName}`">{{ item.product.woolworths.Name }}</a>
+                        <span>{{ item.product.woolworths.Price }}</span>
+                    </div>
+                </div>
+            </woolworths>
+            <coles :item="item"></coles>
+        </div>
+    </product-item>
+
+
+</div>
+<script src="js/lodash.min.js"></script>
+<script src="js/mainVue.js"></script>
+</body>
+</html>

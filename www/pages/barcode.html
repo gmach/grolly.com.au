@@ -1,0 +1,16 @@
+<div ng-show="auth.isAuthenticated()">
+	<div class="centerbtn">
+		<button ng-click="shared.goBack()" class="btn btn-primary" type="button">
+			GO BACK
+		</button>
+	</div>
+	<div class="text-center">Scan the product barcode with your camera.</div>
+	<div ng-show="foundBarcode" class="processingbarcode">Found Barcode <span class="barcode">{{ barcode }}</span><br/>
+		Now searching for matches ...</div>
+	<div ng-show="barcodeError" class="nobarcodfound alert alert-danger">
+		{{ barcodeErrorMsg }}
+	</div>
+	<div ng-hide="foundBarcode" id="div-video-container">
+		<video class="dbrScanner-video" playsinline="true"></video>
+	</div>
+</div>

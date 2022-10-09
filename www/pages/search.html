@@ -1,0 +1,22 @@
+<div ng-if="auth.isAuthenticated()">
+	<div class="searchWrap">
+		<input class="searchBox" type="text"
+			   ng-model="searchText"
+			   my-enter="search(searchText)">
+		<button ng-click="search(searchText)" class="searchBtn btn btn-primary">Search</button>
+	</div>
+	<div ng-if="showSearchResults">
+		<h2 class="subheading">Search Results for {{ prevSearchText }} </h2>
+		<div class="categoryHeader" ng-show="shared.loaded">
+			<span ng-show="shared.loaded" class="prodsfound">{{ totalCount }} products found.</span>
+		</div>
+		<div class="products-container">
+			<tile product="item" view="view"
+				  ng-repeat="item in items" class="product-tile match"
+				  ng-class="{ 'both': item.type == 'both', 'woolworths': item.type == 'woolworths', 'coles': item.type == 'coles' }"
+				  ng-click="viewProduct(item)"></tile>
+		</div>
+		<span class="scrollup" ng-click="$root.scrollUp()"><i class="fas fa-chevron-circle-up"></i></span>
+	</div>
+
+</div>

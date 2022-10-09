@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<style>
+
+    .container {
+        display: flex;
+        flex-wrap:wrap;
+    }
+
+    .item {
+        /*flex: 1 1 auto;*/
+        /*flex: 1 1 0px;*/
+        flex: 1 1 10em;
+        background-color: #72b972;
+        border: 1px solid green;
+        padding-left: 10px;
+        margin: 5px;
+    }
+
+    /* VERTICAL EXAMPLE page 129 */
+    .horizontal {
+          flex-direction: row;
+    }
+    .vertical {
+        flex-direction: column;
+    }
+
+
+    /* FROM EXAMPLE page 230 */
+
+    .label-field-pair {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .label-field-pair label {
+        flex: 0 0 8em;  /* equivalent to setting width: 8em; */
+        margin-right: 10px;
+    }
+    .label-field-pair input {
+        flex: 1 1 21em; /* Need to change to 21em from 12em to force wrapping of input on narrow viewport */
+    }
+
+
+</style>
+</head>
+
+<body>
+<!--
+The flex property is set on flex items directly and affects either their width or height, whichever is the main dimension along the main axis.
+There are three components to flex, which is a shorthand property: flex- grow, flex-shrink, and flex-basis.
+The flex-grow value means how much the flex item will grow relative to other items if there’s extra space available on a line; you can think of it as the number of shares of extra space that a flex item gets
+The flex-shrink value means how much the flex item will shrink relative to others if there’s not enough space. It’s basically the proportion of the overflow- ing pixels that it will have lopped off to get everything to fit again.
+The flex-basis property is the initial starting dimension before free space is added on or taken away from the item. It can be set to any standard width or height unit.
+Browsers first size each of the flex items according to its flex-basis value. If wrapping is turned off, it puts all of them along the same line (row or column). If wrapping is on, it puts as many items along a line as can fit before wrapping and starting a new line. Now that the items are on lines and have starting dimen- sions, and possibly some padding, border and margin taking up space too, the browser can see how much space is left over or how much space is overflowing on each line. The browser then divvies up this excess space in whatever ratio the flex-grow and flex-shrink values specify.
+If flex-grow and flex-shrink are off (set to 0), then flex-basis acts just like standard width or height, setting the flex item to a specific size. If flex-grow
+is on (set to some positive number) and flex-shrink is off, then flex-basis acts a bit like min-width or min-height: “You can get bigger than this, but no smaller.” Swap that around (flex-grow off, flex-shrink on) and flex-basis acts like max-width or max-height: “You can get smaller than this, but no bigger.” And if both are on, well, flex-basis is like something we’ve never had before! It’s a starting point, and everything else that can affect dimension — margins, padding, border, even just extra pixels on the line — can be flexibly added or removed from that starting point to make everything fit nicely.
+By default, flex items have a flex value of 0 1 auto, which means they won’t grow to fill space but instead size to their content and can shrink to their minimum size (by wrapping text, for instance).
+-->
+<div class="container">
+    <div class="item"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
+    <div class="item"><p>Nulla at purus ipsum.</p></div>
+    <div class="item"><p>Aliquam lacinia non risus eu rhoncus.</p></div>
+    <div class="item"><p>Nulla blandit erat ac nunc malesuada pellentesque.</p></div>
+    <div class="item"><p>This should overflow for wrap.This should overflow for wrapThis should overflow for wrap this should overflow for wrap</p></div>
+</div>
+
+
+
+
+VERTICAL EXAMPLE  page 129
+<div class="container vertical">
+    <div><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div> <div class="container horizontal">
+    <p>Nulla at purus ipsum.</p>
+    <p>Aliquam lacinia non risus eu rhoncus.</p> </div>
+    <div><p>Aliquam lacinia non risus eu rhoncus.</p></div>
+    <div><p>Nulla blandit erat ac nunc malesuada pellentesque.</p></div> </div>
+
+FROM EXAMPLE page 230
+<form>
+        <div class="label-field-pair">
+            <label>Full Name:</label>
+            <input type="text">
+        </div>
+        <div class="label-field-pair">
+            <label>Email address:</label>
+            <input type="text">
+        </div>
+        <div class="label-field-pair">
+            <label>Comments:</label>
+            <input type="textarea">
+        </div>
+</form>
+
+
+</body>
+
+</html>

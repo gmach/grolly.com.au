@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<style>
+
+    /* NAVIGATION MENU EXAMPLE page 232 and page 242 and page 253 */
+    html, body {
+        height: 100%;
+    }
+    .container {
+          display: flex;
+          min-height: 100%;
+    }
+    .content {
+        flex: 1;
+        padding: 100px 40px 40px 40px;
+        transition: all .3s;
+    }
+    .menu {
+        overflow: hidden;
+        width: 0;
+        height: 0;
+        transition: all .3s;
+        background-color: #cccccc;
+    }
+    .menu-list {
+        margin:0;
+        padding:0;
+    }
+    .menu-item {
+        list-style-type: none;
+        padding: 20px;
+        border-bottom: 1px solid #aaaaaa;
+    }
+    .menu-item:nth-child(2) {
+        border-top: 1px solid #aaaaaa;
+    }
+    .menu-item:nth-child(5), .logo {
+        margin-left: auto;
+    }
+    .menu-item {
+        order: 0; /* default */
+    }
+    .logo {
+          order: 1;
+    }
+    .menu-item:nth-child(n+5) {
+        order: 2;
+    }
+    .logo {
+        text-align: center;
+        margin-bottom: -110px;
+    }
+    .logo img {
+        height: 165px;
+        margin-top: -75px;
+    }
+    .menu-item a, label {
+        color: #0b94a2;
+    }
+    .hamburger-checkbox {
+        position: absolute;
+        opacity: 0;
+    }
+    .hamburger-checkbox ~ #close {
+        display: none;
+    }
+    .logo.menu-item {
+        display: none;
+    }
+    .hamburger-checkbox:checked ~ .menu {
+        width: auto;
+        height: auto;
+        padding-top: 6.5em;
+    }
+    .hamburger-checkbox:checked ~ #open {
+        display: none;
+    }
+    .hamburger-checkbox:checked ~ #close {
+        display: block;
+    }
+    .hamburger-label {
+        position: absolute;
+        top: 40px;
+        left: 40px;
+        z-index: 1;
+        display: block;
+        width: 42px;
+        height: 42px;
+        font: 42px/42px FontAwesome;
+        text-align: center;
+        cursor: pointer;
+
+    }
+    @media (min-width: 70em) {
+        .container {
+            flex-direction: column;
+        }
+        .hamburger-label {
+            display: none;
+        }
+        .menu { /* book incorrectly has .sidebar */
+          width: auto;
+          height: auto;
+        }
+        .hamburger-checkbox:checked ~ .menu {
+            padding-top: 0;
+        }
+        .hamburger-checkbox:checked ~ #close {
+            display: none;
+        }
+        .logo.menu-item {
+            display: block;
+        }
+        .menu-list {
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+        }
+        .menu-item:nth-child(2) {
+            border-top: none;
+        }
+        .menu-item {
+            border-bottom: none;
+        }
+    }
+
+    /* GALLERY EXAMPLE page 236 */
+    .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: -20px;
+    }
+    .gallery-item {
+        flex: 1 0 250px;
+        box-sizing: content-box;
+        margin: 0 20px 20px 0;
+        padding: 10px;
+        border: 1px solid #dddddd;
+        text-align: center;
+      }
+
+    /* ARTICLE EXAMPLE page 247 */
+    .article-header {
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: -20px;
+    }
+    .article-header-image {
+          flex: 1 1 320px;
+          padding-left: 20px;
+    }
+    .article-header-text {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline; /* items’ vertical alignment .  The align-items property on the flex container determines how flex items are laid out along the cross axis ON THE CURRENT LINE! */
+        justify-content: space-between; /* items’ horizontal alignment. The justify-content property on the flex container stipulates how the flex items are laid out along the main axis ON THE CURRENT LINE!  */
+        align-content: space-between; /* lines’ vertical alignment. This applies to ENTIRE LINES when there is extra space in the cross axis. */
+        flex: 1 1 20em;
+        padding-left: 20px;
+    }
+    .article-title {
+        flex: 1 1 100%;
+    }
+    .img-responsive {
+        max-width: 100%;
+    }
+
+    .spacer {
+        margin: 40px 0;
+    }
+
+    /* ORDER EXAMPLE Page 256 */
+    .order-container {
+        display: flex;
+        flex-direction: column;
+    }
+    .order-container > * {
+        padding-left: 20px;
+    }
+    .subnav, .footer {
+        order: 1;
+    }
+    header {
+        background-color: #cccccc;
+    }
+    nav {
+        background-color: #72b972;
+    }
+    main {
+        background-color: #76DAFF;
+    }
+    aside {
+        background-color: #b77856;
+    }
+    footer {
+        background-color: #cccccc;
+    }
+    @media (min-width:50em) {
+        .order-container {
+            display: block;
+        }
+        nav {
+            width: 20%;
+        }
+        main {
+            width: 50%;
+        }
+        aside {
+            width: 20%;
+        }
+        nav, main, aside {
+            display: inline-block;;
+        }
+
+    }
+</style>
+</head>
+
+<body>
+<!--
+he align-items property on the flex container determines how flex items are laid out along the cross axis on the current line. For instance, when flex-direction is set to row, the cross axis is vertical, and thus align-items affects the flex items’ vertical alignment; if flex-direction was set to column, it would affect their horizontal alignment. Not only is this handy for equal-height columns, but it also makes vertical centering a breeze (using align-items:center for horizontal flex items).
+ The align-self property on an individual flex item establishes how that item is aligned on the cross axis, overriding the default specified by align-items. If you wanted all of your items across a line to be vertically centered with each other via align-items:center on the container, but you also needed just one of those items to be bottom-aligned instead, you could set align-self:flex-end on it to override the centering on that item alone.
+The justify-content property on the flex container stipulates how the flex items are laid out along the main axis on the current line. It basical- ly takes any free space left in the line and distributes it between, before or after the flex items. It’s particularly handy for spacing items out across the full width of a line, as we’ll see in a moment.
+The align-content property on a multi-line flex container determines how the container’s lines are laid out when there is extra space in the cross axis. It’s similar to justify-content in that it affects where the gaps go, but it applies to entire lines of flex items, rather than items themselves within a single line.
+-->
+NAVIGATION MENU EXAMPLE page 232 and page 242 and page 253
+<div class="container">
+    <input id="hamburger" type="checkbox" class="hamburger-checkbox">
+    <label id="open" for="hamburger" class="hamburger-label" role="button" aria-labelledby="menu"><i class="fas fa-bars"></i></label>
+    <label id="close" for="hamburger" class="hamburger-label" role="button" aria-labelledby="menu"><i class="fas fa-times"></i></label>
+
+    <nav role="navigation" class="menu">
+        <ul class="menu-list">
+            <li class="logo menu-item"><a href="index.html"><img src="http://www.hdicon.com/wp-content/uploads/2010/05/smashing.png"></a></li>
+            <li class="menu-item"><a href="">Publications</a></li>
+            <li class="menu-item"><a href="">Shop</a></li>
+            <li class="menu-item"><a href="">News</a></li>
+            <li class="menu-item"><a href="">Events</a></li>
+            <li class="menu-item"><a href="">Your Account</a></li>
+            <li class="menu-item"><a href="">Contact Us</a></li>
+        </ul>
+    </nav>
+    <div role="main" class="content">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut lectus sagittis, facilisis sapien placerat, aliquam tortor. Donec mattis lorem ipsum, nec blandit ligula congue vel. Proin dapibus diam at neque faucibus porta. Etiam non velit id odio venenatis maximus in convallis tellus. Proin imperdiet aliquet est, aliquam auctor magna ullamcorper sed. Nam fringilla eu ante sed bibendum. Fusce vitae fermentum dui, eu ornare lectus. Donec in quam nec orci commodo egestas. Etiam efficitur, tortor vel posuere tristique, nisi purus eleifend nisi, vitae eleifend massa lacus sed odio. Quisque quis ligula non ante porttitor auctor vel tincidunt nulla. Phasellus nisi quam, rhoncus vel dui nec, dignissim consequat velit.
+
+        Curabitur ultrices, sem eu egestas feugiat, mi libero venenatis nunc, sit amet auctor urna turpis sed neque. Donec congue sodales dapibus. Nullam a gravida velit. Pellentesque eget quam eget turpis dictum efficitur at non metus. Vivamus finibus iaculis lorem, sit amet consectetur nisi blandit sit amet. In bibendum sit amet dolor sed maximus. Etiam porta augue eu tempor vulputate. Proin vel consectetur lorem. Nulla mollis nibh at risus pulvinar malesuada. Maecenas ut elit a lectus molestie suscipit.
+
+        Nam urna elit, volutpat condimentum magna quis, mattis vestibulum mauris. Nunc eu gravida enim, ut condimentum libero. Sed in risus auctor, viverra velit vitae, interdum arcu. Aenean hendrerit arcu vel lectus congue lobortis. Pellentesque suscipit facilisis sem id mattis. Nunc sed eleifend elit, eu consectetur erat. Pellentesque varius ultrices est, sed hendrerit felis ornare eget. Donec tincidunt eros leo, ut finibus est tristique eget. Fusce tincidunt quam in ligula malesuada rutrum. Nullam pellentesque non metus nec dapibus. Cras in eros neque. Integer condimentum quis nisl at congue. Cras volutpat lacus non nunc aliquam porttitor.
+
+        Nunc eget nibh sit amet neque dignissim dictum at quis eros. Integer commodo pretium gravida. Ut ut fringilla mi. Aliquam dignissim mi ut justo congue, nec blandit elit convallis. Sed rhoncus ultrices consequat. Maecenas elit massa, imperdiet eget ante nec, sodales tempor ipsum. Fusce ultricies efficitur elit vel eleifend. Morbi quam enim, luctus a commodo sit amet, aliquam ut velit. Sed tortor ipsum, rhoncus in massa a, efficitur condimentum eros. Aliquam vel ornare erat. Nulla dapibus odio eu semper molestie. Integer sit amet libero ipsum. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla tristique odio nec arcu varius commodo.
+
+        Praesent scelerisque mi vitae velit feugiat, non blandit ipsum interdum. Aliquam sollicitudin tincidunt ante ut lobortis. Curabitur ut sapien non enim tempus venenatis. Cras efficitur porta elementum. Vivamus vitae efficitur metus. Sed eget suscipit lectus. Aliquam ante ligula, tempor nec suscipit vitae, tristique ac nulla. Mauris dictum magna at enim feugiat pulvinar. Vivamus mollis diam vel tristique vulputate. Pellentesque eros enim, sodales eu fermentum nec, commodo vitae nunc. Duis purus risus, aliquet at enim bibendum, congue imperdiet justo. Donec tempus odio ac mi congue convallis. Vestibulum molestie congue ligula. Quisque dolor purus, interdum ut nunc at, pulvinar consectetur felis. Nulla ac ex in leo imperdiet bibendum ut a mi.
+
+
+    </div>
+</div>
+
+GALLERY EXAMPLE page 236
+<div class="gallery">
+    <div class="gallery-item">
+        <img src="https://via.placeholder.com/250x150?text=hello%20world">
+    </div>
+    <div class="gallery-item">
+        <img src="https://via.placeholder.com/150x250?text=hello%20world">
+    </div>
+    <div class="gallery-item">
+        <img src="https://via.placeholder.com/250x150?text=hello%20world">
+    </div>
+    <div class="gallery-item">
+        <img src="https://via.placeholder.com/100x350?text=hello%20world">
+    </div>
+    <div class="gallery-item">
+        <img src="https://via.placeholder.com/250x150?text=hello%20world">
+    </div>
+</div>
+
+ARTICLE EXAMPLE page 247
+
+<header class="article-header">
+    <figure class="article-header-image">
+        <img class="img-responsive" src="https://via.placeholder.com/800x200?text=hello%20world" alt="Kids happily sledding">
+    </figure>
+    <section class="article-header-text">
+        <h2 class="article-title">Record-breaking Winter Brings Another School-free Snow Day
+            for Hillsborough Kids</h2>
+        <span class="article-category">Weather</span> <span class="article-date">28 January 2015</span>
+    </section>
+</header>
+
+<div class="spacer"></div>
+ORDER EXAMPLE page 256
+<div class="order-container">
+    <header class="header">Header</header>
+    <nav class="subnav" role="navigation">Subnav</nav><main class="main" role="main">Main</main><aside class="sidebar" role="complementary">Sidebar</aside>
+    <footer class="footer">Footer</footer>
+</div>
+
+</body>
+
+</html>
