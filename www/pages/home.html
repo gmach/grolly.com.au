@@ -3,24 +3,7 @@
     <img class="img-fluid" src="img/GroceryHawker-03.png"/>
 </div>
 <div class="text-center">
-    <h4 ng-if="auth.isAuthenticated()">
+    <h4>
         Welcome {{ user.getUser().name }}
-        <button
-                id="qsLogoutBtn"
-                class="btn btn-primary btn-margin"
-                ng-if="auth.isAuthenticated()"
-                ng-click="auth.logout()">
-            Log Out
-        </button>
-    </h4>
-    <h4 ng-if="!auth.isAuthenticated()">
-        You are not logged in! Please
-        <button
-                id="qsLoginBtn"
-                class="btn btn-primary btn-margin"
-                ng-if="!auth.isAuthenticated()"
-                ng-click="auth.login()">
-            Log In
-        </button> to continue.
     </h4>
 </div>

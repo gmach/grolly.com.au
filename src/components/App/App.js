@@ -1,30 +1,31 @@
-import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+// import DefaultHome from '../DefaultHome'
 import Main from '../Main'
-import Expenses from '../Expenses'
-import Invoices from '../Invoices'
-import Invoice from '../Invoice'
+import Categories from '../Categories'
+import Category from '../Category'
+import Barcode from '../Barcode'
+import Search from '../Search'
+import Cart from '../Cart'
+import About from '../About'
+import Privacy from '../Privacy'
+import Error from '../Error'
 import PageNotFound from '../PageNotFound'
 
 export const App = () => {
   return (
     <>
-      <h3>Grocery Hawker</h3>
       <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Main />}>
-              <Route path="expenses" element={<Expenses />} />
-              <Route path="invoices" element={<Invoices />} >
-                <Route
-                  index
-                  element={
-                    <main style={{ padding: "1rem" }}>
-                      <p>Select an invoice</p>
-                    </main>
-                  }
-                />
-                <Route path=":invoiceId" element={<Invoice/>} />
+            <Route path="" element={<Main />}>
+              <Route path="/" element={<Categories />} >
+                <Route path=":categoryId/:filter" element={<Category/>} />
               </Route>
+              <Route path="barcode" element={<Barcode />} />
+              <Route path="search" element={<Search />} />
+              <Route path="cart" element={<Cart />} />              
+              <Route path="about" element={<About />} />  
+              <Route path="privacy" element={<Privacy />} /> 
+              <Route path="404" element={<Error />} />   
               <Route path="*" element={<PageNotFound/>}/>
             </Route>
           </Routes>

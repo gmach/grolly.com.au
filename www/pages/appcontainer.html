@@ -1,10 +1,10 @@
 <div class="main-container">
-	<a ng-show="auth.isAuthenticated()" ng-click="toggleCategories()" class="btnbrowse">Browsing {{category}}
+	<a ng-click="toggleCategories()" class="btnbrowse">Browsing {{category}}
 		<span ng-show="!shared.isCategoriesOpen"><i class="fas fa-arrow-down"></i></span>
 		<span ng-show="shared.isCategoriesOpen"><i class="fas fa-arrow-up"></i></span>
 	</a>
 	<div class="main-content">
-		<div ng-show="auth.isAuthenticated() && shared.isCategoriesOpen" class="categories-pane">
+		<div ng-show="shared.isCategoriesOpen" class="categories-pane">
 			<div ng-repeat="(key, value) in CATEGORIES" class="catitem">
 				<a class='catlink' ng-href="{{hashOrNot}}/category/{{key}}/{{shared.filter}}" class="thumb">{{ value }}</a>
 			</div>

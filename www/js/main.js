@@ -1,15 +1,3 @@
-const AUTH0_CLIENT_ID='pymX2j7ek6YvvL0nii9MSb8mN2ViyJPK';
-const AUTH0_DOMAIN='groceryhawker.au.auth0.com';
-const AUTH0_CORDOVA_PACKAGE_ID='com.groceryhawker';
-const AUTH0_CALLBACK_URL= location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '') + '/callback';
-const webAuth = new auth0.WebAuth({
-    clientID: AUTH0_CLIENT_ID,
-    domain: AUTH0_DOMAIN,
-    responseType: 'token id_token',
-    redirectUri: AUTH0_CALLBACK_URL,
-    scope: 'openid email profile read:current_user update:current_user_identities'
-});
-
 let RESTURL = 'http://localhost:1234';//'https://groceryhawker-api.au.ngrok.io';// https://localhost:1234';
 let SEARCHURL = 'http://localhost:9200';
 let isProd = location.hostname == 'www.groceryhawker.com';
@@ -98,17 +86,6 @@ app.config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
     // without HTML5 mode (will use hashes in routes)
     if (!window.isMobile)
         $locationProvider.html5Mode(true);
-});
-
-app.run(function ($transitions, authService) {
-    $transitions.onBefore( { to: 'app.**' }, function(transition) {
-        authService.loadUser();
-        // if (authService.isAuthenticated()) {
-        //     authService.loadUser();
-        // } else {
-        //     return transition.router.stateService.target('401');
-        // }
-    });
 });
 
 app.service('userService', function () {
@@ -258,8 +235,7 @@ app.service('shared', function ($location, $rootScope, $window) {
 
 app.service('authService', function ($state, $timeout, userService, $rootScope, $location, shared) {
     $rootScope.$on('$locationChangeSuccess', function (event, current, previous) {
-        if (current.endsWith('/login'))
-            localStorage.referrerURL = previous.endsWith('/login')?'/':previous;
+
         shared.loaded = true;
         if (shared.scanner)
             shared.scanner.stop();
@@ -286,55 +262,6 @@ app.service('authService', function ($state, $timeout, userService, $rootScope, 
             });
         }
         return result;
-    }
-
-    function login() {
-        let str = randomString(16);
-        let nonce = {};
-        const expiresAt = new Date().getTime() + 60000;
-        nonce[str] = {
-            redirectUrl: localStorage.referrerURL,
-            expiresAt: expiresAt
-        }
-        window.localStorage.setItem('nonce', JSON.stringify(nonce));
-        if (!window.isMobile)
-            webAuth.authorize( { nonce: str, responseType: 'token id_token'});
-        else {
-            const auth0Cordova = new window.Auth0Cordova({
-                clientId: AUTH0_CLIENT_ID,
-                domain: AUTH0_DOMAIN,
-                packageIdentifier: AUTH0_CORDOVA_PACKAGE_ID
-            });
-            const options = {
-                scope: 'openid email profile read:current_user update:current_user_identities',
-                audience: 'https://groceryhawker.au.auth0.com/userinfo',
-                nonce: str
-            };
-            auth0Cordova.authorize(options, function(err, authResult) {
-                if (err) {
-                    console.log('authorize error is ' + err);
-                    $timeout(function() {
-                        $state.go('app.home');
-                    });
-                    return;
-                }
-                const expiresAt = (authResult.expiresIn * 1000) + new Date().getTime();
-                const accessToken = authResult.accessToken;
-                window.localStorage.setItem('userAuth', JSON.stringify({
-                    auth: {
-                        expiresAt: expiresAt,
-                        // accessToken: accessToken,
-                        // idToken: idToken,
-                        // userID: userID
-                    }
-                }));
-                const auth0 = new window.Auth0.Authentication({
-                    clientID: AUTH0_CLIENT_ID,
-                    domain: AUTH0_DOMAIN
-                });
-                auth0.userInfo(accessToken, processUser);
-            });
-        }
     }
 
     function getRedirectUrl() {
@@ -365,51 +292,6 @@ app.service('authService', function ($state, $timeout, userService, $rootScope, 
                 window.open(url, '_system');
             }
         })
-    }
-
-    function logout() {
-        localStorage.removeItem('userAuth');  // Cookies.remove('userAuth');
-        if (window.isMobile) {
-            const url = getRedirectUrl();
-            openUrl(url);
-        } else {
-            webAuth.logout({
-                returnTo: window.location.origin
-            });
-        }
-    }
-
-    function handleAuthentication() {
-        webAuth.parseHash({ hash: window.location.hash }, (err, authResult) => {
-            if (err) {
-                console.log(err);
-                $timeout(function() {
-                    $state.go('app.home');
-                });
-                return;
-            }
-            let nonce = localStorage.nonce; //Cookies.get('nonce');
-            if (nonce != null) {
-                nonce = JSON.parse(nonce);
-            }
-            let nonceString = Object.keys(nonce)[0];
-            if (authResult && authResult.accessToken && authResult.idTokenPayload
-                && authResult.idTokenPayload.nonce === nonceString) {
-                const expiresAt = (authResult.expiresIn * 1000) + new Date().getTime();
-                const accessToken = authResult.accessToken;
-                const idToken = authResult.idToken;
-                const userID = authResult.idTokenPayload.sub;
-                window.localStorage.setItem('userAuth', JSON.stringify({
-                    auth: {
-                        expiresAt: expiresAt,
-                        // accessToken: accessToken,
-                        // idToken: idToken,
-                        // userID: userID
-                    }
-                }));
-                webAuth.client.userInfo(accessToken, processUser);
-            }
-        });
     }
 
     async function processUser(err, user) {
@@ -470,26 +352,8 @@ app.service('authService', function ($state, $timeout, userService, $rootScope, 
         // $state.go('app.home');
     }
 
-    function isAuthenticated() {
-        // let userAuth = localStorage.userAuth; //Cookies.get('userAuth');
-        // if (userAuth != null) {
-        //     userAuth = JSON.parse(userAuth);
-        // }
-        // const isLoggedIn = userAuth
-        //     && userAuth.user
-        //     && userAuth.auth
-        //     && userAuth.auth.expiresAt
-        //     && new Date().getTime() < userAuth.auth.expiresAt;
-        // return isLoggedIn;
-        return true;
-    }
-
     return {
-        login: login,
-        logout: logout,
-        handleAuthentication: handleAuthentication,
-        loadUser: loadUser,
-        isAuthenticated: isAuthenticated
+        loadUser: loadUser
     }
 });
 
@@ -749,7 +613,7 @@ app.controller('mainController', function($scope, $sce, $http, $location, $rootS
             $scope.cartMessage = 'Item has been added to your shopping cart';
             $timeout(function () {
                 $scope.showCartMsg = false;
-            }, 20000);
+            }, 2000);
         } else {
             $scope.showCartMsg= true;
             $scope.cartMessage = 'Item already exists in your shopping cart!';
@@ -943,8 +807,6 @@ app.controller('categoryController', function($scope, $location, $rootScope, $st
 });
 
 app.controller('cartController', function($scope, $rootScope, $state, $location, authService, userService, shared) {
-    if (!authService.isAuthenticated())
-        $state.go('app.home');
     $scope.view ='cart';
     $scope.auth = authService;
     $scope.shared = shared;
@@ -1018,12 +880,10 @@ app.controller('cartController', function($scope, $rootScope, $state, $location,
     $rootScope.scrollUp();
 });
 
-app.controller('barcodeController', function($scope, $rootScope, $state, $location, authService, userService, shared) {
-    if (!authService.isAuthenticated()) {
-        if (shared.scanner)
-            shared.scanner.stop();
-        $state.go('401');
-    }
+app.controller('barcodeController', function($scope, $rootScope, $state, $location, userService, shared) {
+    if (shared.scanner)
+        shared.scanner.stop();
+    $state.go('401');
     $scope.shared = shared;
     $rootScope.processingBarCode = false;
 
@@ -1245,14 +1105,6 @@ app.controller('searchController', function($scope, $rootScope, $state, $locatio
         $location.url('/product');
     }
     $rootScope.scrollUp();
-});
-
-app.controller('callbackController', function($scope, authService, shared) {
-    $scope.auth = authService;
-    $scope.shared = shared;
-    shared.loaded = false;
-    authService.handleAuthentication();
-    shared.loaded = true;
 });
 
 app.controller('sharedController', function($scope, $stateParams, shared) {
