@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useLocation } from "react-router-dom";
-// import getInvoices from "../../data";
+import useToggle from '../../hooks/useToggle'
+import SpinnerLoader from '../SpinnerLoader'
 
 const CATEGORIES = {
   0: "Top Diffs",  
@@ -27,34 +28,40 @@ export const Categories = () => {
   const category = ''
   let categories = Object.entries(CATEGORIES);
   // let [searchParams, setSearchParams] = useSearchParams();
+  const [toggle, setToggle] = useToggle()
+  const updownClass = 'fas fa-arrow-' + (toggle ? 'up' : 'down')
+
+  const pendingLoad = false//;useSelector...
+  
+
   return (
     <div className="main-container">
-      <a  className="btnbrowse">Browsing {category}
-        <span ><i className="fas fa-arrow-down"></i></span>
-        <span ><i className="fas fa-arrow-up"></i></span>
+      <a  className="btnbrowse" onClick={setToggle}>Browsing {category}
+        <i className={updownClass}></i>
       </a>
-      <div className="main-content">
-        <div  className="categories-pane">
-        { categories.map((category) => (
-          <div className="catitem" key={category[0]}>
-            <QueryNavLink className='catlink thumb' 
-              to={`/${category[0]}/${filter}`}
-            >
-              {category[1]}
-            </QueryNavLink>
+      {
+        toggle && 
+          <div className="main-content">
+            <div  className="categories-pane">
+            { categories.map((category) => (
+              <div className="catitem" key={category[0]}>
+                <QueryNavLink className='catlink thumb' 
+                  to={`/${category[0]}/${filter}`}
+                >
+                  {category[1]}
+                </QueryNavLink>
+              </div>
+            ))}
+            </div>
+            <div className="content-pane">
+              <div id="routedContent"><Outlet /></div>
+            </div>
           </div>
-        ))}
-        </div>
-        <div className="content-pane">
-          <div id="routedContent"><Outlet /></div>
-          <footer className="text-center"><a className="footer" href="/about">About</a></footer>
-        </div>
-      </div>
-      <div className="spinner-wrapper" hidden>
-        <div className="loadingio-spinner-spinner-ev6jh5v9rqq"><div className="ldio-5h29m0fq6k6">
-          <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-        </div></div>
-      </div>
+      }
+      {
+        pendingLoad &&
+          <SpinnerLoader/>
+      }
     </div>
 
 

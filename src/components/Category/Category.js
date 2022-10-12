@@ -1,5 +1,11 @@
-import {  useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
+import { useParams, NavLink, useLocation } from "react-router-dom";
+
+const QueryNavLink = ({ to, ...props }) => {
+  let location = useLocation();
+  return <NavLink to={to + location.search} {...props} />;
+}
+
 import Tile from '../Tile'
 
 export const Category = () => {
@@ -34,35 +40,65 @@ export const Category = () => {
       .catch(console.error);
   }, [url]) 
 
+  const prodsFound = 50;
+  const totalCount = 500;
+  const FILTER_TYPES = [
+    {id: 'all', name: 'All'},
+    {id: 'both', name: 'Both'},
+    {id: 'woolworths', name: 'Woolworths'},
+    {id: 'coles', name: 'Coles'}
+];
+const scrollUp = () => {
 
+}
+const types = [
+  {id: 'all', name: 'All'},
+  {id: 'both', name: 'Both'},
+  {id: 'woolworths', name: 'Woolworths'},
+  {id: 'coles', name: 'Coles'}
+];
+const getTypeFromFilter = id => {
+  for (const type of types) {
+    if (type.id == id)
+      return type;
+  }
+}
+const selectedType = getTypeFromFilter(filter);
   return  (
-
-    <div className="products-container">
-    {
-      data && data.records.map(tile => <Tile key={tile.id} product={tile} view='category'/>)
-    }
-  </div> 
-    // <div ng-if="auth.isAuthenticated()">
-    //     <div className="categoryHeader" ng-show="shared.loaded">
-    //         <span ng-show="shared.loaded" className="prodsfound">  products found.</span>
-          
-    //             <select className="selectedType" id="selectedType"
-    //                     ng-options="type.name for type in types track by type.id"
-    //                     ng-model="selectedType" ng-change="onSelect(selectedType)">
-    //             </select>
-    //     </div>
-
-    //     <div className="products-container">
-    //         <div product="item" view="view" ng-if="item.type == selectedType.id || selectedType.id == 'all'"
-    //               ng-repeat="item in items" className="product-tile match"
-                  
-    //               ng-click="viewProduct(item)">
-
-
-    //               </div>
-    //     </div>
-    //     <span className="scrollup" ng-click="$root.scrollUp()"><i className="fas fa-chevron-circle-up"></i></span>
-    // </div>
-    
+    <>
+      <div className="categoryHeader">
+          <span className="prodsfound">{ prodsFound } of { totalCount } products found.</span>
+          <label htmlFor="selectedType">
+              <select 
+                className="selectedType" 
+                id="selectedType" 
+                // value={this.state.value} 
+                // onChange={this.handleChange}
+                >
+                  {
+                    FILTER_TYPES.map(filter => <option key={filter.id} value={filter.name}>{filter.name}</option>)
+                  }
+              </select>
+          </label>
+      </div>   
+      <div className="products-container">
+        {
+          data && data.records.map(tile => {
+            const clsName = 'product-tile match' + tile.type
+            if (tile.type == selectedType.id || selectedType.id == 'all')
+              return (
+              <div key={tile.id} product={tile} view='category' className={clsName} ngClick="viewProduct(item)">
+                <QueryNavLink className='catlink thumb' 
+                  to={`/${tile.id}`}
+                >
+                  {tile.id}
+                </QueryNavLink>                
+              </div>
+              )
+          })
+        }
+      </div>
+      <span className="scrollup" onClick={scrollUp}><i className="fas fa-chevron-circle-up"></i></span>      
+    </>
   )
 }
