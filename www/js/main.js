@@ -195,6 +195,20 @@ app.service('userService', function () {
     };
 });
 
+app.run(function ($transitions, $rootScope, shared) {
+    $transitions.onBefore( { to: 'app.**' }, function(transition) {
+        $rootScope.$on('$locationChangeSuccess', function (event, current, previous) {
+            if (current.endsWith('/login'))
+                localStorage.referrerURL = previous.endsWith('/login')?'/':previous;
+            shared.loaded = true;
+            if (shared.scanner)
+                shared.scanner.stop();
+            if (current != previous) // avoid page refresh
+                $rootScope.previousPage = previous;
+            });
+    });
+});
+
 app.service('shared', function ($location, $rootScope, $window) {
     let isCategoriesOpen = false;
     let categoryID = 0; // Top Diffs default category
@@ -233,130 +247,6 @@ app.service('shared', function ($location, $rootScope, $window) {
     };
 });
 
-app.service('authService', function ($state, $timeout, userService, $rootScope, $location, shared) {
-    $rootScope.$on('$locationChangeSuccess', function (event, current, previous) {
-
-        shared.loaded = true;
-        if (shared.scanner)
-            shared.scanner.stop();
-        if (current != previous) // avoid page refresh
-            $rootScope.previousPage = previous;
-    });
-
-    function randomString(length) {
-        let charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
-        let result = '';
-
-        while (length > 0) {
-            let bytes = new Uint8Array(16);
-            let random = window.crypto.getRandomValues(bytes);
-
-            random.forEach(function(c) {
-                if (length == 0) {
-                    return;
-                }
-                if (c < charset.length) {
-                    result += charset[c];
-                    length--;
-                }
-            });
-        }
-        return result;
-    }
-
-    function getRedirectUrl() {
-        const returnTo = AUTH0_CORDOVA_PACKAGE_ID + '://' + AUTH0_DOMAIN + '/cordova/' + AUTH0_CORDOVA_PACKAGE_ID + '/callback';
-        const url = 'https://' + AUTH0_DOMAIN + '/v2/logout?client_id=' + AUTH0_CLIENT_ID + '&returnTo=' + returnTo;
-        return url;
-    }
-
-    function openUrl(url) {
-        window.SafariViewController.isAvailable(function (available) {
-            if (available) {
-                window.SafariViewController.show({
-                        url: url
-                    },
-                    function(result) {
-                        if (result.event === 'opened') {
-                            console.log('opened');
-                        } else if (result.event === 'loaded') {
-                            console.log('loaded');
-                        } else if (result.event === 'closed') {
-                            console.log('closed');
-                        }
-                    },
-                    function(msg) {
-                        console.log("KO: " + JSON.stringify(msg));
-                    })
-            } else {
-                window.open(url, '_system');
-            }
-        })
-    }
-
-    async function processUser(err, user) {
-        if (err) {
-            $timeout(function () {
-                $state.go('app.home');
-            });
-            console.log(err);
-        } else if (user) {
-            let url, userID;
-            if (user.email)
-                userID = user.email;
-            else if (user.sub.indexOf('facebook')>-1)
-                userID = user.sub.substring('facebook|'.length);
-            url = RESTURL + '/user/' + userID;
-            let result = await axios.get(url);
-            let userData = result.data;
-            if (!userData)
-                userData = user;
-            userData.userID = userID;
-
-            let userAuth = localStorage.userAuth; //Cookies.get('userAuth');
-            if (userAuth != null) {
-                userAuth = JSON.parse(userAuth);
-            }
-            userAuth.user = userData;
-            localStorage.userAuth = JSON.stringify(userAuth); //Cookies.set('userAuth', JSON.stringify(userAuth));
-            loadUser();
-            if (window.isMobile) {
-                $state.go('app.home');
-            } else {
-                let nonce = localStorage.nonce; //Cookies.get('nonce');
-                if (nonce != null) {
-                    nonce = JSON.parse(nonce);
-                }
-                let nonceString = Object.keys(nonce)[0];
-                let redirectUrl = nonce[nonceString].redirectUrl;
-                window.location.href = redirectUrl;
-            }
-        }
-    }
-
-    function loadUser() {
-        let userAuth = localStorage.userAuth; //Cookies.get('userAuth');
-        if (userAuth != null) {
-            userAuth = JSON.parse(userAuth);
-        } else {
-            userAuth = {
-                user: {
-                    name: randomString(16)
-                }
-            }
-            localStorage.setItem('userAuth', JSON.stringify(userAuth));
-        }
-        if (userAuth && userAuth.user) {
-            userService.setUser(userAuth.user);
-        }
-        // $state.go('app.home');
-    }
-
-    return {
-        loadUser: loadUser
-    }
-});
-
 app.directive('myEnter', function () {
     return function (scope, element, attrs) {
         element.bind("keydown keypress", function (event) {
@@ -371,7 +261,7 @@ app.directive('myEnter', function () {
 });
 
 // create the controller and inject Angular's $scope
-app.controller('mainController', function($scope, $sce, $http, $location, $rootScope, $timeout, $state, authService, userService, shared) {
+app.controller('mainController', function($scope, $sce, $http, $location, $rootScope, $timeout, $state, userService, shared) {
     $scope.CATEGORIES = {
         0: "Top Diffs",
         1: "Fruit & Veg",
@@ -392,7 +282,6 @@ app.controller('mainController', function($scope, $sce, $http, $location, $rootS
     if (window.isMobile)
         $scope.hashOrNot = "#";
     $scope.user = userService;
-    $scope.auth = authService;
     $scope.shared = shared;
     $scope.loggedIn = false;
     $scope.isMenuOpen = false;
@@ -690,9 +579,8 @@ function isUpdatedProduct(product) {
     return isUpdated;
 }
 
-app.controller('categoryController', function($scope, $location, $rootScope, $stateParams, authService, shared) {
+app.controller('categoryController', function($scope, $location, $rootScope, $stateParams, shared) {
     $scope.page = 1;
-    $scope.auth = authService;
     $scope.shared = shared;
     $scope.items = [];
     shared.categoryID = $stateParams.id;
@@ -806,9 +694,8 @@ app.controller('categoryController', function($scope, $location, $rootScope, $st
     shared.isCategoriesOpen = false;
 });
 
-app.controller('cartController', function($scope, $rootScope, $state, $location, authService, userService, shared) {
+app.controller('cartController', function($scope, $rootScope, $state, $location, userService, shared) {
     $scope.view ='cart';
-    $scope.auth = authService;
     $scope.shared = shared;
     shared.isCategoriesOpen = false;
     if ($rootScope.backClicked && $rootScope.previousPage.endsWith('/product')) {
@@ -998,8 +885,7 @@ app.controller('barcodeController', function($scope, $rootScope, $state, $locati
 
 });
 
-app.controller('productController', function($scope, $rootScope, authService, shared) {
-    $scope.auth = authService;
+app.controller('productController', function($scope, $rootScope, shared) {
     $scope.shared = shared;
     $scope.view = 'product';
     $scope.item = localStorage.getItem('localGroceryItem');

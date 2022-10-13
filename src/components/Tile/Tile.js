@@ -29,6 +29,7 @@ export const Tile = ({product, view}) => {
   //       else
   //           $scope.$parent.showMatches = false
   // }
+
   return (
     <div className="product-tile match">
       <div className="tile-header">

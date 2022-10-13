@@ -1,14 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import useToggle from '../../hooks/useToggle'
 const RESTURL = 'http://localhost:1234';//'https://groceryhawker-api.au.ngrok.io';// https://localhost:1234';
 
 
-
-export const Product = ({item}) => {
-	const view = 'product';
-	// item = localStorage.getItem('localGroceryItem');
-	// if (item != null) {
-	// 		item = JSON.parse(item);
-	// }
+import Tile from '../Tile'
+export const Product = () => {
+	let item = localStorage.getItem('localGroceryItem');
+	if (item != null) {
+			item = JSON.parse(item);
+	}
 	let percent = item.diffPercent?item.diffPercent:0;
 	let diff = item.diff?item.diff:0;
 	if (item.type != 'both') {
@@ -23,7 +23,7 @@ export const Product = ({item}) => {
 	const [showMatches, toggleMatches] = useToggle()
 	let isCategoriesOpen = false
 	const isAdmin = false
-
+  const navigate = useNavigate();
 	const getMatches = async () => {
 		loaded = false;
 		const response = await fetch(RESTURL + '/matches/' + id + '/' + isAdmin);
@@ -42,21 +42,27 @@ export const Product = ({item}) => {
 	}
 	// scrollUp();
 	isCategoriesOpen = false;
-		
+	const clsName = 'product-tile match' + item.type
+	const goBack = () => {
+		navigate(-1);
+	}
   return (
     <>
     <h3>Product</h3>
 	
 	<div className="product-container">
 		<div className="centerbtn">
-			<button ng-click="goBack()" className="btn btn-primary" type="button">
+			<button onClick={goBack} className="btn btn-primary" type="button">
 				GO BACK
 			</button>
 		</div>
 		<div className="tile-wrapper">
-			<tile product="item" view="view" className="product-tile" ng-className="{ 'both': item.type == 'both', 'woolworths': item.type == 'woolworths', 'coles': item.type == 'coles' }"></tile>
-			<tile ng-if="item.type == 'both'" product="item.target" view="view" className="product-tile" ng-className="{ 'both': item.type == 'both', 'woolworths': item.type == 'woolworths', 'coles': item.type == 'coles' }"></tile>
-					<div className="winner" ng-className="{ 'both': item.winner == 'both', 'woolworths': item.winner == 'woolworths', 'coles': item.winner == 'coles' }">
+			<Tile product={item} view='view' className={clsName}/>
+			{
+			item.type == 'both' && 
+			<Tile product={item.target} view='view' className={clsName}/>
+			}
+			<div className="winner" ng-className="{ 'both': item.winner == 'both', 'woolworths': item.winner == 'woolworths', 'coles': item.winner == 'coles' }">
 				<button className="btn btn-primary addCart" ng-click="$root.addCart(item)">
 					<i className="fas fa-plus-circle"></i>
 				</button>
@@ -68,7 +74,7 @@ export const Product = ({item}) => {
 				<div ng-show="!showMatches">Click <i ng-click="getMatches()" className="fas fa-link"></i> to find nearest matches from { targetType }</div>
 				</h2>
 				<h2 ng-if="(item.type != 'coles' && item.isAvailable) || item.type == 'coles'">{ comparisonMsg }</h2>
-					</div>
+			</div>
 		</div>
 		<div ng-if="isAdmin && item.type != 'both'" className="suggestionswrap">
 			<input id="suggestField" type="text" className="form-control" ng-model="ngModelOptionsSelected" ng-model-options="modelOptions"

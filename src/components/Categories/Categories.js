@@ -24,7 +24,7 @@ const QueryNavLink = ({ to, ...props }) => {
 }
 
 export const Categories = () => {
-  const filter = 'woolworths'
+  const filter = 'both'
   const category = ''
   let categories = Object.entries(CATEGORIES);
   // let [searchParams, setSearchParams] = useSearchParams();

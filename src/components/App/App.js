@@ -20,8 +20,9 @@ export const App = () => {
             <Route path="" element={<Main />}>
               <Route path="/" element={<Categories />} >
                 <Route path=":categoryId/:filter" element={<Category/>} />
-                <Route path=":productId" element={<Product/>} />
+                {/* <Route path=":productId" element={<Product/>} /> */}
               </Route>
+              <Route path="product" element={<Product />} />
               <Route path="barcode" element={<Barcode />} />
               <Route path="search" element={<Search />} />
               <Route path="cart" element={<Cart />} />   

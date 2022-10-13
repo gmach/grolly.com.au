@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, NavLink, useLocation } from "react-router-dom";
+import { useParams, NavLink, useLocation, useNavigate } from "react-router-dom";
 
 const QueryNavLink = ({ to, ...props }) => {
   let location = useLocation();
@@ -7,10 +7,10 @@ const QueryNavLink = ({ to, ...props }) => {
 }
 
 import Tile from '../Tile'
-
+import Product from '../Product'
 export const Category = () => {
-// const navigate = useNavigate();
   // const location = useLocation();
+  const navigate = useNavigate();
   const params = useParams();
   const [data, setData] = useState();
   const categoryId = parseInt(params.categoryId, 10)
@@ -64,6 +64,14 @@ const getTypeFromFilter = id => {
   }
 }
 const selectedType = getTypeFromFilter(filter);
+const handleClick = (product) => {
+  localStorage.setItem('localGroceryItem', JSON.stringify(product));
+  let previousState = {
+      items: data.records
+  }
+  localStorage.setItem('previousState', JSON.stringify(previousState));
+  navigate("/product");
+};
   return  (
     <>
       <div className="categoryHeader">
@@ -81,19 +89,19 @@ const selectedType = getTypeFromFilter(filter);
               </select>
           </label>
       </div>   
+      {/* {
+        data && 
+        <Product item={data.records[0]} view='product'/>
+      } */}
       <div className="products-container">
         {
           data && data.records.map(tile => {
             const clsName = 'product-tile match' + tile.type
             if (tile.type == selectedType.id || selectedType.id == 'all')
               return (
-              <div key={tile.id} product={tile} view='category' className={clsName} ngClick="viewProduct(item)">
-                <QueryNavLink className='catlink thumb' 
-                  to={`/${tile.id}`}
-                >
-                  {tile.id}
-                </QueryNavLink>                
-              </div>
+                <div onClick={()=>handleClick(tile)} key={tile.id}>
+                  <Tile product={tile} view='category' className={clsName}/>
+                </div>
               )
           })
         }
