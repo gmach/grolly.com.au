@@ -67,11 +67,6 @@ app.config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
                 errorMsg: "There was an error processing."
             }
         })
-        .state('401', {
-            url: '/login',
-            controller: 'sharedController',
-            templateUrl: 'pages/home.html'
-        })
         .state('privacy', {
             url: '/privacy',
             controller: 'sharedController',
@@ -195,16 +190,16 @@ app.service('userService', function () {
     };
 });
 
-app.run(function ($transitions, $rootScope, userService, shared) {
+app.run(function ($transitions, $rootScope, userService) {
     function loadUser() {
         let userAuth = localStorage.userAuth; //Cookies.get('userAuth');
         if (!userAuth) {
-            const userAuth = JSON.stringify({
+            userAuth = JSON.stringify({
                 user: {
                     userID: randomString(16)
                 }
-            }); //Cookies.set('userAuth', JSON.stringify(userAuth)); 
-            localStorage.userAuth = userAuth
+            }); 
+            localStorage.userAuth = userAuth //Cookies.set('userAuth', JSON.stringify(userAuth)); 
         }
         userAuth = JSON.parse(localStorage.userAuth);
         userService.setUser(userAuth.user);
@@ -231,7 +226,6 @@ app.run(function ($transitions, $rootScope, userService, shared) {
         return result;
     }
 
-
     if (!$rootScope.loadedUser) {
         loadUser()        
         $rootScope.loadedUser = true;
@@ -240,7 +234,6 @@ app.run(function ($transitions, $rootScope, userService, shared) {
         $rootScope.$on('$locationChangeSuccess', function (event, current, previous) {
             if (current.endsWith('/login'))
                 localStorage.referrerURL = previous.endsWith('/login')?'/':previous;
-            // shared.loaded = true;
             if ($rootScope.scanner) {
                 $rootScope.scanner.close()
                 $rootScope.scanner.destroyContext()
@@ -412,7 +405,7 @@ app.directive('myEnter', function () {
 // create the controller and inject Angular's $scope
 app.controller('mainController', function($scope, $sce, $http, $location, $rootScope, $timeout, $state, userService, shared) {
     $scope.CATEGORIES = {
-        0: "Top Diffs",
+        // 0: "Top Diffs",
         1: "Fruit & Veg",
         2: "Meat, Seafood & Deli",
         3: "Bakery",
