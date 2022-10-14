@@ -49,11 +49,6 @@ app.config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
             url: '/about',
             templateUrl : 'pages/about.html'
         })
-        .state('callback', {
-            url: '/callback',
-            controller: 'callbackController',
-            templateUrl: 'pages/callback.html'
-        })
         .state('barcode', {
             url: '/barcode',
             templateUrl : 'pages/barcode.html',
@@ -305,7 +300,7 @@ app.controller('mainController', function($scope, $sce, $http, $location, $rootS
         $scope.modalheader = item.woolworths.name;
         $scope.children = item.children;
         $scope.modalfooter = item.woolworths.price + ', unit price = ' + item.woolworths.unitPrice;
-        $('#bundalModal').show();
+        // $('#bundalModal').show();
     }
     // $scope.openwopenwowow = function(item) {
     //     window.open('https://www.woolworths.com.au/shop/productdetails/' + item.woolworths.stockCode + '/');
@@ -459,7 +454,7 @@ app.controller('mainController', function($scope, $sce, $http, $location, $rootS
         } else {
             $scope.addResults = 'not changed';
             return;
-        };
+        }
 
 
         /*
@@ -544,9 +539,6 @@ app.controller('mainController', function($scope, $sce, $http, $location, $rootS
         }
         $rootScope.scrollUp();
     }
-    $scope.viewCart = function () {
-        $location.url('/cart')
-    }
     $scope.toggleCategories = function() {
         $rootScope.isCategoriesOpen = !$rootScope.isCategoriesOpen;
     }
@@ -556,6 +548,9 @@ app.controller('mainController', function($scope, $sce, $http, $location, $rootS
     $scope.search = function () {
         $location.url('/search')
     }
+    $scope.viewCart = function () {
+        $location.url('/cart')
+    }    
     $rootScope.scrollUp = function() {
         window.scrollTo(0, 0);
     }
