@@ -1,12 +1,12 @@
 <div class="main-container">
 	<a ng-click="toggleCategories()" class="btnbrowse">Browsing {{category}}
-		<span ng-show="!shared.isCategoriesOpen"><i class="fas fa-arrow-down"></i></span>
-		<span ng-show="shared.isCategoriesOpen"><i class="fas fa-arrow-up"></i></span>
+		<span ng-show="!$root.isCategoriesOpen"><i class="fas fa-arrow-down"></i></span>
+		<span ng-show="$root.isCategoriesOpen"><i class="fas fa-arrow-up"></i></span>
 	</a>
 	<div class="main-content">
-		<div ng-show="shared.isCategoriesOpen" class="categories-pane">
+		<div ng-show="$root.isCategoriesOpen" class="categories-pane">
 			<div ng-repeat="(key, value) in CATEGORIES" class="catitem">
-				<a class='catlink' ng-href="{{hashOrNot}}/category/{{key}}/{{shared.filter}}" class="thumb">{{ value }}</a>
+				<a class='catlink' ng-href="{{hashOrNot}}/category/{{key}}/{{$root.filter}}" class="thumb">{{ value }}</a>
 			</div>
 		</div>
 		<div class="content-pane">
@@ -14,7 +14,7 @@
 			<footer class="text-center"><a class="footer" href="/about">About</a></footer>
 		</div>
 	</div>
-	<div ng-show="!shared.loaded" class="spinner-wrapper">
+	<div ng-show="!$root.loaded" class="spinner-wrapper">
 		<div class="loadingio-spinner-spinner-ev6jh5v9rqq"><div class="ldio-5h29m0fq6k6">
 			<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
 		</div></div>

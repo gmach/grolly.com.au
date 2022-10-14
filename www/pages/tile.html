@@ -2,7 +2,7 @@
 	<img class="product-logo" src="{{ product.type }}-logo.png">
 	<!--<a href="#" class="favourite"><i class="fas fa-heart"></i></a>-->
 </div>
-<div ng-if="shared.isAdmin && product.type != 'both'" class="w100">Score is {{ product.score }}</div>
+<div ng-if="$root.isAdmin && product.type != 'both'" class="w100">Score is {{ product.score }}</div>
 <section ng-if="view != 'product'">
 	<span class="diff" ng-if="(product.type != 'coles' && product.isAvailable) || product.type == 'coles'">{{ comparisonMsg }}</span>
 	<img class="product-logo" ng-if="product.winner == 'woolworths'" src="woolworths-logo.png">

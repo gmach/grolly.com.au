@@ -1,6 +1,6 @@
 <div class="product-container">
 	<div class="centerbtn">
-		<button ng-click="shared.goBack()" class="btn btn-primary" type="button">
+		<button ng-click="$root.goBack()" class="btn btn-primary" type="button">
 			GO BACK
 		</button>
 	</div>
@@ -21,7 +21,7 @@
 			<h2 ng-if="(item.type != 'coles' && item.isAvailable) || item.type == 'coles'">{{ comparisonMsg }}</h2>
         </div>
 	</div>
-	<div ng-if="shared.isAdmin && item.type != 'both'" class="suggestionswrap">
+	<div ng-if="$root.isAdmin && item.type != 'both'" class="suggestionswrap">
 		<input id="suggestField" type="text" class="form-control" ng-model="ngModelOptionsSelected" ng-model-options="modelOptions"
 			   placeholder="Search for target match ..."
 			   uib-typeahead="suggest as suggest.n for suggest in getSuggestions($viewValue) | limitTo:5"
@@ -51,7 +51,7 @@
 			<span ng-show="!showMatches">Show Matches</span>
 			<span ng-show="showMatches">Hide Matches</span>
 		</button>
-		<span ng-show="shared.isAdmin" class="barcode">{{ item.barcode }}</span>
+		<span ng-show="$root.isAdmin" class="barcode">{{ item.barcode }}</span>
 	</div>
 	<div ng-if="showMatches">
 		<h2 class="subheading">Disclaimer : These are only best matches found and may not be correct.</h2>

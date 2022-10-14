@@ -83,128 +83,7 @@ app.config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
         $locationProvider.html5Mode(true);
 });
 
-app.service('userService', function () {
-    let user = {}
-    function getUser() {
-        return user;
-    }
-    function setUser(newUser) {
-        user = newUser;
-    }
-
-    function addToCart(product) {
-        let userAuth = localStorage.userAuth; //Cookies.get('userAuth');
-        if (userAuth != null) {
-            userAuth = JSON.parse(userAuth);
-        }
-        if (!userAuth.user && !userAuth.user.cart)
-            userAuth.user.cart = [];
-        let cart = userAuth.user.cart?userAuth.user.cart:[];
-        let startSize = cart.length;
-        product.datedAdded = new Date().toString().substr(0,21);
-        cart.push(product);
-        let newCart = _.uniqWith(cart, (val1, val2) => {
-            return val1.id == val2.id && val1.stockCode == val2.stockCode;
-        });
-        let cartChanged = newCart.length > startSize;
-        userAuth.user.cart = newCart;
-        user.cart = newCart
-        localStorage.userAuth = JSON.stringify(userAuth); //Cookies.set('userAuth', JSON.stringify(userAuth));
-        return cartChanged;
-    }
-
-    function removeCart(product) {
-        let userAuth = localStorage.userAuth; //Cookies.get('userAuth');
-        if (userAuth != null) {
-            userAuth = JSON.parse(userAuth);
-        }
-        if (!userAuth.user && !userAuth.user.cart)
-            userAuth.user.cart = [];
-        let cart = userAuth.user.cart?userAuth.user.cart:[];
-        let startSize = cart.length;
-        _.remove(cart, function (el) {
-            return el.id == product.id && el.stockCode == product.stockCode;
-        });
-        let cartChanged = cart.length == startSize - 1;
-        userAuth.user.cart = cart;
-        user.cart = cart
-        localStorage.userAuth = JSON.stringify(userAuth); //Cookies.set('userAuth', JSON.stringify(userAuth));
-        return cartChanged;
-    }
-
-
-    function syncCart(items) {
-        let userAuth = localStorage.userAuth; //Cookies.get('userAuth');
-        if (userAuth != null) {
-            userAuth = JSON.parse(userAuth);
-        }
-        if (!userAuth.user && !userAuth.user.cart)
-            userAuth.user.cart = [];
-        let cart = userAuth.user.cart?userAuth.user.cart:[];
-        for (item of items) {
-            let found = _.findIndex(cart, function(ci) {
-                return ci.id == item.id && ci.stockCode == item.stockCode;
-            });
-            if (found > -1) {
-                item.datedAdded = new Date().toString().substr(0,21);
-                cart[found] = item;
-            }
-        }
-        userAuth.user.cart = cart;
-        user.cart = cart
-        localStorage.userAuth = JSON.stringify(userAuth); //Cookies.set('userAuth', JSON.stringify(userAuth));
-    }
-
-    function getCartData() {
-        let total = 0;
-        let diffTotal = 0;
-        let isStale = false;
-        if (user.cart) {
-            for (item of user.cart) {
-                total+= parseFloat(item.price);
-                diffTotal+= item.diff?parseFloat(item.diff):0
-                let da = new Date(item.datedAdded);
-                let day = 60 * 60 * 24 * 1000;
-                let daplus1 = new Date(da.getTime() + day);
-                let now = new Date();
-                let dateDiff = now - daplus1;
-                if (dateDiff / day > 1)
-                    isStale = true;
-            }
-        }
-        return {
-            total: '$' + total.toFixed(2),
-            diffTotal: '$' + diffTotal.toFixed(2),
-            isStale: isStale,
-            isEmpty: user.cart?user.cart.length == 0:true
-        };
-
-    }
-    return {
-        getUser: getUser,
-        setUser: setUser,
-        addToCart: addToCart,
-        removeCart: removeCart,
-        getCartData: getCartData,
-        syncCart: syncCart
-    };
-});
-
-app.run(function ($transitions, $rootScope, userService) {
-    function loadUser() {
-        let userAuth = localStorage.userAuth; //Cookies.get('userAuth');
-        if (!userAuth) {
-            userAuth = JSON.stringify({
-                user: {
-                    userID: randomString(16)
-                }
-            }); 
-            localStorage.userAuth = userAuth //Cookies.set('userAuth', JSON.stringify(userAuth)); 
-        }
-        userAuth = JSON.parse(localStorage.userAuth);
-        userService.setUser(userAuth.user);
-    }
-                
+app.run(function ($transitions, $rootScope, $location, $window, userService) {
     function randomString(length) {
         let charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
         let result = '';
@@ -225,15 +104,49 @@ app.run(function ($transitions, $rootScope, userService) {
         }
         return result;
     }
+    function init() {
+        $rootScope.isCategoriesOpen = false;
+        $rootScope.categoryID = 0; // Top Diffs default category
+        $rootScope.filter = 'both'; // Default both types
+        $rootScope.loaded = true; // for ajax calls show spinner
+        $rootScope.isAdmin = false; // admin view
+        $rootScope.itemSort = (a, b) => {
+            let percent_a = a.diffPercent?a.diffPercent:0;
+            let percent_b = b.diffPercent?b.diffPercent:0;
+            if (a.type != 'both')
+                percent_a = a.discountPercent?a.discountPercent:0;
+            if (b.type != 'both')
+                percent_b = b.discountPercent?b.discountPercent:0;
+            if (Number(percent_a) < Number(percent_b)) return 1;
+            if (Number(percent_a) > Number(percent_b)) return -1;
+            return 0;
+        }
+        $rootScope.goBack = () => {
+            $rootScope.backClicked = true;
+            if (window.isMobile)
+                $location.path($rootScope.previousPage);
+            else
+                $window.history.back();
+        }
+        let userAuth = localStorage.userAuth; //Cookies.get('userAuth');
+        if (!userAuth) {
+            userAuth = JSON.stringify({
+                user: {
+                    userID: randomString(16)
+                }
+            }); 
+            localStorage.userAuth = userAuth //Cookies.set('userAuth', JSON.stringify(userAuth)); 
+        }
+        userAuth = JSON.parse(localStorage.userAuth);
+        userService.setUser(userAuth.user);            
+    }
 
-    if (!$rootScope.loadedUser) {
-        loadUser()        
-        $rootScope.loadedUser = true;
+    if (!$rootScope.init) {
+        init()
+        $rootScope.init = true;     
     }
     $transitions.onBefore( { to: 'app.**' }, function(transition) {
         $rootScope.$on('$locationChangeSuccess', function (event, current, previous) {
-            if (current.endsWith('/login'))
-                localStorage.referrerURL = previous.endsWith('/login')?'/':previous;
             if ($rootScope.scanner) {
                 $rootScope.scanner.close()
                 $rootScope.scanner.destroyContext()
@@ -351,44 +264,6 @@ app.service('userService', function () {
     };
 });
 
-app.service('shared', function ($location, $rootScope, $window) {
-    let isCategoriesOpen = false;
-    let categoryID = 0; // Top Diffs default category
-    let filter = 'both'; // Default both types
-    let loaded = true; // for ajax calls show spinner
-    let isAdmin = false; // admin view
-
-    function itemSort(a, b) {
-        let percent_a = a.diffPercent?a.diffPercent:0;
-        let percent_b = b.diffPercent?b.diffPercent:0;
-        if (a.type != 'both')
-            percent_a = a.discountPercent?a.discountPercent:0;
-        if (b.type != 'both')
-            percent_b = b.discountPercent?b.discountPercent:0;
-        if (Number(percent_a) < Number(percent_b)) return 1;
-        if (Number(percent_a) > Number(percent_b)) return -1;
-        return 0;
-    }
-
-    function goBack() {
-        $rootScope.backClicked = true;
-        if (window.isMobile)
-            $location.path($rootScope.previousPage);
-        else
-            $window.history.back();
-    }
-
-    return {
-        isCategoriesOpen: isCategoriesOpen,
-        itemSort: itemSort,
-        goBack: goBack,
-        categoryID: categoryID,
-        filter: filter,
-        loaded: loaded,
-        isAdmin: isAdmin
-    };
-});
-
 app.directive('myEnter', function () {
     return function (scope, element, attrs) {
         element.bind("keydown keypress", function (event) {
@@ -403,7 +278,7 @@ app.directive('myEnter', function () {
 });
 
 // create the controller and inject Angular's $scope
-app.controller('mainController', function($scope, $sce, $http, $location, $rootScope, $timeout, $state, userService, shared) {
+app.controller('mainController', function($scope, $sce, $http, $location, $rootScope, $timeout, $state, userService) {
     $scope.CATEGORIES = {
         // 0: "Top Diffs",
         1: "Fruit & Veg",
@@ -424,7 +299,6 @@ app.controller('mainController', function($scope, $sce, $http, $location, $rootS
     if (window.isMobile)
         $scope.hashOrNot = "#";
     $scope.user = userService;
-    $scope.shared = shared;
     $scope.loggedIn = false;
     $scope.isMenuOpen = false;
     $scope.openbundle = function(item) {
@@ -674,7 +548,7 @@ app.controller('mainController', function($scope, $sce, $http, $location, $rootS
         $location.url('/cart')
     }
     $scope.toggleCategories = function() {
-        shared.isCategoriesOpen = !shared.isCategoriesOpen;
+        $rootScope.isCategoriesOpen = !$rootScope.isCategoriesOpen;
     }
     $scope.scanBarcode = function () {
         $location.url('/barcode')
@@ -721,26 +595,25 @@ function isUpdatedProduct(product) {
     return isUpdated;
 }
 
-app.controller('categoryController', function($scope, $location, $rootScope, $stateParams, shared) {
+app.controller('categoryController', function($scope, $location, $rootScope, $stateParams) {
     $scope.page = 1;
-    $scope.shared = shared;
     $scope.items = [];
-    shared.categoryID = $stateParams.id;
-    shared.filter = $stateParams.filter;
-    $scope.$parent.category = $scope.CATEGORIES[shared.categoryID];
+    $rootScope.categoryID = $stateParams.id;
+    $rootScope.filter = $stateParams.filter;
+    $scope.$parent.category = $scope.CATEGORIES[$rootScope.categoryID];
     $scope.totalAll = 0;
     $scope.totalColes = 0;
     $scope.totalWow = 0;
     $scope.totalBoth = 0;
 
     $scope.getProducts = async function(addToExisting) {
-        shared.loaded = false;
-        let url = RESTURL + '/category/' + shared.categoryID
-            + '/filter/' + shared.filter
+        $rootScope.loaded = false;
+        let url = RESTURL + '/category/' + $rootScope.categoryID
+            + '/filter/' + $rootScope.filter
             + '/page/' + $scope.page
-            + '/isAdmin/' + shared.isAdmin;
+            + '/isAdmin/' + $rootScope.isAdmin;
         let result = await axios.get(url);
-        shared.loaded = true;
+        $rootScope.loaded = true;
         let records = result.data.records;
         $scope.totalCount = result.data.totalCount;
         let newItems = [];
@@ -773,7 +646,7 @@ app.controller('categoryController', function($scope, $location, $rootScope, $st
         $scope.prodsFound = $scope.items.length;
         if (result.data.length == 0)
             newItems = null;
-        $scope.items.sort(shared.itemSort);
+        $scope.items.sort($rootScope.itemSort);
         $scope.$apply();
     }
     if ($rootScope.backClicked && $rootScope.previousPage.endsWith('/product')) {
@@ -806,7 +679,7 @@ app.controller('categoryController', function($scope, $location, $rootScope, $st
         {id: 'woolworths', name: 'Woolworths'},
         {id: 'coles', name: 'Coles'}
     ];
-    $scope.selectedType =  getTypeFromFilter(shared.filter);
+    $scope.selectedType =  getTypeFromFilter($rootScope.filter);
     function getTypeFromFilter(id) {
         for (type of $scope.types) {
             if (type.id == id)
@@ -814,8 +687,8 @@ app.controller('categoryController', function($scope, $location, $rootScope, $st
         }
     }
     $scope.onSelect = function(selection) {
-        shared.filter = selection.id;
-        $location.url('/category/' + shared.categoryID + '/' + shared.filter);
+        $rootScope.filter = selection.id;
+        $location.url('/category/' + $rootScope.categoryID + '/' + $rootScope.filter);
     }
     $scope.viewProduct = function (item) {
         localStorage.setItem('localGroceryItem', JSON.stringify(item));
@@ -833,13 +706,12 @@ app.controller('categoryController', function($scope, $location, $rootScope, $st
     }
     $scope.view = 'category';
     $rootScope.scrollUp();
-    shared.isCategoriesOpen = false;
+    $rootScope.isCategoriesOpen = false;
 });
 
-app.controller('cartController', function($scope, $rootScope, $state, $location, userService, shared) {
+app.controller('cartController', function($scope, $rootScope, $state, $location, userService) {
     $scope.view ='cart';
-    $scope.shared = shared;
-    shared.isCategoriesOpen = false;
+    $rootScope.isCategoriesOpen = false;
     if ($rootScope.backClicked && $rootScope.previousPage.endsWith('/product')) {
         let previousState = localStorage.previousState; //Cookies.get('userAuth');
         if (previousState != null) {
@@ -872,19 +744,19 @@ app.controller('cartController', function($scope, $rootScope, $state, $location,
             });
     }
     $scope.syncCart = function () {
-        const url = RESTURL + '/cart/sync' + '/' + shared.isAdmin;
+        const url = RESTURL + '/cart/sync' + '/' + $rootScope.isAdmin;
         const body = {
             user: userService.getUser(),
             cart: $scope.items
         }
         const user = userService;
-        shared.loaded = false;
+        $rootScope.loaded = false;
         axios.post(url, angular.copy(body))
             .then(function (response) {
                 if (response) {
-                    shared.loaded = true;
+                    $rootScope.loaded = true;
                     $scope.items = response.data.records;
-                    $scope.items.sort(shared.itemSort);
+                    $scope.items.sort($rootScope.itemSort);
                     user.syncCart($scope.items);
                     $scope.$apply();
                     $scope.cartSynced = 'Cart Synced';
@@ -909,12 +781,11 @@ app.controller('cartController', function($scope, $rootScope, $state, $location,
     $rootScope.scrollUp();
 });
 
-app.controller('barcodeController', function($scope, $rootScope, $state, $location, userService, shared) {
+app.controller('barcodeController', function($scope, $rootScope, $state, $location, userService) {
     if ($rootScope.scanner) {
         $rootScope.scanner.close()
         $rootScope.scanner.destroyContext()
     }
-    $scope.shared = shared;
     $rootScope.processingBarCode = false;
 
     if (window.isMobile && !localStorage.isCameraInitialised) {
@@ -973,9 +844,9 @@ app.controller('barcodeController', function($scope, $rootScope, $state, $locati
             new Audio('./scanner-beep.mp3').play();
             $scope.$apply();
             // $scope.barcode = '9300701692803'; //'9300601013692';
-            shared.loaded = false;
-            let product = await axios.get(RESTURL + '/product/' + $scope.barcode + '/' + shared.isAdmin);
-            shared.loaded = true;
+            $rootScope.loaded = false;
+            let product = await axios.get(RESTURL + '/product/' + $scope.barcode + '/' + $rootScope.isAdmin);
+            $rootScope.loaded = true;
             product = product.data;
             if (product != 'barcodeNotFound') {
                 localStorage.setItem('localGroceryItem', JSON.stringify(product));
@@ -992,8 +863,7 @@ app.controller('barcodeController', function($scope, $rootScope, $state, $locati
     }
 });
 
-app.controller('productController', function($scope, $rootScope, shared) {
-    $scope.shared = shared;
+app.controller('productController', function($scope, $rootScope) {
     $scope.view = 'product';
     $scope.item = localStorage.getItem('localGroceryItem');
     if ($scope.item != null) {
@@ -1005,10 +875,10 @@ app.controller('productController', function($scope, $rootScope, shared) {
         percent = $scope.item.discountPercent?$scope.item.discountPercent:0;
         diff = $scope.item.discount?$scope.item.discount:0;
     }
-    $scope.comparisonMsg = shared.filter === 'both'
+    $scope.comparisonMsg = $rootScope.filter === 'both'
                             ? (diff == 0 && percent == 0 ? 'Same Price' : 'Saving of $' + diff + ' / ' + (percent?percent:'0') + '%')
                             : ''
-    if (shared.filter === 'both')$scope.item.type == ''
+    if ($rootScope.filter === 'both')$scope.item.type == ''
     $scope.targetType = ($scope.item.type == 'coles')?'Woolworths':'Coles';
 
     // $scope.matches = $scope.item.matches;
@@ -1025,9 +895,9 @@ app.controller('productController', function($scope, $rootScope, shared) {
     let id = $scope.item.id;
     $scope.item.hasMatches = ($scope.item.target == null);
     $scope.getMatches = async function() {
-        shared.loaded = false;
-        let matches = await axios.get(RESTURL + '/matches/' + id + '/' + shared.isAdmin);
-        shared.loaded = true;
+        $rootScope.loaded = false;
+        let matches = await axios.get(RESTURL + '/matches/' + id + '/' + $rootScope.isAdmin);
+        $rootScope.loaded = true;
         $scope.matches = matches.data;
         $scope.matches = $scope.matches.map(m => {
             m.hasMatches = false;
@@ -1036,15 +906,14 @@ app.controller('productController', function($scope, $rootScope, shared) {
         $scope.showMatches = !$scope.showMatches;
         $scope.$apply();
     }
-    if (shared.isAdmin) {
+    if ($rootScope.isAdmin) {
         $scope.getMatches();
     }
     $rootScope.scrollUp();
-    shared.isCategoriesOpen = false;
-    $scope.shared = shared;
+    $rootScope.isCategoriesOpen = false;
 });
 
-app.controller('searchController', function($scope, $rootScope, $state, $location, shared) {
+app.controller('searchController', function($scope, $rootScope, $state, $location) {
     $scope.view = 'search';
     if ($rootScope.backClicked && $rootScope.previousPage.endsWith('/product')) {
         let previousState = localStorage.previousState; //Cookies.get('userAuth');
@@ -1061,14 +930,14 @@ app.controller('searchController', function($scope, $rootScope, $state, $locatio
     $scope.search = async function(searchText) {
         try {
             const url = RESTURL + '/search';
-            shared.loaded = false;
+            $rootScope.loaded = false;
             axios.post(url,
                 {
                     searchTerm: searchText,
-                    isAdmin: shared.isAdmin
+                    isAdmin: $rootScope.isAdmin
                 })
                 .then(function (result) {
-                    shared.loaded = true;
+                    $rootScope.loaded = true;
                     $scope.totalCount = result.data.totalCount;
                     $scope.items = result.data.records;
                     $scope.showSearchResults = true;
@@ -1111,8 +980,7 @@ app.controller('sharedController', function($scope, $rootScope, $stateParams) {
     }
 });
 
-function ProductTileController($scope, shared) {
-    $scope.shared = shared;
+function ProductTileController($scope, $rootScope) {
     $scope.init = function (product, view) {
         $scope.product = product;
         $scope.view = view;
@@ -1132,7 +1000,7 @@ function ProductTileController($scope, shared) {
             percent = product.discountPercent?product.discountPercent:0;
             diff = product.discount?product.discount:0;
         }
-        $scope.comparisonMsg = shared.filter === 'both'
+        $scope.comparisonMsg = $rootScope.filter === 'both'
             ? (diff == 0 && percent == 0 ? 'Same Price' : 'Saving of $' + diff + ' / ' + (percent?percent:'0') + '%')
             : ''
         //$scope.comparisonMsg = (diff == 0 && percent == 0)?'Same Price':'$' + diff + ' / ' + percent + '%';

@@ -6,8 +6,8 @@
 </div>
 <div ng-if="showSearchResults">
 	<h2 class="subheading">Search Results for {{ prevSearchText }} </h2>
-	<div class="categoryHeader" ng-show="shared.loaded">
-		<span ng-show="shared.loaded" class="prodsfound">{{ totalCount }} products found.</span>
+	<div class="categoryHeader" ng-show="$root.loaded">
+		<span ng-show="$root.loaded" class="prodsfound">{{ totalCount }} products found.</span>
 	</div>
 	<div class="products-container">
 		<tile product="item" view="view"
