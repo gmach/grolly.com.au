@@ -921,7 +921,6 @@ app.controller('barcodeController', function($scope, $rootScope, $state, $locati
         $rootScope.scanner.close()
         $rootScope.scanner.destroyContext()
     }
-    // $state.go('401');
     $scope.shared = shared;
     $rootScope.processingBarCode = false;
 
@@ -980,7 +979,7 @@ app.controller('barcodeController', function($scope, $rootScope, $state, $locati
             $scope.foundBarcode = true;
             new Audio('./scanner-beep.mp3').play();
             $scope.$apply();
-            $scope.barcode = '9300701692803'; //'9300601013692';
+            // $scope.barcode = '9300701692803'; //'9300601013692';
             shared.loaded = false;
             let product = await axios.get(RESTURL + '/product/' + $scope.barcode + '/' + shared.isAdmin);
             shared.loaded = true;
