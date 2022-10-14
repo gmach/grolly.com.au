@@ -195,18 +195,167 @@ app.service('userService', function () {
     };
 });
 
-app.run(function ($transitions, $rootScope, shared) {
+app.run(function ($transitions, $rootScope, userService, shared) {
+    function loadUser() {
+        let userAuth = localStorage.userAuth; //Cookies.get('userAuth');
+        if (!userAuth) {
+            const userAuth = JSON.stringify({
+                user: {
+                    userID: randomString(16)
+                }
+            }); //Cookies.set('userAuth', JSON.stringify(userAuth)); 
+            localStorage.userAuth = userAuth
+        }
+        userAuth = JSON.parse(localStorage.userAuth);
+        userService.setUser(userAuth.user);
+    }
+                
+    function randomString(length) {
+        let charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+        let result = '';
+
+        while (length > 0) {
+            let bytes = new Uint8Array(16);
+            let random = window.crypto.getRandomValues(bytes);
+
+            random.forEach(function(c) {
+                if (length == 0) {
+                    return;
+                }
+                if (c < charset.length) {
+                    result += charset[c];
+                    length--;
+                }
+            });
+        }
+        return result;
+    }
+
+
+    if (!$rootScope.loadedUser) {
+        loadUser()        
+        $rootScope.loadedUser = true;
+    }
     $transitions.onBefore( { to: 'app.**' }, function(transition) {
         $rootScope.$on('$locationChangeSuccess', function (event, current, previous) {
             if (current.endsWith('/login'))
                 localStorage.referrerURL = previous.endsWith('/login')?'/':previous;
-            shared.loaded = true;
-            if (shared.scanner)
-                shared.scanner.stop();
+            // shared.loaded = true;
+            if ($rootScope.scanner) {
+                $rootScope.scanner.close()
+                $rootScope.scanner.destroyContext()
+            }
             if (current != previous) // avoid page refresh
                 $rootScope.previousPage = previous;
             });
     });
+});
+
+app.service('userService', function () {
+    let user = {}
+    function getUser() {
+        return user;
+    }
+    function setUser(newUser) {
+        user = newUser;
+    }
+
+    function addToCart(product) {
+        let userAuth = localStorage.userAuth; //Cookies.get('userAuth');
+        if (userAuth != null) {
+            userAuth = JSON.parse(userAuth);
+        }
+        if (!userAuth.user && !userAuth.user.cart)
+            userAuth.user.cart = [];
+        let cart = userAuth.user.cart?userAuth.user.cart:[];
+        let startSize = cart.length;
+        product.datedAdded = new Date().toString().substr(0,21);
+        cart.push(product);
+        let newCart = _.uniqWith(cart, (val1, val2) => {
+            return val1.id == val2.id && val1.stockCode == val2.stockCode;
+        });
+        let cartChanged = newCart.length > startSize;
+        userAuth.user.cart = newCart;
+        user.cart = newCart
+        localStorage.userAuth = JSON.stringify(userAuth); //Cookies.set('userAuth', JSON.stringify(userAuth));
+        return cartChanged;
+    }
+
+    function removeCart(product) {
+        let userAuth = localStorage.userAuth; //Cookies.get('userAuth');
+        if (userAuth != null) {
+            userAuth = JSON.parse(userAuth);
+        }
+        if (!userAuth.user && !userAuth.user.cart)
+            userAuth.user.cart = [];
+        let cart = userAuth.user.cart?userAuth.user.cart:[];
+        let startSize = cart.length;
+        _.remove(cart, function (el) {
+            return el.id == product.id && el.stockCode == product.stockCode;
+        });
+        let cartChanged = cart.length == startSize - 1;
+        userAuth.user.cart = cart;
+        user.cart = cart
+        localStorage.userAuth = JSON.stringify(userAuth); //Cookies.set('userAuth', JSON.stringify(userAuth));
+        return cartChanged;
+    }
+
+
+    function syncCart(items) {
+        let userAuth = localStorage.userAuth; //Cookies.get('userAuth');
+        if (userAuth != null) {
+            userAuth = JSON.parse(userAuth);
+        }
+        if (!userAuth.user && !userAuth.user.cart)
+            userAuth.user.cart = [];
+        let cart = userAuth.user.cart?userAuth.user.cart:[];
+        for (item of items) {
+            let found = _.findIndex(cart, function(ci) {
+                return ci.id == item.id && ci.stockCode == item.stockCode;
+            });
+            if (found > -1) {
+                item.datedAdded = new Date().toString().substr(0,21);
+                cart[found] = item;
+            }
+        }
+        userAuth.user.cart = cart;
+        user.cart = cart
+        localStorage.userAuth = JSON.stringify(userAuth); //Cookies.set('userAuth', JSON.stringify(userAuth));
+    }
+
+    function getCartData() {
+        let total = 0;
+        let diffTotal = 0;
+        let isStale = false;
+        if (user.cart) {
+            for (item of user.cart) {
+                total+= parseFloat(item.price);
+                diffTotal+= item.diff?parseFloat(item.diff):0
+                let da = new Date(item.datedAdded);
+                let day = 60 * 60 * 24 * 1000;
+                let daplus1 = new Date(da.getTime() + day);
+                let now = new Date();
+                let dateDiff = now - daplus1;
+                if (dateDiff / day > 1)
+                    isStale = true;
+            }
+        }
+        return {
+            total: '$' + total.toFixed(2),
+            diffTotal: '$' + diffTotal.toFixed(2),
+            isStale: isStale,
+            isEmpty: user.cart?user.cart.length == 0:true
+        };
+
+    }
+    return {
+        getUser: getUser,
+        setUser: setUser,
+        addToCart: addToCart,
+        removeCart: removeCart,
+        getCartData: getCartData,
+        syncCart: syncCart
+    };
 });
 
 app.service('shared', function ($location, $rootScope, $window) {
@@ -745,7 +894,7 @@ app.controller('cartController', function($scope, $rootScope, $state, $location,
                     $scope.items.sort(shared.itemSort);
                     user.syncCart($scope.items);
                     $scope.$apply();
-                    $scope.cartSaved = 'Cart Synced';
+                    $scope.cartSynced = 'Cart Synced';
                 }
                 else
                     $scope.cartSaved = 'Error Syncing Cart';
@@ -768,9 +917,11 @@ app.controller('cartController', function($scope, $rootScope, $state, $location,
 });
 
 app.controller('barcodeController', function($scope, $rootScope, $state, $location, userService, shared) {
-    if (shared.scanner)
-        shared.scanner.stop();
-    $state.go('401');
+    if ($rootScope.scanner) {
+        $rootScope.scanner.close()
+        $rootScope.scanner.destroyContext()
+    }
+    // $state.go('401');
     $scope.shared = shared;
     $rootScope.processingBarCode = false;
 
@@ -784,6 +935,32 @@ app.controller('barcodeController', function($scope, $rootScope, $state, $locati
         $state.go('home');
         $location.url('/barcode');
     }
+
+    (async function() {
+        Dynamsoft.DBR.BarcodeScanner.license = 'DLS2eyJoYW5kc2hha2VDb2RlIjoiMTAxMzkyNDAyLVRYbFhaV0pRY205cVgyUmljZyIsIm9yZ2FuaXphdGlvbklEIjoiMTAxMzkyNDAyIiwiY2hlY2tDb2RlIjo4OTQ4OTMyMDF9';
+        const scanner = await Dynamsoft.DBR.BarcodeScanner.createInstance();
+        await scanner.setUIElement(document.getElementById('div-video-container'));
+        scanner.onFrameRead = results => {
+            console.log("Barcodes on one frame:");
+            for (let result of results) {
+                const format = result.barcodeFormat ? result.barcodeFormatString : result.barcodeFormatString_2;
+                console.log(format + ": " + result.barcodeText);
+            }
+        };
+        scanner.onUniqueRead = processScannedResult
+        let scanSettings = await scanner.getScanSettings();
+        scanSettings.intervalTime = 100; // 100ms
+        scanSettings.whenToPlaySoundforSuccessfulRead = "unique";
+        scanSettings.whenToVibrateforSuccessfulRead = "unique";
+        scanSettings.duplicateForgetTime = 3000; // 3s
+        await scanner.updateScanSettings(scanSettings);
+        scanner.show().catch(ex=>{
+            console.log(ex);
+            alert(ex.message || ex);
+            scanner.hide();
+        });
+        $rootScope.scanner = scanner;
+    })();
 
     async function processScannedResult(txt, result) {
         if (!$rootScope.processingBarCode && result) {
@@ -803,7 +980,7 @@ app.controller('barcodeController', function($scope, $rootScope, $state, $locati
             $scope.foundBarcode = true;
             new Audio('./scanner-beep.mp3').play();
             $scope.$apply();
-            // $scope.barcode = '9300701692803'; //'9300601013692';
+            $scope.barcode = '9300701692803'; //'9300601013692';
             shared.loaded = false;
             let product = await axios.get(RESTURL + '/product/' + $scope.barcode + '/' + shared.isAdmin);
             shared.loaded = true;
@@ -821,68 +998,6 @@ app.controller('barcodeController', function($scope, $rootScope, $state, $locati
             $rootScope.processingBarCode = false;
         }
     }
-    (async function() {
-        let scanner = await Dynamsoft.BarcodeScanner.createInstance({
-            UIElement: document.getElementById('div-video-container'),
-            onFrameRead: console.log('1'),
-            onUnduplicatedRead: processScannedResult
-        });
-        scanner.bPlaySoundOnSuccessfulRead = true;
-        await usePresetRuntimeSettings(scanner, "balance");
-        scanner.show().catch(ex=>{
-            console.log(ex);
-            alert(ex.message || ex);
-            scanner.hide();
-        });
-        shared.scanner = scanner;
-    })();
-
-
-    let usePresetRuntimeSettings = async (reader, mode) => {
-        await reader.resetRuntimeSettings();
-        let settings = await reader.getRuntimeSettings();
-        switch(mode.toLowerCase()){
-            case "bestcoverage":
-                settings.deblurLevel = 9;
-                settings.expectedBarcodesCount = 512;
-                settings.scaleDownThreshold = 100000;
-                settings.localizationModes = [
-                    Dynamsoft.EnumLocalizationMode.LM_CONNECTED_BLOCKS,
-                    Dynamsoft.EnumLocalizationMode.LM_SCAN_DIRECTLY,
-                    Dynamsoft.EnumLocalizationMode.LM_STATISTICS,
-                    Dynamsoft.EnumLocalizationMode.LM_LINES,
-                    0,0,0,0
-                ];
-                if(Dynamsoft.BarcodeReader._bUseFullFeature){
-                    settings.localizationModes[4] = Dynamsoft.EnumLocalizationMode.LM_STATISTICS_MARKS;
-                }
-                settings.furtherModes.grayscaleTransformationModes = [
-                    Dynamsoft.EnumGrayscaleTransformationMode.GTM_ORIGINAL,
-                    Dynamsoft.EnumGrayscaleTransformationMode.GTM_INVERTED,
-                    0,0,0,0,0,0
-                ];
-                break;
-            case "bestspeed":
-                settings.deblurLevel = 3;
-                settings.expectedBarcodesCount = 512;
-                settings.localizationModes = [
-                    Dynamsoft.EnumLocalizationMode.LM_SCAN_DIRECTLY,
-                    0,0,0,0,0,0,0
-                ];
-                break;
-            case "balance":
-                settings.deblurLevel = 5;
-                settings.expectedBarcodesCount = 512;
-                settings.localizationModes = [
-                    Dynamsoft.EnumLocalizationMode.LM_CONNECTED_BLOCKS,
-                    Dynamsoft.EnumLocalizationMode.LM_SCAN_DIRECTLY,
-                    0,0,0,0,0,0,0
-                ];
-                break;
-        }
-        await reader.updateRuntimeSettings(settings);
-    };
-
 });
 
 app.controller('productController', function($scope, $rootScope, shared) {
@@ -898,7 +1013,10 @@ app.controller('productController', function($scope, $rootScope, shared) {
         percent = $scope.item.discountPercent?$scope.item.discountPercent:0;
         diff = $scope.item.discount?$scope.item.discount:0;
     }
-    $scope.comparisonMsg = (diff == 0 && percent == 0)?'Same Price':('Saving of $' + diff + ' / ' + (percent?percent:'0') + '%');
+    $scope.comparisonMsg = shared.filter === 'both'
+                            ? (diff == 0 && percent == 0 ? 'Same Price' : 'Saving of $' + diff + ' / ' + (percent?percent:'0') + '%')
+                            : ''
+    if (shared.filter === 'both')$scope.item.type == ''
     $scope.targetType = ($scope.item.type == 'coles')?'Woolworths':'Coles';
 
     // $scope.matches = $scope.item.matches;
@@ -993,10 +1111,12 @@ app.controller('searchController', function($scope, $rootScope, $state, $locatio
     $rootScope.scrollUp();
 });
 
-app.controller('sharedController', function($scope, $stateParams, shared) {
+app.controller('sharedController', function($scope, $rootScope, $stateParams) {
     $scope.errorMsg = $stateParams.errorMsg;
-    if (shared.scanner)
-        shared.scanner.stop();
+    if ($rootScope.scanner) {
+        $rootScope.scanner.close()
+        $rootScope.scanner.destroyContext()
+    }
 });
 
 function ProductTileController($scope, shared) {
@@ -1020,7 +1140,9 @@ function ProductTileController($scope, shared) {
             percent = product.discountPercent?product.discountPercent:0;
             diff = product.discount?product.discount:0;
         }
-        $scope.comparisonMsg = (diff == 0 && percent == 0)?'Same Price':('Saving of $' + diff + ' / ' + (percent?percent:'0') + '%');
+        $scope.comparisonMsg = shared.filter === 'both'
+            ? (diff == 0 && percent == 0 ? 'Same Price' : 'Saving of $' + diff + ' / ' + (percent?percent:'0') + '%')
+            : ''
         //$scope.comparisonMsg = (diff == 0 && percent == 0)?'Same Price':'$' + diff + ' / ' + percent + '%';
         $scope.image = product.largeImage?product.largeImage:product.smallImage;
         $scope.getMatches = function () {

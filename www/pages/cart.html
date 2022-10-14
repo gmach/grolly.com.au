@@ -3,9 +3,11 @@
 		<div>Total shopping price <span class="cartTotal">{{ cart.total }}</span></div>
 		<div>You saved <span class="cartSavingTotal">{{ cart.diffTotal }}</span></div>
 		<div ng-if="cart.isStale" class="stalecart">This cart is more than 1 day old. Click
+			
 			<button class="syncCart btn btn-primary btn-margin" ng-click="syncCart()">
 				Sync Cart
-			</button> to update with latest prices.
+			</button><span class="cartsaved">{{ cartSynced }}</span>
+			<p> to update with latest prices.</p>
 		</div>
 	</div>
 

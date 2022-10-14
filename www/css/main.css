@@ -447,6 +447,7 @@ a.btn.green-border:hover {
 
 /* line 392, ../scss/main.scss */
 .cartsaved {
+  color: green;
   margin-left: 15px;
 }
 

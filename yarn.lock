@@ -3658,6 +3658,16 @@ dlv@^1.1.3:
   resolved "https://registry.npmjs.org/dlv/-/dlv-1.1.3.tgz"
   integrity sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==
 
+dm-fabric@^5.1.17:
+  version "5.1.17"
+  resolved "https://registry.yarnpkg.com/dm-fabric/-/dm-fabric-5.1.17.tgz#64d898470229765c8d23cb8b3fe2df0595749d0c"
+  integrity sha512-YouI4F+svfqTi3FM9fKG8ZqtdygzLbAzaA53QfekreLvJRqaHhCplk+2EF+cgMmuO5kY62m2Pm0pBqqV/sc5Vg==
+
+dm-howler@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/dm-howler/-/dm-howler-2.2.4.tgz#29e10ed86f6eff16f85e116eb3f394e1e668a77a"
+  integrity sha512-h+iDEP/cyALeqWNtGdZZRwm3buSwaG26wzF6fCUGhvkF/yxYoWb8F/v7qN+urqdZw3wotZGO/01rDlzOxJUUGw==
+
 dns-equal@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/dns-equal/-/dns-equal-1.0.0.tgz"
@@ -3776,6 +3786,21 @@ duplexer@^0.1.2:
   version "0.1.2"
   resolved "https://registry.npmjs.org/duplexer/-/duplexer-0.1.2.tgz"
   integrity sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==
+
+dynamsoft-camera-enhancer@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/dynamsoft-camera-enhancer/-/dynamsoft-camera-enhancer-3.0.1.tgz#2b840ee07c3b3d14f4bd29dfd699a9bf804916c7"
+  integrity sha512-iPH/1LDYtyUM54IADR0XE4MkPFZNV/mZaD9QXp4z8YA5atFFk5xawxrsWz6GHAuO2YF94+1kItcYzCkOV5CdlA==
+  dependencies:
+    dm-fabric "^5.1.17"
+
+dynamsoft-javascript-barcode@^9.3.1:
+  version "9.3.1"
+  resolved "https://registry.yarnpkg.com/dynamsoft-javascript-barcode/-/dynamsoft-javascript-barcode-9.3.1.tgz#f66d2ad52ae7b2a550e78b104e43dacfc4509e20"
+  integrity sha512-b+38vPGlPN2vq2tTkBV03sUpg8UAQJGnMJfhctZhIK30DPVDnu28GZWVUSHPqH0pTESJR+OxcsEmSz0sJ7S3/w==
+  dependencies:
+    dm-howler "^2.2.4"
+    dynamsoft-camera-enhancer "3.0.1"
 
 ee-first@1.1.1:
   version "1.1.1"
