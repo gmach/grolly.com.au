@@ -656,6 +656,7 @@ app.controller('categoryController', function($scope, $location, $rootScope, $st
         $scope.totalColes = previousState.totalColes;
         $scope.totalWow = previousState.totalWow;
         $scope.totalCount = previousState.totalCount;
+        $rootScope.isCategoriesOpen = true;
     } else {
         localStorage.removeItem('previousState');
         $scope.getProducts(false);
@@ -701,7 +702,6 @@ app.controller('categoryController', function($scope, $location, $rootScope, $st
     }
     $scope.view = 'category';
     $rootScope.scrollUp();
-    $rootScope.isCategoriesOpen = false;
 });
 
 app.controller('cartController', function($scope, $rootScope, $state, $location, userService) {

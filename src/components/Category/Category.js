@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, NavLink, useLocation, useNavigate } from "react-router-dom";
 
-const QueryNavLink = ({ to, ...props }) => {
-  let location = useLocation();
-  return <NavLink to={to + location.search} {...props} />;
-}
-
 import Tile from '../Tile'
 import Product from '../Product'
 export const Category = () => {
@@ -15,7 +10,7 @@ export const Category = () => {
   const [data, setData] = useState();
   const categoryId = parseInt(params.categoryId, 10)
   const page = 1;
-  const filter = params.filter
+  const filter = 'all'
   const isAdmin = false; // admin view
   const RESTURL = 'http://localhost:1234';//'https://groceryhawker-api.au.ngrok.io';// https://localhost:1234';
   const url = RESTURL + '/category/' + categoryId
@@ -42,12 +37,6 @@ export const Category = () => {
 
   const prodsFound = 50;
   const totalCount = 500;
-  const FILTER_TYPES = [
-    {id: 'all', name: 'All'},
-    {id: 'both', name: 'Both'},
-    {id: 'woolworths', name: 'Woolworths'},
-    {id: 'coles', name: 'Coles'}
-];
 const scrollUp = () => {
 
 }
@@ -64,43 +53,60 @@ const getTypeFromFilter = id => {
   }
 }
 const selectedType = getTypeFromFilter(filter);
-const handleClick = (product) => {
-  localStorage.setItem('localGroceryItem', JSON.stringify(product));
+const onSelect = (e) => {
+    const filter = e.target.id;
+    const categoryID = 1// useSelector
+    // dispatch $rootScope.filter = selection.id;
+    navigate('/category/' + categoryID + '/' + filter);
+}
+const viewProduct = (item) => {
+  localStorage.setItem('localGroceryItem', JSON.stringify(item));
   let previousState = {
-      items: data.records
+      // items: $scope.items,
+      // prodsFound: $scope.prodsFound,
+      // totalAll: $scope.totalAll,
+      // totalBoth: $scope.totalBoth,
+      // totalColes: $scope.totalColes,
+      // totalWow: $scope.totalWow,
+      // totalCount: $scope.totalCount
   }
   localStorage.setItem('previousState', JSON.stringify(previousState));
   navigate("/product");
 };
+  const loaded = true//;useSelector...
+  const view = 'category'
   return  (
     <>
-      <div className="categoryHeader">
+      {
+        loaded &&
+        <div className="categoryHeader">
           <span className="prodsfound">{ prodsFound } of { totalCount } products found.</span>
           <label htmlFor="selectedType">
               <select 
                 className="selectedType" 
                 id="selectedType" 
                 // value={this.state.value} 
-                // onChange={this.handleChange}
+                onChange={onSelect}
                 >
                   {
-                    FILTER_TYPES.map(filter => <option key={filter.id} value={filter.name}>{filter.name}</option>)
+                    types.map(type => <option key={type.id} value={type.name}>{type.name}</option>)
                   }
               </select>
           </label>
-      </div>   
+      </div>  
+      } 
       {/* {
         data && 
         <Product item={data.records[0]} view='product'/>
       } */}
       <div className="products-container">
         {
-          data && data.records.map(tile => {
-            const clsName = 'product-tile match' + tile.type
-            if (tile.type == selectedType.id || selectedType.id == 'all')
+          data && data.records.map(item => {
+            const clsName = 'product-tile match' + item.type
+            if (item.type == selectedType.id || selectedType.id == 'all')
               return (
-                <div onClick={()=>handleClick(tile)} key={tile.id}>
-                  <Tile product={tile} view='category' className={clsName}/>
+                <div onClick={()=>viewProduct(item)} key={item.id}>
+                  <Tile product={item} view={view} className={clsName}/>
                 </div>
               )
           })
