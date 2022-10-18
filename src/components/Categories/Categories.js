@@ -1,5 +1,4 @@
-import { NavLink, Outlet, useLocation } from "react-router-dom";
-import useToggle from '../../hooks/useToggle'
+import { Link, Outlet, useLocation } from "react-router-dom";
 import SpinnerLoader from '../SpinnerLoader'
 
 const CATEGORIES = {
@@ -20,29 +19,31 @@ const CATEGORIES = {
 }
 
 export const Categories = () => {
+  const location = useLocation();
+  let showCategories = false;
+  if (location.state)
+    showCategories = location.state.showCategories
   const filter = 'both'
   const category = 1//props.category
   let categories = Object.entries(CATEGORIES);
   // let [searchParams, setSearchParams] = useSearchParams();
-  const [toggle, setToggle] = useToggle(true)
-  const updownClass = 'fas fa-arrow-' + (toggle ? 'up' : 'down')
-  const categoryName = CATEGORIES[category];
   const isLoading = false//props.isLoading//;useSelector...
   return (
     <main className="main-container">
       <div className="main-content">
       {
-        toggle && 
+        showCategories && 
         <>
           <div  className="categories-pane">
             { categories.map((category) => (
               <div className="catitem" key={category[0]}>
-                <NavLink className='catlink thumb' 
+                <Link className='catlink thumb' 
                   to={`${category[0]}/${filter}`}
+                  state={{ showCategories: showCategories }}
                 >
                   {category[1]} 
                   {/* <CategoryRow/> */}
-                </NavLink>
+                </Link>
               </div>
             ))}
           </div>

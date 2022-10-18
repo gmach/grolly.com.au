@@ -3,28 +3,9 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-// import Root, {
-//   // loader as rootLoader,
-//   // action as rootAction,
-// } from "./routes/root";
-import ErrorPage from "./error-page";
-import Contact, {
-  // loader as contactLoader,
-  // action as contactAction,
-} from "./routes/contact";
-import EditContact, {
-  // action as editAction,
-} from "./routes/edit";
-import DeleteContact, {
-  // action as deleteAction,
-} from "./routes/delete";
-import './index.css'
-
 import Root from './components/Root'
-import CategoryHeader from './components/CategoryHeader'
 import Categories from './components/Categories'
 import CategoryProducts from './components/CategoryProducts'
-import Category from './components/CategoryProducts'
 import Product from './components/Product'
 import Barcode from './components/Barcode'
 import Search from './components/Search'
@@ -38,7 +19,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
-    errorElement: <ErrorPage />,
+    errorElement: <Error />,
     // loader: rootLoader,
     // action: rootAction,
     children: [

@@ -7,6 +7,9 @@ export const CategoryProducts = () => {
   // const location = useLocation();
   const navigate = useNavigate();
   const params = useParams();
+  let showCategories = false;
+  if (location.state)
+    showCategories = location.state.showCategories  
   const [data, setData] = useState();
   const categoryId = parseInt(params.categoryId, 10)
   const page = 1;
@@ -73,12 +76,11 @@ const viewProduct = (item) => {
   localStorage.setItem('previousState', JSON.stringify(previousState));
   navigate("/category/product");
 };
-  const loaded = true//;useSelector...
   const view = 'category'
   return  (
     <>
       {
-        loaded &&
+        showCategories &&
         <div className="categoryHeader">
           <span className="prodsfound">{ prodsFound } of { totalCount } products found.</span>
           <label htmlFor="selectedType">

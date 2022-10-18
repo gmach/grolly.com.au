@@ -1,10 +1,16 @@
-export const Error = ({errorMsg}) => {
-  if (!errorMsg)
-    return null;
+import { useRouteError } from "react-router-dom";
+
+export const Error = () => {
+  const error = useRouteError();
+  console.error(error);
+
   return (
-    <div className="container">
-        <h1>401 ERROR!</h1>
-        <h3>Error : <span className=" alert-danger">{ errorMsg }</span></h3>
+    <div id="error-page">
+      <h1>Oops!</h1>
+      <p>Sorry, an unexpected error has occurred.</p>
+      <p>
+        <i>{error.statusText || error.message}</i>
+      </p>
     </div>
-  )
+  );
 }

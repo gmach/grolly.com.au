@@ -24,14 +24,16 @@ export const CategoryHeader = () => {
   const category = 1//props.category
   let categories = Object.entries(CATEGORIES);
   // let [searchParams, setSearchParams] = useSearchParams();
-  const [toggle, setToggle] = useToggle()
-  const updownClass = 'fas fa-arrow-' + (toggle ? 'up' : 'down')
+  const [showCategories, setToggle] = useToggle(true)
+  const updownClass = 'fas fa-arrow-' + (showCategories ? 'up' : 'down')
   const categoryName = CATEGORIES[category];
   const isLoading = false//props.isLoading//;useSelector...
   return (
       <Link className="btnbrowse"
-        to='categories'>Browsing {categoryName}
-        <i className={updownClass}></i>
+        to='categories' 
+        state={{ showCategories: showCategories }}
+        onClick={setToggle}> 
+          Browsing {categoryName} <i className={updownClass}></i>
       </Link>
   );
 }
