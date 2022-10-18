@@ -191,6 +191,9 @@ a.btn.green-border:hover {
   text-overflow: ellipsis;
   text-decoration: none;
 }
+.active {
+  color: red;
+}
 /* line 200, ../scss/main.scss */
 .catitem .catlink:hover {
   color: #ff4532;

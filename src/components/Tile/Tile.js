@@ -1,4 +1,5 @@
 import TileMatches from '../TileMatches'
+import { Link } from "react-router-dom";
 
 export const Tile = ({product, view}) => {
   const isAdmin = false//true
@@ -65,10 +66,10 @@ export const Tile = ({product, view}) => {
           }
           {
             view === 'product' || view === 'cart' && 
-              <a href={ product.productLink } target="_blank" rel="noreferrer">
+              <Link to={ product.productLink } target="_blank" rel="noreferrer">
                 <img className='product-image' src={ image } alt="Image not found"/>
                  {/* onError="this.onerror=null;this.src='img_product-placeholder.png'"/> */}
-              </a>   
+              </Link>   
           }
         </figure>
         <section className="text-tile">

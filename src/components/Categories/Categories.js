@@ -18,25 +18,18 @@ const CATEGORIES = {
   12: "Health & Beauty",
   13: "Household"
 }
-const QueryNavLink = ({ to, ...props }) => {
-  let location = useLocation();
-  return <NavLink to={to + location.search} {...props} />;
-}
 
 export const Categories = () => {
   const filter = 'both'
   const category = 1//props.category
   let categories = Object.entries(CATEGORIES);
   // let [searchParams, setSearchParams] = useSearchParams();
-  const [toggle, setToggle] = useToggle()
+  const [toggle, setToggle] = useToggle(true)
   const updownClass = 'fas fa-arrow-' + (toggle ? 'up' : 'down')
-
+  const categoryName = CATEGORIES[category];
   const isLoading = false//props.isLoading//;useSelector...
   return (
-    <div className="main-container">
-      <a  className="btnbrowse" onClick={setToggle}>Browsing {category}
-        <i className={updownClass}></i>
-      </a>
+    <main className="main-container">
       <div className="main-content">
       {
         toggle && 
@@ -44,11 +37,12 @@ export const Categories = () => {
           <div  className="categories-pane">
             { categories.map((category) => (
               <div className="catitem" key={category[0]}>
-                <QueryNavLink className='catlink thumb' 
-                  to={`/${category[0]}/${filter}`}
+                <NavLink className='catlink thumb' 
+                  to={`${category[0]}/${filter}`}
                 >
-                  {category[1]}
-                </QueryNavLink>
+                  {category[1]} 
+                  {/* <CategoryRow/> */}
+                </NavLink>
               </div>
             ))}
           </div>
@@ -64,6 +58,6 @@ export const Categories = () => {
         isLoading &&
           <SpinnerLoader/>
       }
-    </div>
+    </main>
   );
 }

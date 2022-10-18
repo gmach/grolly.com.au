@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { useParams, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
 
 import Tile from '../Tile'
 import Product from '../Product'
-export const Category = () => {
+export const CategoryProducts = () => {
   // const location = useLocation();
   const navigate = useNavigate();
   const params = useParams();
@@ -71,7 +71,7 @@ const viewProduct = (item) => {
       // totalCount: $scope.totalCount
   }
   localStorage.setItem('previousState', JSON.stringify(previousState));
-  navigate("/product");
+  navigate("/category/product");
 };
   const loaded = true//;useSelector...
   const view = 'category'
@@ -105,9 +105,9 @@ const viewProduct = (item) => {
             const clsName = 'product-tile match' + item.type
             if (item.type == selectedType.id || selectedType.id == 'all')
               return (
-                <div onClick={()=>viewProduct(item)} key={item.id}>
+                <Link to={`/product/${item.id}`} key={item.id}>
                   <Tile product={item} view={view} className={clsName}/>
-                </div>
+                </Link>
               )
           })
         }
