@@ -3,7 +3,6 @@ import { Provider } from 'react-redux'
 import ReactDOM from 'react-dom/client';
 import App from './App' //'./components/App';
 import store from './store'
-// import { fetchTodos } from './features/todos/todosSlice'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

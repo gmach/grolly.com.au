@@ -1,4 +1,6 @@
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+
 import SpinnerLoader from '../SpinnerLoader'
 
 const CATEGORIES = {
@@ -19,15 +21,13 @@ const CATEGORIES = {
 }
 
 export const Categories = () => {
-  const location = useLocation();
-  let showCategories = false;
-  if (location.state)
-    showCategories = location.state.showCategories
   const filter = 'both'
   const category = 1//props.category
   let categories = Object.entries(CATEGORIES);
   // let [searchParams, setSearchParams] = useSearchParams();
-  const isLoading = false//props.isLoading//;useSelector...
+  const showCategories = useSelector(state => state.todos.showCategories)
+  const categoryName = useSelector(state => state.todos.categoryName)
+  const status = useSelector(state => state.todos.status)
   return (
     <main className="main-container">
       <div className="main-content">
@@ -38,8 +38,7 @@ export const Categories = () => {
             { categories.map((category) => (
               <div className="catitem" key={category[0]}>
                 <Link className='catlink thumb' 
-                  to={`${category[0]}/${filter}`}
-                  state={{ showCategories: showCategories }}
+                  to={`${category[0]}`}
                 >
                   {category[1]} 
                   {/* <CategoryRow/> */}
@@ -56,7 +55,7 @@ export const Categories = () => {
       }
       </div>
       {
-        isLoading &&
+        status === 'loading' &&
           <SpinnerLoader/>
       }
     </main>

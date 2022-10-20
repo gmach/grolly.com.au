@@ -585,8 +585,7 @@ function isUpdatedProduct(product) {
         }
         isUpdated = isUpdated && (now - targetDateAdded) <  timeDelay;
     }
-    if (!product.isAvailable)
-        a = 1;
+
     return isUpdated;
 }
 
@@ -620,9 +619,9 @@ app.controller('categoryController', function($scope, $location, $rootScope, $st
                     }
                 }
             }
-            let isUpdated = isUpdatedProduct(item);
-           if (!isUpdated)
-               continue;
+        //     let isUpdated = isUpdatedProduct(item);
+        //    if (!isUpdated)
+        //        continue;
             newItems.push(item);
             $scope.totalAll++;
             if (item.type == 'coles')
@@ -840,7 +839,7 @@ app.controller('barcodeController', function($scope, $rootScope, $state, $locati
             $scope.$apply();
             // $scope.barcode = '9300701692803'; //'9300601013692';
             $rootScope.loaded = false;
-            let product = await axios.get(RESTURL + '/product/' + $scope.barcode + '/' + $rootScope.isAdmin);
+            let product = await axios.get(RESTURL + '/barcode/' + $scope.barcode + '/' + $rootScope.isAdmin);
             $rootScope.loaded = true;
             product = product.data;
             if (product != 'barcodeNotFound') {

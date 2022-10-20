@@ -6,56 +6,34 @@ import {
 } from '@reduxjs/toolkit'
 import { StatusFilters } from '../filters/filtersSlice'
 
-const todosAdapter = createEntityAdapter()
+const categoriesAdapter = createEntityAdapter()
 export const initialState = todosAdapter.getInitialState({
   status: 'idle', //represents ANY async call status
   showCategories: false,
-  categoryId: 1,
   categoryName: 'BOOYAH'
 }) // will autogenerate normalized state object { ids: [], entities: {} }
+
+
+const RESTURL = 'http://localhost:1234';//'https://groceryhawker-api.au.ngrok.io';// https://localhost:1234';
+const page = 1;
+const filter = 'all'
+const isAdmin = false; // admin view
+const url = RESTURL + '/category/' + 1
++ '/filter/' + filter
++ '/page/' + page
++ '/isAdmin/' + isAdmin;
+
 
 // Autogenerate thunk action creators and types for managing loading async call status (pending ie loading/saving in progress, fulfilled ie success, rejected ie error)
 // In dispatching these thunks it will auto dispatch the pending action->make async call->dispatch fulfilled/rejected action
 // If you need to handle any action in reducer then put in extraReducers in createSlice
-
-
-const itemSort = (a, b) => {
-  let percent_a = a.diffPercent?a.diffPercent:0;
-  let percent_b = b.diffPercent?b.diffPercent:0;
-  if (a.type != 'both')
-      percent_a = a.discountPercent?a.discountPercent:0;
-  if (b.type != 'both')
-      percent_b = b.discountPercent?b.discountPercent:0;
-  if (Number(percent_a) < Number(percent_b)) return 1;
-  if (Number(percent_a) > Number(percent_b)) return -1;
-  return 0;
-}
-
-export const fetchProducts = createAsyncThunk('products/fetchProducts', async (categoryId, {dispatch, getState}) => {
-  const RESTURL = 'http://localhost:1234';
-  const filter = getState().filters.filter;
-  const page = 1;
-  const isAdmin = false; // admin view
-  const url = RESTURL + '/category/' + categoryId
-  + '/filter/' + filter
-  + '/page/' + page
-  + '/isAdmin/' + isAdmin;
+export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
   let response = await window.fetch(url)
   response = await response.json()
-  return response.records.sort(itemSort)
+  return response.records
 })
 
-export const fetchProduct = createAsyncThunk('products/fetchProduct', async (productId, {dispatch, getState}) => {
-  const RESTURL = 'http://localhost:1234';
-  const isAdmin = false; // admin view
-  const url = RESTURL + '/product/' + productId
-  + '/' + isAdmin;
-  let response = await window.fetch(url)
-  response = await response.json()
-  return response
-})
-
-export const saveNewTodo = createAsyncThunk('todos/saveNewTodo', async (text, {dispatch, getState}) => {
+export const saveNewTodo = createAsyncThunk('todos/saveNewTodo', async (text, {dispatch}) => {
     const initialTodo = { text }
     const response = await fetch.post('/fakeApi/todos', { todo: initialTodo })
     return response.todo
@@ -133,13 +111,6 @@ const todosSlice = createSlice({
       })
       .addCase(saveNewTodo.pending, (state, action) => {
         state.status = 'saving'
-      })
-      .addCase(fetchProduct.pending, (state, action) => {
-        state.status = 'loading'
-      })
-      .addCase(fetchProduct.fulfilled, (state, action) => {
-        todosAdapter.addOne(state, action.payload)
-        state.status = 'idle'
       })
       .addCase(saveNewTodo.fulfilled, (state, action) => {
         // todosAdapter.addOne()

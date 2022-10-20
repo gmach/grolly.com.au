@@ -1,14 +1,48 @@
 import { useNavigate } from "react-router-dom";
 import useToggle from '../../hooks/useToggle'
+import { useSelector, useDispatch } from "react-redux"
+import {
+	fetchProduct,
+  selectProductById
+} from '../../features/products/productsSlice'
+import SpinnerLoader from '../SpinnerLoader'
+import { useParams } from "react-router-dom";
 const RESTURL = 'http://localhost:1234';//'https://groceryhawker-api.au.ngrok.io';// https://localhost:1234';
 
 
 import Tile from '../Tile'
-export const Product = () => {
-	let item = localStorage.getItem('localGroceryItem');
-	if (item != null) {
-			item = JSON.parse(item);
+
+export async function loader({ params }) {
+	// store.dispatch(fetchProducts(params.categoryId))
+
+//   const RESTURL = 'http://localhost:1234';//'https://groceryhawker-api.au.ngrok.io';// https://localhost:1234';
+// const page = 1;
+// const filter = 'all'
+// const isAdmin = false; // admin view
+// const url = RESTURL + '/category/' + 1
+// + '/filter/' + filter
+// + '/page/' + page
+// + '/isAdmin/' + isAdmin;
+// return fetch(url)
+
+}
+
+export async function action() {
+
+}
+export default function Product() {
+  const params = useParams();
+	const dispatch = useDispatch()
+  const navigate = useNavigate();
+	const history = window.history.length
+	const [showMatches, toggleMatches] = useToggle()
+	let item = useSelector((state) => selectProductById(state, params.productId)) //load from redux store
+	const status = useSelector(state => state.todos.status)
+	if (item === undefined) {//load fresh from server
+		dispatch(fetchProduct(params.productId))
+		return 	<SpinnerLoader/>
 	}
+
 	let percent = item.diffPercent?item.diffPercent:0;
 	let diff = item.diff?item.diff:0;
 	if (item.type != 'both') {
@@ -18,12 +52,10 @@ export const Product = () => {
 	const targetType = item.type === 'coles' ? 'Woolworths' : 'Coles';
 	const comparisonMsg = (diff == 0 && percent == 0)?'Same Price':('Saving of $' + diff + ' / ' + (percent?percent:'0') + '%');
 	let id = item.id;
-	item.hasMatches = (item.target == null);
+	// item.hasMatches = (item.target == null);
 	let loaded = false;
-	const [showMatches, toggleMatches] = useToggle()
 	let isCategoriesOpen = false
 	const isAdmin = false
-  const navigate = useNavigate();
 	const getMatches = async () => {
 		loaded = false;
 		const response = await fetch(RESTURL + '/matches/' + id + '/' + isAdmin);
@@ -46,15 +78,20 @@ export const Product = () => {
 	const goBack = () => {
 		navigate(-1);
 	}
+
+
   return (
     <>
     <h3>Product</h3>
 	
 	<div className="product-container">
 		<div className="centerbtn">
-			<button onClick={goBack} className="btn btn-primary" type="button">
-				GO BACK
-			</button>
+			{/* {history > 2 && */}
+					<button onClick={goBack} className="btn btn-primary" type="button">
+						GO BACK { history }
+					</button>
+			{/* } */}
+
 		</div>
 		<div className="tile-wrapper">
 			<Tile product={item} view='view' className={clsName}/>

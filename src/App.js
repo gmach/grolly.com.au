@@ -5,10 +5,26 @@ import {
 } from "react-router-dom";
 import Root from './components/Root'
 import Categories from './components/Categories'
-import CategoryProducts from './components/CategoryProducts'
-import Product from './components/Product'
+import CategoryProducts, 
+  {   
+    loader as categoryProductsLoader,
+    action as categoryProductsAction
+   } 
+  from './components/CategoryProducts'
+
+import Product,
+  {   
+    loader as productLoader,
+    action as productAction
+ } 
+ from './components/Product'
 import Barcode from './components/Barcode'
-import Search from './components/Search'
+import Search,
+ {
+  loader as searchLoader,
+  action as searchAction
+ }
+from './components/Search'
 import Cart from './components/Cart'
 import About from './components/About'
 import Privacy from './components/Privacy'
@@ -27,31 +43,28 @@ const router = createBrowserRouter([
       {
         path: "categories",
         element: <Categories />,
-        // loader: contactLoader,
-        // action: contactAction   
         children: [
           {
-            path: ":categoryId/:filter",
+            path: ":categoryId",
             element: <CategoryProducts />,
-            // loader: contactLoader,
-            // action: contactAction        
+            loader: categoryProductsLoader,
+            action: categoryProductsAction        
           }
         ]     
-      },  
+      },
+      // {
+      //   path: "categories/:categoryId",
+      //   element: <CategoryProducts />,
+      //   loader: categoryProductsLoader,
+      //   action: categoryProductsAction    
+      // },
       {
         path: "product/:productId",
         element: <Product />,
-        // loader: contactLoader,
-        // action: deleteAction,
+        loader: productLoader,
+        action: productAction,
         errorElement: <div>Oops! There was an error.</div>,
       },   
-      {
-        path: "barcode",
-        element: <Barcode />,
-        // loader: contactLoader,
-        // action: deleteAction,
-        errorElement: <div>Oops! There was an error.</div>,
-      },      
       {
         path: "barcode",
         element: <Barcode />,
@@ -62,8 +75,8 @@ const router = createBrowserRouter([
       {
         path: "search",
         element: <Search />,
-        // loader: contactLoader,
-        // action: deleteAction,
+        loader: searchLoader,
+        action: searchAction,
         errorElement: <div>Oops! There was an error.</div>,
       },    
       {

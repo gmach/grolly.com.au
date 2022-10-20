@@ -1,12 +1,12 @@
 export const StatusFilters = {
   All: 'all',
-  Active: 'active',
-  Completed: 'completed',
+  Both: 'both',
+  Woolworths: 'woolworths',
+  Coles: 'coles'
 }
 
 export const initialState = {
-  status: StatusFilters.All,
-  colors: [],
+  filter: StatusFilters.All
 }
 
 /* Reducer */
@@ -15,35 +15,7 @@ export default function filtersReducer(state = initialState, action) {
     case 'filters/statusFilterChanged': {
       return {
         ...state,
-        status: action.payload,
-      }
-    }
-    case 'filters/colorFilterChanged': {
-      let { color, changeType } = action.payload
-      const { colors } = state
-
-      switch (changeType) {
-        case 'added': {
-          if (colors.includes(color)) {
-            // This color already is set as a filter. Don't change the state.
-            return state
-          }
-
-          return {
-            ...state,
-            colors: state.colors.concat(color),
-          }
-        }
-        case 'removed': {
-          return {
-            ...state,
-            colors: state.colors.filter(
-              (existingColor) => existingColor !== color
-            ),
-          }
-        }
-        default:
-          return state
+        filter: action.payload,
       }
     }
     default:
@@ -52,12 +24,7 @@ export default function filtersReducer(state = initialState, action) {
 }
 
 /* Action Creators */
-export const statusFilterChanged = (status) => ({
+export const statusFilterChanged = (filter) => ({
   type: 'filters/statusFilterChanged',
-  payload: status,
-})
-
-export const colorFilterChanged = (color, changeType) => ({
-    type: 'filters/colorFilterChanged',
-    payload: { color, changeType },
+  payload: filter,
 })

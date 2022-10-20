@@ -1,66 +1,78 @@
 import { useEffect, useState } from "react";
-import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux"
+import {
+  fetchProducts,
+  selectProducts, 
+  selectProductById
+} from '../../features/products/productsSlice'
+import { StatusFilters, statusFilterChanged } from '../../features/filters/filtersSlice'
+
+import {
+  Outlet,
+  Link,
+  useParams,
+  useLoaderData,
+  Form,
+  redirect,
+  useNavigate,
+  useNavigation,
+  useSubmit
+} from "react-router-dom";
 
 import Tile from '../Tile'
-import Product from '../Product'
-export const CategoryProducts = () => {
-  // const location = useLocation();
+
+
+import store from '../../store'
+export async function loader({ params }) {
+    // store.dispatch(fetchProducts(params.categoryId))
+
+//   const RESTURL = 'http://localhost:1234';//'https://groceryhawker-api.au.ngrok.io';// https://localhost:1234';
+// const page = 1;
+// const filter = 'all'
+// const isAdmin = false; // admin view
+// const url = RESTURL + '/category/' + 1
+// + '/filter/' + filter
+// + '/page/' + page
+// + '/isAdmin/' + isAdmin;
+  // return fetch(url)
+
+}
+
+export async function action() {
+  
+}
+
+export default function CategoryProducts() {
+  // const data = useLoaderData();
+  const ids = useSelector(state => state.todos.ids)
+  const entities = useSelector(state => state.todos.entities)
+  const data = useSelector(state => selectProducts(state))
   const navigate = useNavigate();
   const params = useParams();
-  let showCategories = false;
-  if (location.state)
-    showCategories = location.state.showCategories  
-  const [data, setData] = useState();
   const categoryId = parseInt(params.categoryId, 10)
-  const page = 1;
-  const filter = 'all'
-  const isAdmin = false; // admin view
-  const RESTURL = 'http://localhost:1234';//'https://groceryhawker-api.au.ngrok.io';// https://localhost:1234';
-  const url = RESTURL + '/category/' + categoryId
-  + '/filter/' + filter
-  + '/page/' + page
-  + '/isAdmin/' + isAdmin;
+  const showCategories = useSelector(state => state.todos.categoryName)
 
-  useEffect(() => {
-    // declare the async data fetching function
-    const fetchData = async () => {
-      // get the data from the api
-      const response = await fetch(url);
-      // convert the data to json
-      const json = await response.json();
-      // set state with the result
-      setData(json);
-    }
-  
-    // call the function
-    fetchData()
-      // make sure to catch any error
-      .catch(console.error);
-  }, [url]) 
-
+  const dispatch = useDispatch()
+  const { filter } = useSelector(state => state.filters)
+  const capitalizedFilter = filter.charAt(0).toUpperCase() + filter.slice(1);
+  const selectedFilter = StatusFilters[capitalizedFilter]
+  // const filter = params.filter
   const prodsFound = 50;
   const totalCount = 500;
+
+  useEffect(() => {
+    dispatch(fetchProducts(categoryId))
+  }, [categoryId]);
+  
 const scrollUp = () => {
 
 }
-const types = [
-  {id: 'all', name: 'All'},
-  {id: 'both', name: 'Both'},
-  {id: 'woolworths', name: 'Woolworths'},
-  {id: 'coles', name: 'Coles'}
-];
-const getTypeFromFilter = id => {
-  for (const type of types) {
-    if (type.id == id)
-      return type;
-  }
-}
-const selectedType = getTypeFromFilter(filter);
-const onSelect = (e) => {
-    const filter = e.target.id;
-    const categoryID = 1// useSelector
-    // dispatch $rootScope.filter = selection.id;
-    navigate('/category/' + categoryID + '/' + filter);
+
+const handleSelect = (e) => {
+  const newFilter = e.target.value
+  dispatch(statusFilterChanged(newFilter))
+  // navigate('/categories/' + categoryId + '/' + newFilter);
+    
 }
 const viewProduct = (item) => {
   localStorage.setItem('localGroceryItem', JSON.stringify(item));
@@ -74,7 +86,7 @@ const viewProduct = (item) => {
       // totalCount: $scope.totalCount
   }
   localStorage.setItem('previousState', JSON.stringify(previousState));
-  navigate("/category/product");
+  navigate("/categories/product");
 };
   const view = 'category'
   return  (
@@ -87,25 +99,31 @@ const viewProduct = (item) => {
               <select 
                 className="selectedType" 
                 id="selectedType" 
-                // value={this.state.value} 
-                onChange={onSelect}
+                value={filter} 
+                onChange={handleSelect}
                 >
                   {
-                    types.map(type => <option key={type.id} value={type.name}>{type.name}</option>)
+                    Object.entries(StatusFilters).map(([key, value]) => {
+                      return (
+                        <option 
+                          key={key} 
+                          value={value}
+                        >
+                          {key}
+                        </option>
+                      )
+                    })
                   }
               </select>
           </label>
+
       </div>  
       } 
-      {/* {
-        data && 
-        <Product item={data.records[0]} view='product'/>
-      } */}
       <div className="products-container">
         {
-          data && data.records.map(item => {
+          data && data.map(item => {
             const clsName = 'product-tile match' + item.type
-            if (item.type == selectedType.id || selectedType.id == 'all')
+            if (item.type == selectedFilter || selectedFilter === 'all')
               return (
                 <Link to={`/product/${item.id}`} key={item.id}>
                   <Tile product={item} view={view} className={clsName}/>

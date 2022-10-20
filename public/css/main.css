@@ -17,12 +17,6 @@ a:hover {
   text-decoration: none;
 }
 
-/* line 27, ../scss/main.scss */
-a {
-  color: #006fc6;
-  text-decoration: underline;
-}
-
 /* line 31, ../scss/main.scss */
 body {
   font-family: 'Muli', sans-serif;
@@ -225,6 +219,7 @@ a.btn.green-border:hover {
   border: 1px solid #ccc;
   border-radius: 10px;
   cursor: pointer;
+  color: rgb(74,74,74);
 }
 /* line 229, ../scss/main.scss */
 .product-tile.match {
