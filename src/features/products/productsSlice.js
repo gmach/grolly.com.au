@@ -9,6 +9,7 @@ import { StatusFilters } from '../filters/filtersSlice'
 const todosAdapter = createEntityAdapter()
 export const initialState = todosAdapter.getInitialState({
   status: 'idle', //represents ANY async call status
+  categoryId: 1,
 }) // will autogenerate normalized state object { ids: [], entities: {} }
 
 // Autogenerate thunk action creators and types for managing loading async call status (pending ie loading/saving in progress, fulfilled ie success, rejected ie error)
@@ -68,6 +69,9 @@ const todosSlice = createSlice({
     //   state.entities[todo.id] = todo;
     //   state.status = 'idle'
     // },
+    setCategoryId(state, action) {
+      state.categoryId = action.payload
+    },
     todoColorSelected: {
       prepare(todoId, color) {
         return {
@@ -146,6 +150,7 @@ const todosSlice = createSlice({
 })  
 
 export const {
+  setCategoryId,
   todoColorSelected,
   todoDeleted,
   allCompleted,
