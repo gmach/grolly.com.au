@@ -11,6 +11,7 @@ const todosAdapter = createEntityAdapter()
 export const initialState = todosAdapter.getInitialState({
   status: 'idle', //represents ANY async call status
   categoryId: '',
+  totalCount: 0
 }) // will autogenerate normalized state object { ids: [], entities: {} }
 
 // Autogenerate thunk action creators and types for managing loading async call status (pending ie loading/saving in progress, fulfilled ie success, rejected ie error)
@@ -40,7 +41,7 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', async (c
   + '/isAdmin/' + isAdmin;
   let response = await window.fetch(url)
   response = await response.json()
-  return response.records.sort(itemSort)
+  return response
 })
 
 export const fetchProduct = createAsyncThunk('products/fetchProduct', async (productId, {dispatch, getState}) => {
@@ -125,7 +126,10 @@ const todosSlice = createSlice({
         state.status = 'loading'
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
-        todosAdapter.setAll(state, action.payload)
+        let { records, totalCount } = action.payload
+        records = records.sort(itemSort)
+        todosAdapter.setAll(state, records)
+        state.totalCount = totalCount
         state.status = 'idle'
       })
       .addCase(saveNewTodo.pending, (state, action) => {

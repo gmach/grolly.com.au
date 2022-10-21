@@ -1,6 +1,6 @@
 import TileMatches from '../TileMatches'
-import { Link } from "react-router-dom";
 import { isAdmin } from '../../config'
+import useToggle from '../../hooks/useToggle'
 
 export const Tile = ({product, view, className}) => {
   let formattedDate = new Date(Date.parse(product.dateAdded)).toLocaleString("en-GB", {timeZone: "Australia/Brisbane", hour12: true})
@@ -26,6 +26,8 @@ export const Tile = ({product, view, className}) => {
       product.smallImage ?
         product.smallImage :
           '/img/img_product-placeholder.png'
+
+  const [showMatches, toggleShowMatches] = useToggle()          
   // //TODO
   // const getMatches = () => {
   //       $scope.showMatches = !$scope.showMatches
@@ -34,7 +36,7 @@ export const Tile = ({product, view, className}) => {
   //       else
   //           $scope.$parent.showMatches = false
   // }
-
+  const classNameShowMatches = 'fas ' + showMatches ? 'fa-unlink' : 'fa-link'
   return (
     <div className={className}>
       <div className="tile-header">
@@ -68,16 +70,22 @@ export const Tile = ({product, view, className}) => {
               <img className='product-image' src={ image } alt="Image not found"/>
           }
           {
-            view === 'product' || view === 'cart' && 
-              <Link to={ product.productLink } target="_blank" rel="noreferrer">
+            (view === 'product' || view === 'cart') && 
+              <a href={ product.productLink } target="_blank" rel="noreferrer">
                 <img className='product-image' src={ image } alt="Image not found"/>
-              </Link>   
+              </a>   
           }
         </figure>
         <section className="text-tile">
           <h2 className="product-title">{ product.name } { product.packageSize}</h2>
         </section>
-        <TileMatches/>
+        {
+          (view === 'product' && product.hasMatches) && 
+          <span className='hasMatches' onClick={toggleShowMatches}>
+            <i className={classNameShowMatches}/>
+          </span>          
+        }
+        
       </div>
       {
         ((product.type !== 'coles' && product.isAvailable) || product.type === 'coles') &&

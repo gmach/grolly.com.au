@@ -998,19 +998,19 @@ input:checked + .slider:before {
 }
 
 /* line 813, ../scss/main.scss */
-.categoryHeader {
+.filtersHeader {
   display: flex;
   justify-content: space-between;
 }
 /* line 816, ../scss/main.scss */
-.categoryHeader .prodsfound {
+.filtersHeader .prodsfound {
   flex: 1;
   font-weight: 800;
   margin-left: 15px;
   margin-top: 15px;
 }
 /* line 822, ../scss/main.scss */
-.categoryHeader .selectedType {
+.filtersHeader .selectedType {
   flex: 1;
   margin-right: 15px;
   margin-top: 15px;

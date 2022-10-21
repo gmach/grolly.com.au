@@ -11,7 +11,7 @@ export default function TileContainer( { data, view, selectedFilter = 'all'}) {
         const clsName = 'product-tile match ' + item.type
         if (item.type === selectedFilter || selectedFilter === 'all')
           return (
-            <Link to={`/product/${item.id}`} key={item.id}>
+            <Link to={`/product/${item.id}`} key={item.stockCode}>
               <Tile product={item} view={view} className={clsName}/>
             </Link>
           )

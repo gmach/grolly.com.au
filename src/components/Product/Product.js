@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import useToggle from '../../hooks/useToggle'
 import { useSelector, useDispatch } from "react-redux"
 import {
@@ -6,27 +7,21 @@ import {
 } from '../../features/products/productsSlice'
 import SpinnerLoader from '../SpinnerLoader'
 import { useParams } from "react-router-dom";
-const RESTURL = 'http://localhost:1234';//'https://groceryhawker-api.au.ngrok.io';// https://localhost:1234';
-
+import { ApiUrl } from '../../config'
 import { isAdmin } from '../../config'
 import Tile from '../Tile'
 import BackButton from "../BackButton";
-import ScrollUp from '../ScrollUp';
 import TileContainer from '../TileContainer/TileContainer';
 
-export async function loader({ params }) {
-	// store.dispatch(fetchProducts(params.categoryId))
+export async function loader({ params }) {}
 
+export async function action() {}
 
-}
-
-export async function action() {
-
-}
 export default function Product() {
   const params = useParams();
 	const dispatch = useDispatch()
 	const [showMatches, toggleMatches] = useToggle()
+	const [matches, setMatches] = useState([])
 	let item = useSelector((state) => selectProductById(state, params.productId)) //load from redux store
 	const status = useSelector(state => state.todos.status)
 	if (item === undefined) {//load fresh from server
@@ -42,15 +37,14 @@ export default function Product() {
 	const targetType = item.type === 'coles' ? 'Woolworths' : 'Coles';
 	const comparisonMsg = (diff == 0 && percent == 0)?'Same Price':('Saving of $' + diff + ' / ' + (percent?percent:'0') + '%');
 	// item.hasMatches = (item.target == null);
-	let matches = []
 	const getMatches = async () => {
-		const response = await fetch(RESTURL + '/matches/' +  item.id + '/' + isAdmin);
-		matches = await response.json();
-		matches = matches.data;
-		matches = matches.map(m => {
+		let response = await fetch(ApiUrl + '/matches/' +  item.id + '/' + isAdmin);
+		response = await response.json()
+		response = response.map(m => {
 				m.hasMatches = false;
 				return m;
 		})
+		setMatches(response)
 		toggleMatches()
 	}
 	if (isAdmin) {
@@ -139,7 +133,7 @@ export default function Product() {
 		</div>
 		} */}
 		{
-			showMatches && matches.length > 0 && 
+			(showMatches && matches.length > 0) && 
 			<>
 				<h2 className="subheading">Disclaimer : These are only best matches found and may not be correct.</h2>
 				<TileContainer data={matches} view={view} />

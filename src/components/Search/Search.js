@@ -1,18 +1,12 @@
-import Tile from '../Tile'
-
 import {
-  Outlet,
-  Link,
   useLoaderData,
   Form,
-  redirect,
-  useNavigation,
-  useSubmit
+  useNavigation
 } from "react-router-dom";
 
 import { useEffect } from "react";
-import useScroll from '../../hooks/useScroll'
 import { isAdmin } from '../../config'
+import TileContainer from '../TileContainer';
 
 export async function loader({ request }) {
   let url = new URL(request.url);
@@ -41,19 +35,11 @@ export async function loader({ request }) {
   return { data: response.records, q: searchTerm };  
 }
 
-export async function action({ request }) {
-  // const url = new URL(request.url);
-  // // const q = url.searchParams.get("q");
-  let a  = 1;
-
-}
-
+export async function action({ request }) {}
 
 export default function Search() {
   const { data, q } = useLoaderData();
   const navigation = useNavigation();
-  const submit = useSubmit();
-
   useEffect(() => {
     document.getElementById("q").value = q;
   }, [q]);
@@ -65,12 +51,6 @@ export default function Search() {
     );
 
   const view =  'search'
-
-  const [scrollTo] = useScroll()
-  const scrollUp = () => {
-    scrollTo(0, 0)
-  }
-  
   return (
     <>
       <Form className="searchWrap" id="search-form" role="search" action="/search" method="get">
@@ -107,19 +87,7 @@ export default function Search() {
         <div className="categoryHeader">
           <span className="prodsfound">{ data.length } products found.</span>
         </div>
-        <div className="products-container">
-        {
-          data.map(item => {
-            const clsName = 'product-tile match' + item.type
-            return (
-              <Link to={`/product/${item.id}`} key={item.id}>
-                <Tile product={item} view={view} className={clsName}/>
-              </Link>
-            )
-          })
-        }
-        </div>
-        <span className="scrollup" onClick={scrollUp}><i className="fas fa-chevron-circle-up"></i></span>      
+        <TileContainer data={data} view={view} />         
       </>
     }
     </>   

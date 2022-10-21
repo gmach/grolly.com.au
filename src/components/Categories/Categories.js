@@ -30,7 +30,6 @@ export const Categories = () => {
                       onClick={()=>handleClick(categoryId)}
                     >
                       {categoryName} 
-                      {/* <CategoryRow/> */}
                     </NavLink>
                   </div>
                 )
