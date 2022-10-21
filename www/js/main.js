@@ -837,7 +837,7 @@ app.controller('barcodeController', function($scope, $rootScope, $state, $locati
             $scope.foundBarcode = true;
             new Audio('./scanner-beep.mp3').play();
             $scope.$apply();
-            // $scope.barcode = '9300701692803'; //'9300601013692';
+            // $scope.barcode = '9317948008038'; //'9300601013692';
             $rootScope.loaded = false;
             let product = await axios.get(RESTURL + '/barcode/' + $scope.barcode + '/' + $rootScope.isAdmin);
             $rootScope.loaded = true;

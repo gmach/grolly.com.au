@@ -325,7 +325,14 @@ a.btn.green-border:hover {
   border-color: red;
   border-width: 3px;
 }
-
+.both {
+  border-width: 1px;
+}
+/* line 309, ../scss/main.scss */
+.both:hover {
+  border-color: yellow;
+  border-width: 3px;
+}
 /* line 314, ../scss/main.scss */
 .product-image {
   cursor: pointer;

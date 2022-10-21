@@ -50,7 +50,7 @@ const Barcode = () => {
                     return;
                 }
                 new Audio('./scanner-beep.mp3').play();
-                barcode ='9300701692803' //'9300601013692';
+                barcode ='9317948008038' //'9300601013692';
                 const RESTURL = 'http://localhost:1234'
                 let product = await fetch(RESTURL + '/barcode/' + barcode + '/' + false);
                 product = await product.text();

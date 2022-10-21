@@ -1,7 +1,7 @@
 import TileMatches from '../TileMatches'
 import { Link } from "react-router-dom";
 
-export const Tile = ({product, view}) => {
+export const Tile = ({product, view, className}) => {
   const isAdmin = false//true
   let formattedDate = new Date(Date.parse(product.dateAdded)).toLocaleString("en-GB", {timeZone: "Australia/Brisbane", hour12: true})
   if (formattedDate === 'Invalid Date') {
@@ -32,7 +32,7 @@ export const Tile = ({product, view}) => {
   // }
 
   return (
-    <div className="product-tile match">
+    <div className={className}>
       <div className="tile-header">
         <img className="product-logo" src={`/img/${product.type}-logo.png`}/>
       </div>

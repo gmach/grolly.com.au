@@ -1,19 +1,17 @@
+import React from "react";
 import { Link } from "react-router-dom";
-import { toggleShowCategories } from '../../features/products/productsSlice'
-import { useSelector, useDispatch } from "react-redux";
+import { Categories } from '../../config'
 
-export const CategoryHeader = () => {
-  const dispatch = useDispatch();
-  const handleCompletedChanged = e => dispatch(toggleShowCategories())
-  const showCategories = useSelector(state => state.todos.showCategories)
-  const categoryName = useSelector(state => state.todos.categoryName)
-
+const _CategoryHeader = ({ showCategories, selectedCategoryId }) => {
+  const categoryName = Categories[selectedCategoryId]
   const updownClass = 'fas fa-arrow-' + (showCategories ? 'up' : 'down')
   return (
       <Link className="btnbrowse"
-        to='categories' 
-        onClick={handleCompletedChanged}> 
+        to='/categories' 
+      > 
           Browsing {categoryName} <i className={updownClass}></i>
       </Link>
   );
 }
+const CategoryHeader = React.memo(_CategoryHeader);
+export default CategoryHeader

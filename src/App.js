@@ -25,11 +25,16 @@ import Search,
   action as searchAction
  }
 from './components/Search'
-import Cart from './components/Cart'
+import Cart,
+ {
+  loader as cartLoader,
+  action as cartAction
+ }
+from './components/Cart'
 import About from './components/About'
 import Privacy from './components/Privacy'
 import Error from './components/Error'
-import DefaultHome from './components/DefaultHome'
+// import DefaultHome from './components/DefaultHome'
 
 const router = createBrowserRouter([
   {
@@ -39,7 +44,7 @@ const router = createBrowserRouter([
     // loader: rootLoader,
     // action: rootAction,
     children: [
-      { index: true, element: <DefaultHome /> },
+      { index: true, element: <Categories /> },
       {
         path: "categories",
         element: <Categories />,
@@ -68,8 +73,6 @@ const router = createBrowserRouter([
       {
         path: "barcode",
         element: <Barcode />,
-        // loader: contactLoader,
-        // action: deleteAction,
         errorElement: <div>Oops! There was an error.</div>,
       },    
       {
@@ -82,22 +85,18 @@ const router = createBrowserRouter([
       {
         path: "cart",
         element: <Cart />,
-        // loader: contactLoader,
-        // action: deleteAction,
+        loader: cartLoader,
+        action: cartAction,
         errorElement: <div>Oops! There was an error.</div>,
       },  
       {
         path: "about",
         element: <About />,
-        // loader: contactLoader,
-        // action: deleteAction,
         errorElement: <div>Oops! There was an error.</div>,
       },     
       {
         path: "privacy",
         element: <Privacy />,
-        // loader: contactLoader,
-        // action: deleteAction,
         errorElement: <div>Oops! There was an error.</div>,
       },    
 

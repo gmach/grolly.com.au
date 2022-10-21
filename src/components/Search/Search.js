@@ -125,8 +125,8 @@ export default function Search() {
             )
           })
         }
-      </div>
-      <span className="scrollup" onClick={scrollUp}><i className="fas fa-chevron-circle-up"></i></span>      
+        </div>
+        <span className="scrollup" onClick={scrollUp}><i className="fas fa-chevron-circle-up"></i></span>      
       </div>
     </>   
   )

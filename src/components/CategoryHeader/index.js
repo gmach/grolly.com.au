@@ -1,1 +1,2 @@
-export { CategoryHeader as default } from "./CategoryHeader";
+export * from "./CategoryHeader";
+export { default } from "./CategoryHeader";
