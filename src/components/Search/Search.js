@@ -1,4 +1,3 @@
-import { useState } from "react"
 import Tile from '../Tile'
 
 import {
@@ -12,8 +11,8 @@ import {
 } from "react-router-dom";
 
 import { useEffect } from "react";
-
-
+import useScroll from '../../hooks/useScroll'
+import { isAdmin } from '../../config'
 
 export async function loader({ request }) {
   let url = new URL(request.url);
@@ -32,8 +31,8 @@ export async function loader({ request }) {
       },
       body: JSON.stringify(
         {
-          searchTerm: searchTerm,
-          isAdmin: false
+          searchTerm,
+          isAdmin
         }
       )
     }
@@ -49,9 +48,6 @@ export async function action({ request }) {
 
 }
 
-const scrollUp = () => {
-
-}
 
 export default function Search() {
   const { data, q } = useLoaderData();
@@ -68,25 +64,19 @@ export default function Search() {
       "q"
     );
 
-
-  const [searchTxt, setSearchTxt] = useState('')
-  const totalCount = 1
   const view =  'search'
 
+  const [scrollTo] = useScroll()
+  const scrollUp = () => {
+    scrollTo(0, 0)
+  }
+  
   return (
     <>
-      <div className="searchWrap">
-        <input className="searchBox" type="text"
-              ng-model="searchText"
-              my-enter="search(searchText)"/>
-        {/* <button onClick=search className="searchBtn btn btn-primary">Search</button> */}
-      </div>
-      <div ng-if="showSearchResults">
-        <h2 className="subheading">Search Results for { searchTxt } </h2>
-        <Form id="search-form" role="search" action="/search" method="get">
+      <Form className="searchWrap" id="search-form" role="search" action="/search" method="get">
           <input
             id="q"
-            className={searching ? "loading" : ""}
+            className="searchBox"
             aria-label="Search contacts"
             placeholder="Search"
             type="search"
@@ -108,15 +98,18 @@ export default function Search() {
             className="sr-only"
             aria-live="polite"
           ></div>
-          <button type="submit">Search</button>
+          <button type="submit" className="searchBtn btn btn-primary">Search</button>
         </Form>
-
-        <div className="categoryHeader" ng-show="$root.loaded">
-          <span ng-show="$root.loaded" className="prodsfound">{ totalCount } products found.</span>
+        {
+          data.length > 0 &&         
+      <>
+        <h2 className="subheading">Search Results for { q } </h2>
+        <div className="categoryHeader">
+          <span className="prodsfound">{ data.length } products found.</span>
         </div>
         <div className="products-container">
         {
-          data && data.map(item => {
+          data.map(item => {
             const clsName = 'product-tile match' + item.type
             return (
               <Link to={`/product/${item.id}`} key={item.id}>
@@ -127,7 +120,8 @@ export default function Search() {
         }
         </div>
         <span className="scrollup" onClick={scrollUp}><i className="fas fa-chevron-circle-up"></i></span>      
-      </div>
+      </>
+    }
     </>   
   )
 }

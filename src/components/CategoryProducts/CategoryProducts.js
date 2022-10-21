@@ -20,21 +20,11 @@ import {
 } from "react-router-dom";
 
 import Tile from '../Tile'
-
-
+import ScrollUp from "../ScrollUp"; 
 import store from '../../store'
+import TileContainer from "../TileContainer/TileContainer";
 export async function loader({ params }) {
     // store.dispatch(fetchProducts(params.categoryId))
-
-//   const RESTURL = 'http://localhost:1234';//'https://groceryhawker-api.au.ngrok.io';// https://localhost:1234';
-// const page = 1;
-// const filter = 'all'
-// const isAdmin = false; // admin view
-// const url = RESTURL + '/category/' + 1
-// + '/filter/' + filter
-// + '/page/' + page
-// + '/isAdmin/' + isAdmin;
-  // return fetch(url)
 
 }
 
@@ -50,7 +40,8 @@ export default function CategoryProducts() {
   const navigate = useNavigate();
   const params = useParams();
   const categoryId = parseInt(params.categoryId, 10)
-  const showCategories = useSelector(state => state.todos.categoryName)
+  const selectedCategoryId = useSelector(state => state.todos.categoryId)
+  const showCategories = selectedCategoryId !== ''
 
   const dispatch = useDispatch()
   const { filter } = useSelector(state => state.filters)
@@ -63,10 +54,6 @@ export default function CategoryProducts() {
   useEffect(() => {
     dispatch(fetchProducts(categoryId))
   }, [categoryId]);
-  
-const scrollUp = () => {
-
-}
 
 const handleSelect = (e) => {
   const newFilter = e.target.value
@@ -74,20 +61,6 @@ const handleSelect = (e) => {
   // navigate('/categories/' + categoryId + '/' + newFilter);
     
 }
-const viewProduct = (item) => {
-  localStorage.setItem('localGroceryItem', JSON.stringify(item));
-  let previousState = {
-      // items: $scope.items,
-      // prodsFound: $scope.prodsFound,
-      // totalAll: $scope.totalAll,
-      // totalBoth: $scope.totalBoth,
-      // totalColes: $scope.totalColes,
-      // totalWow: $scope.totalWow,
-      // totalCount: $scope.totalCount
-  }
-  localStorage.setItem('previousState', JSON.stringify(previousState));
-  navigate("/categories/product");
-};
   const view = 'category'
   return  (
     <>
@@ -118,21 +91,8 @@ const viewProduct = (item) => {
           </label>
 
       </div>  
-      } 
-      <div className="products-container">
-        {
-          data && data.map(item => {
-            const clsName = 'product-tile match ' + item.type
-            if (item.type == selectedFilter || selectedFilter === 'all')
-              return (
-                <Link to={`/product/${item.id}`} key={item.id}>
-                  <Tile product={item} view={view} className={clsName}/>
-                </Link>
-              )
-          })
-        }
-      </div>
-      <span className="scrollup" onClick={scrollUp}><i className="fas fa-chevron-circle-up"></i></span>      
+      }
+      <TileContainer data={data} view={view} selectedFilter={selectedFilter} />
     </>
   )
 }

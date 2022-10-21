@@ -1,7 +1,5 @@
-import { Link, Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { NavLink, Outlet } from "react-router-dom";
 import CategoryHeader from '../CategoryHeader'
-import SpinnerLoader from '../SpinnerLoader'
 import { Categories as CategoriesObj } from '../../config'
 import useToggle from '../../hooks/useToggle'
 import { setCategoryId } from '../../features/products/productsSlice'
@@ -9,7 +7,6 @@ import { useDispatch } from "react-redux";
 
 export const Categories = () => {
   let categories = Object.entries(CategoriesObj);
-  const status = useSelector(state => state.todos.status)
   const [showCategories, toggleShowCategories] = useToggle()
     // const [categoryId, setCategoryId] = useState(1)
   const dispatch = useDispatch();
@@ -22,18 +19,23 @@ export const Categories = () => {
         {
           showCategories && 
           <>
-            <div  className="categories-pane">
-              { categories.map((category) => (
-                <div className="catitem" key={category[0]}>
-                  <Link className='catlink thumb' 
-                    to={`/categories/${category[0]}`}
-                    onClick={()=>handleClick(category[0])}
-                  >
-                    {category[1]} 
-                    {/* <CategoryRow/> */}
-                  </Link>
-                </div>
-              ))}
+            <div className="categories-pane">
+            { 
+              categories.map(category => {
+                const [categoryId, categoryName] = category
+                return (
+                  <div className="catitem" key={categoryId}>
+                    <NavLink className='catlink thumb' 
+                      to={`/categories/${categoryId}`}
+                      onClick={()=>handleClick(categoryId)}
+                    >
+                      {categoryName} 
+                      {/* <CategoryRow/> */}
+                    </NavLink>
+                  </div>
+                )
+              })
+            }
             </div>
             <div className="content-pane">
               <div id="routedContent">
@@ -43,10 +45,6 @@ export const Categories = () => {
           </>
         }
         </div>
-        {
-          status === 'loading' &&
-            <SpinnerLoader/>
-        }
       </main>
       </>
   );

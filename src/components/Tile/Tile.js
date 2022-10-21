@@ -1,8 +1,8 @@
 import TileMatches from '../TileMatches'
 import { Link } from "react-router-dom";
+import { isAdmin } from '../../config'
 
 export const Tile = ({product, view, className}) => {
-  const isAdmin = false//true
   let formattedDate = new Date(Date.parse(product.dateAdded)).toLocaleString("en-GB", {timeZone: "Australia/Brisbane", hour12: true})
   if (formattedDate === 'Invalid Date') {
     let dp = product.dateAdded.split(',')[0]
@@ -21,7 +21,11 @@ export const Tile = ({product, view, className}) => {
       diff = product.discount?product.discount:0
   }
   const comparisonMsg = (diff == 0 && percent == 0)?'Same Price':('Saving of $' + diff + ' / ' + (percent?percent:'0') + '%')  
-  const image = product.largeImage?product.largeImage:product.smallImage
+  const image = product.largeImage ?
+    product.largeImage :
+      product.smallImage ?
+        product.smallImage :
+          '/img/img_product-placeholder.png'
   // //TODO
   // const getMatches = () => {
   //       $scope.showMatches = !$scope.showMatches
@@ -62,13 +66,11 @@ export const Tile = ({product, view, className}) => {
           {
             view !== 'product' && 
               <img className='product-image' src={ image } alt="Image not found"/>
-              //  onError="this.onerror=null;this.src='img_product-placeholder.png'"/>
           }
           {
             view === 'product' || view === 'cart' && 
               <Link to={ product.productLink } target="_blank" rel="noreferrer">
                 <img className='product-image' src={ image } alt="Image not found"/>
-                 {/* onError="this.onerror=null;this.src='img_product-placeholder.png'"/> */}
               </Link>   
           }
         </figure>

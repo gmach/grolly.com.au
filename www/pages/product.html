@@ -7,19 +7,24 @@
 	<div class="tile-wrapper">
 		<tile product="item" view="view" class="product-tile" ng-class="{ 'both': item.type == 'both', 'woolworths': item.type == 'woolworths', 'coles': item.type == 'coles' }"></tile>
 		<tile ng-if="item.type == 'both'" product="item.target" view="view" class="product-tile" ng-class="{ 'both': item.type == 'both', 'woolworths': item.type == 'woolworths', 'coles': item.type == 'coles' }"></tile>
-        <div class="winner" ng-class="{ 'both': item.winner == 'both', 'woolworths': item.winner == 'woolworths', 'coles': item.winner == 'coles' }">
+		<div class="winner" ng-class="{ 'both': item.winner == 'both', 'woolworths': item.winner == 'woolworths', 'coles': item.winner == 'coles' }">
 			<button class="btn btn-primary addCart" ng-click="$root.addCart(item)">
 				<i class="fas fa-plus-circle"></i>
 			</button>
 			<button class="btn btn-primary removeCart" ng-click="$root.removeCart(item)">
 				<i class="fas fa-minus-circle"></i>
 			</button>
-			<h2 ng-if="item.type == 'both' && item.winner != 'both'">Best value at <span class="winner-name">{{ item.winner }}</span></h2>
-			<h2 ng-if="item.type != 'both'">Product only at <span class="exclusive">{{ item.type }}</span>
-			<div ng-show="!showMatches">Click <i ng-click="getMatches()" class="fas fa-link"></i> to find nearest matches from {{ targetType }}</div>
+			<h2 ng-if="item.type == 'both' && item.winner != 'both'">
+				Best value at <span class="winner-name">{{ item.winner }}</span>
+			</h2>
+			<h2 ng-if="item.type != 'both'">
+				Product only at <span class="exclusive">{{ item.type }}</span>
+				<div ng-show="!showMatches">
+					Click <i ng-click="getMatches()" class="fas fa-link"></i> to find nearest matches from {{ targetType }}
+				</div>
 			</h2>
 			<h2 ng-if="(item.type != 'coles' && item.isAvailable) || item.type == 'coles'">{{ comparisonMsg }}</h2>
-        </div>
+		</div>
 	</div>
 	<div ng-if="$root.isAdmin && item.type != 'both'" class="suggestionswrap">
 		<input id="suggestField" type="text" class="form-control" ng-model="ngModelOptionsSelected" ng-model-options="modelOptions"

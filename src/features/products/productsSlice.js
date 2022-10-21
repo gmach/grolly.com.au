@@ -5,11 +5,12 @@ import {
   createEntityAdapter
 } from '@reduxjs/toolkit'
 import { StatusFilters } from '../filters/filtersSlice'
+import { isAdmin } from '../../config'
 
 const todosAdapter = createEntityAdapter()
 export const initialState = todosAdapter.getInitialState({
   status: 'idle', //represents ANY async call status
-  categoryId: 1,
+  categoryId: '',
 }) // will autogenerate normalized state object { ids: [], entities: {} }
 
 // Autogenerate thunk action creators and types for managing loading async call status (pending ie loading/saving in progress, fulfilled ie success, rejected ie error)
@@ -33,7 +34,6 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', async (c
   const RESTURL = 'http://localhost:1234';
   const filter = getState().filters.filter;
   const page = 1;
-  const isAdmin = false; // admin view
   const url = RESTURL + '/category/' + categoryId
   + '/filter/' + filter
   + '/page/' + page
@@ -45,7 +45,6 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', async (c
 
 export const fetchProduct = createAsyncThunk('products/fetchProduct', async (productId, {dispatch, getState}) => {
   const RESTURL = 'http://localhost:1234';
-  const isAdmin = false; // admin view
   const url = RESTURL + '/product/' + productId
   + '/' + isAdmin;
   let response = await window.fetch(url)

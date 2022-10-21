@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import useToggle from '../../hooks/useToggle'
 import { useSelector, useDispatch } from "react-redux"
 import {
@@ -9,21 +8,15 @@ import SpinnerLoader from '../SpinnerLoader'
 import { useParams } from "react-router-dom";
 const RESTURL = 'http://localhost:1234';//'https://groceryhawker-api.au.ngrok.io';// https://localhost:1234';
 
-
+import { isAdmin } from '../../config'
 import Tile from '../Tile'
+import BackButton from "../BackButton";
+import ScrollUp from '../ScrollUp';
+import TileContainer from '../TileContainer/TileContainer';
 
 export async function loader({ params }) {
 	// store.dispatch(fetchProducts(params.categoryId))
 
-//   const RESTURL = 'http://localhost:1234';//'https://groceryhawker-api.au.ngrok.io';// https://localhost:1234';
-// const page = 1;
-// const filter = 'all'
-// const isAdmin = false; // admin view
-// const url = RESTURL + '/category/' + 1
-// + '/filter/' + filter
-// + '/page/' + page
-// + '/isAdmin/' + isAdmin;
-// return fetch(url)
 
 }
 
@@ -33,8 +26,6 @@ export async function action() {
 export default function Product() {
   const params = useParams();
 	const dispatch = useDispatch()
-  const navigate = useNavigate();
-	const history = window.history.length
 	const [showMatches, toggleMatches] = useToggle()
 	let item = useSelector((state) => selectProductById(state, params.productId)) //load from redux store
 	const status = useSelector(state => state.todos.status)
@@ -42,7 +33,6 @@ export default function Product() {
 		dispatch(fetchProduct(params.productId))
 		return 	<SpinnerLoader/>
 	}
-
 	let percent = item.diffPercent?item.diffPercent:0;
 	let diff = item.diff?item.diff:0;
 	if (item.type != 'both') {
@@ -51,16 +41,11 @@ export default function Product() {
 	}
 	const targetType = item.type === 'coles' ? 'Woolworths' : 'Coles';
 	const comparisonMsg = (diff == 0 && percent == 0)?'Same Price':('Saving of $' + diff + ' / ' + (percent?percent:'0') + '%');
-	let id = item.id;
 	// item.hasMatches = (item.target == null);
-	let loaded = false;
-	let isCategoriesOpen = false
-	const isAdmin = false
+	let matches = []
 	const getMatches = async () => {
-		loaded = false;
-		const response = await fetch(RESTURL + '/matches/' + id + '/' + isAdmin);
-		let matches = await response.json();
-		loaded = true;
+		const response = await fetch(RESTURL + '/matches/' +  item.id + '/' + isAdmin);
+		matches = await response.json();
 		matches = matches.data;
 		matches = matches.map(m => {
 				m.hasMatches = false;
@@ -72,48 +57,55 @@ export default function Product() {
 		getMatches()
 		.catch(console.error);
 	}
-	// scrollUp();
-	isCategoriesOpen = false;
-	const clsName = 'product-tile match' + item.type
-	const goBack = () => {
-		navigate(-1);
-	}
-
-
+	const classNameTile = 'product-tile ' + item.type
+	const classNameWinner = 'winner ' + item.winner
+	const addCartHandler = () => {}
+	const removeCartHandler = () => {}
+	const view = 'product'
   return (
-    <>
-    <h3>Product</h3>
-	
+	<>
 	<div className="product-container">
-		<div className="centerbtn">
-			{/* {history > 2 && */}
-					<button onClick={goBack} className="btn btn-primary" type="button">
-						GO BACK { history }
-					</button>
-			{/* } */}
-
-		</div>
+		<BackButton/>
 		<div className="tile-wrapper">
-			<Tile product={item} view='view' className={clsName}/>
+			<Tile product={item} view={view} className={classNameTile}/>
 			{
 			item.type == 'both' && 
-			<Tile product={item.target} view='view' className={clsName}/>
+			<Tile product={item.target} view={view} className={classNameTile}/>
 			}
-			<div className="winner" ng-className="{ 'both': item.winner == 'both', 'woolworths': item.winner == 'woolworths', 'coles': item.winner == 'coles' }">
-				<button className="btn btn-primary addCart" ng-click="$root.addCart(item)">
+			<div className={classNameWinner}>
+				<button className="btn btn-primary addCart" onClick={addCartHandler}>
 					<i className="fas fa-plus-circle"></i>
 				</button>
-				<button className="btn btn-primary removeCart" ng-click="$root.removeCart(item)">
+				<button className="btn btn-primary removeCart" onClick={removeCartHandler}>
 					<i className="fas fa-minus-circle"></i>
 				</button>
-				<h2 ng-if="item.type == 'both' && item.winner != 'both'">Best value at <span className="winner-name">{ item.winner }</span></h2>
-				<h2 ng-if="item.type != 'both'">Product only at <span className="exclusive">{ item.type }</span>
-				<div ng-show="!showMatches">Click <i ng-click="getMatches()" className="fas fa-link"></i> to find nearest matches from { targetType }</div>
-				</h2>
-				<h2 ng-if="(item.type != 'coles' && item.isAvailable) || item.type == 'coles'">{ comparisonMsg }</h2>
+				{
+					item.type === 'both' && item.winner !== 'both' && 
+					<h2>
+						Best value at <span className="winner-name">{ item.winner }</span>
+					</h2>
+				}
+				{
+					item.type !== 'both' && 
+					<h2>
+						Product only at <span className="exclusive">{ item.type }</span>
+						{
+							!showMatches && 
+							<div>
+								Click <i onClick={getMatches} className="fas fa-link"></i> to find nearest matches from { targetType }
+							</div>
+						}
+					</h2>
+				}
+				{
+					(item.type !== 'coles' && item.isAvailable) || item.type === 'coles' && 
+					<h2>{ comparisonMsg }</h2>
+				}
 			</div>
 		</div>
-		<div ng-if="isAdmin && item.type != 'both'" className="suggestionswrap">
+		{/* {
+			isAdmin && item.type != 'both' &&
+			<div className="suggestionswrap">
 			<input id="suggestField" type="text" className="form-control" ng-model="ngModelOptionsSelected" ng-model-options="modelOptions"
 					placeholder="Search for target match ..."
 					uib-typeahead="suggest as suggest.n for suggest in getSuggestions($viewValue) | limitTo:5"
@@ -145,25 +137,23 @@ export default function Product() {
 			</button>
 			<span ng-show="isAdmin" className="barcode">{ item.barcode }</span>
 		</div>
-		<div ng-if="showMatches">
-			<h2 className="subheading">Disclaimer : These are only best matches found and may not be correct.</h2>
-			<div  className="products-container">
-				<tile product="match" view="view"  ng-repeat="match in matches" className="product-tile match" ng-className="{ 'both': match.type == 'both', 'woolworths': match.type == 'woolworths', 'coles': match.type == 'coles' }"></tile>
-			</div>
-		</div>
-
-		<span className="scrollup" ng-click="$root.scrollUp()"><i className="fas fa-chevron-circle-up"></i></span>
+		} */}
+		{
+			showMatches && matches.length > 0 && 
+			<>
+				<h2 className="subheading">Disclaimer : These are only best matches found and may not be correct.</h2>
+				<TileContainer data={matches} view={view} />
+			</>
+		}
 	</div>
-{/* <script type="text/ng-template" id="suggestTemplate.html">
+	</>
+	)
+/* <script type="text/ng-template" id="suggestTemplate.html">
 	<div className="suggestion">
 		<img className='suggest-image' ng-src="https://shop.coles.com.au{match.model.t}" width="16"/>
 		<span className='suggest-name'>{match.model.m}</span>
 		<span ng-bind-html="match.model.n | uibTypeaheadHighlight:query"></span>
 		<span className="suggest-size">{match.model.a.O3}</span>
 	</div>
-</script>  */}
-
-
-    </>
-  )
+</script>  */
 }

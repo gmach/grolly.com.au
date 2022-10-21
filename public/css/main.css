@@ -171,6 +171,10 @@ a.btn.green-border:hover {
   padding: 9px 8px 9px 17px;
   background-color: #f6f6f6;
 }
+
+.active {
+  color: red!important;
+}
 /* line 183, ../scss/main.scss */
 .catitem .catlink {
   color: #163f76;
@@ -184,9 +188,6 @@ a.btn.green-border:hover {
   white-space: initial;
   text-overflow: ellipsis;
   text-decoration: none;
-}
-.active {
-  color: red;
 }
 /* line 200, ../scss/main.scss */
 .catitem .catlink:hover {
