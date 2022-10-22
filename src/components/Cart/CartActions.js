@@ -22,6 +22,7 @@ export function CartActions({ item }) {
         cart
       }
     })
+    localStorage.userCart = JSON.stringify(data.cart)
     return true
   }
 
@@ -42,6 +43,7 @@ export function CartActions({ item }) {
         cartMessage
       }
     })
+    localStorage.userCart = JSON.stringify(data.cart)
   }
 
   const removeFromCart = item => {
@@ -59,6 +61,7 @@ export function CartActions({ item }) {
         cart
       }
     })
+    localStorage.userCart = JSON.stringify(data.cart)
     return true
   }
 
@@ -79,6 +82,7 @@ export function CartActions({ item }) {
         cartMessage
       }
     })
+    localStorage.userCart = JSON.stringify(data.cart)
   }  
 
   const sleep = (milliseconds) => {

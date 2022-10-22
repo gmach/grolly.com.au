@@ -15,8 +15,10 @@ export default function Cart() {
         {
           cart.length > 0 &&
           <>
-            <div>Total shopping price <span className="cartTotal">{ data.total }</span></div>
-            <div>You saved <span className="cartSavingTotal">{ data.diffTotal }</span></div>
+            <div>
+              Total shopping price <span className="cartTotal">{ data.total }</span>&nbsp;
+              You saved <span className="cartSavingTotal">{ data.diffTotal }</span>
+            </div>
             {/* {
               data && data.isStale && 
               <div className="stalecart">

@@ -39,6 +39,7 @@ export const Root = () => {
       isStale,
       isEmpty
     })
+    localStorage.userCart = JSON.stringify(userCart)
   }, [])
 
   RootContext = createContext({ data, setData });
