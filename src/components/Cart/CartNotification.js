@@ -3,16 +3,13 @@ import { RootContext } from "../Root"
 
 export function CartNotification() {
   const { data } = useContext(RootContext);
-  const cartChanged = data.cartChanged
-	const cartMessage = cartChanged ? 'Item has been added to your shopping cart' : 'Item already exists in your shopping cart!'	
-  const showCartMsg = data.showCartMsg
   return (
     <>
       {
-        showCartMsg && 
+        data && data.cartMessage && 
         <div className="cartPrompt notification-panel">
           <div className="notification-panel-body">
-            <p>{ cartMessage }</p>
+            <p>{ data.cartMessage }</p>
           </div>
      </div>        
       }
