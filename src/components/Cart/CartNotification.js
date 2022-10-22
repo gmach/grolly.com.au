@@ -1,15 +1,21 @@
-import { useSelector } from "react-redux"
+import { useContext } from "react"
+import { RootContext } from "../Root"
 
 export function CartNotification() {
-  const cartChanged = useSelector(state => state.todos.cartChanged)
+  const { data } = useContext(RootContext);
+  const cartChanged = data.cartChanged
 	const cartMessage = cartChanged ? 'Item has been added to your shopping cart' : 'Item already exists in your shopping cart!'	
+  const showCartMsg = data.showCartMsg
   return (
     <>
-      <div hidden className="cartPrompt notification-panel">
-        <div className="notification-panel-body">
-          <p>{ cartMessage }</p>
-        </div>
-     </div>
+      {
+        showCartMsg && 
+        <div className="cartPrompt notification-panel">
+          <div className="notification-panel-body">
+            <p>{ cartMessage }</p>
+          </div>
+     </div>        
+      }
     </>
   )
 }

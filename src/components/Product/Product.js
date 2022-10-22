@@ -55,10 +55,6 @@ export default function Product() {
 	}
 	const classNameTile = 'product-tile ' + item.type
 	const classNameWinner = 'winner ' + item.winner
-	const addToCartHandler = (item) => {
-		dispatch(addToCart(params.productId))
-	}
-	const removeFromCartHandler = () => {}
 	const view = 'product'
   return (
 	<>
@@ -71,7 +67,7 @@ export default function Product() {
 			<Tile product={item.target} view={view} className={classNameTile}/>
 			}
 			<div className={classNameWinner}>
-				<CartActions addToCartHandler={addToCartHandler} removeFromCartHandler={removeFromCartHandler}/>
+				<CartActions item={item}/>
 				{
 					item.type === 'both' && item.winner !== 'both' && 
 					<h2>
