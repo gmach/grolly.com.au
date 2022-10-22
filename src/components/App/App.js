@@ -3,38 +3,38 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Root from './components/Root'
-import Categories from './components/Categories'
+import Root from '../Root'
+import Categories from '../Categories'
 import CategoryProducts, 
   {   
     loader as categoryProductsLoader,
     action as categoryProductsAction
    } 
-  from './components/CategoryProducts'
+  from '../CategoryProducts'
 
 import Product,
   {   
     loader as productLoader,
     action as productAction
  } 
- from './components/Product'
-import Barcode from './components/Barcode'
+ from '../Product'
+import Barcode from '../Barcode'
 import Search,
  {
   loader as searchLoader,
   action as searchAction
  }
-from './components/Search'
+from '../Search'
 import Cart,
  {
   loader as cartLoader,
   action as cartAction
  }
-from './components/Cart'
-import About from './components/About'
-import Privacy from './components/Privacy'
-import Error from './components/Error'
-// import DefaultHome from './components/DefaultHome'
+from '../Cart'
+import About from '../About'
+import Privacy from '../Privacy'
+import Error from '../Error'
+// import DefaultHome from '../DefaultHome'
 
 const router = createBrowserRouter([
   {

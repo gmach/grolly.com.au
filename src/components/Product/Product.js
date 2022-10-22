@@ -5,13 +5,15 @@ import {
 	fetchProduct,
   selectProductById
 } from '../../features/products/productsSlice'
+import { addToCart } from '../../features/cart/cartSlice'
 import SpinnerLoader from '../SpinnerLoader'
 import { useParams } from "react-router-dom";
 import { ApiUrl } from '../../config'
 import { isAdmin } from '../../config'
 import Tile from '../Tile'
 import BackButton from "../BackButton";
-import TileContainer from '../TileContainer/TileContainer';
+import TileContainer from '../TileContainer';
+import { CartActions } from '../Cart/CartActions';
 
 export async function loader({ params }) {}
 
@@ -53,8 +55,10 @@ export default function Product() {
 	}
 	const classNameTile = 'product-tile ' + item.type
 	const classNameWinner = 'winner ' + item.winner
-	const addCartHandler = () => {}
-	const removeCartHandler = () => {}
+	const addToCartHandler = (item) => {
+		dispatch(addToCart(params.productId))
+	}
+	const removeFromCartHandler = () => {}
 	const view = 'product'
   return (
 	<>
@@ -67,12 +71,7 @@ export default function Product() {
 			<Tile product={item.target} view={view} className={classNameTile}/>
 			}
 			<div className={classNameWinner}>
-				<button className="btn btn-primary addCart" onClick={addCartHandler}>
-					<i className="fas fa-plus-circle"></i>
-				</button>
-				<button className="btn btn-primary removeCart" onClick={removeCartHandler}>
-					<i className="fas fa-minus-circle"></i>
-				</button>
+				<CartActions addToCartHandler={addToCartHandler} removeFromCartHandler={removeFromCartHandler}/>
 				{
 					item.type === 'both' && item.winner !== 'both' && 
 					<h2>

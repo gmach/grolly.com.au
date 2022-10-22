@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { CartNotification } from '../Cart/CartNotification'
 export const Header = () => {
   return (
     <nav className="nav-container">
@@ -7,11 +8,7 @@ export const Header = () => {
         <Link to="barcode" className="nav-item scanMenu"><div className="barcodescanner"></div></Link>
         <Link to="search" className="nav-item searchMenu"><div><i className="fas fa-search"></i></div></Link>
         <Link to="cart" className="nav-item shopcart"><div><i className="fas fa-shopping-cart"></i>123</div></Link>
-        <div hidden className="cartPrompt notification-panel">
-          <div className="notification-panel-body">
-            <p>{ '123' }</p>
-          </div>
-        </div>
+        <CartNotification/>
       </div>
     </nav>
   )
