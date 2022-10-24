@@ -2,14 +2,14 @@ import { useContext } from "react"
 import { RootContext } from "../Root"
 
 export function CartNotification() {
-  const { data } = useContext(RootContext);
+  const { state } = useContext(RootContext);
   return (
     <>
       {
-        data && data.cartMessage && 
+        state && state.cartMessage && 
         <div className="cartPrompt notification-panel">
           <div className="notification-panel-body">
-            <p>{ data.cartMessage }</p>
+            <p>{ state.cartMessage }</p>
           </div>
      </div>        
       }

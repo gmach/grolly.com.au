@@ -4,8 +4,8 @@ import { useContext } from "react"
 import { RootContext } from "../Root"
 
 export const Header = () => {
-  const { data } = useContext(RootContext);
-  const cartSize = data.cart.length
+  const { state, dispatch } = useContext(RootContext);
+  const cartSize = state.cart.length
   return (
     <nav className="nav-container">
       <div className="nav-bar">

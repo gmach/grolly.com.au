@@ -66,14 +66,12 @@ export const Tile = ({product, view, className}) => {
       <div className="tile-body">
         <figure className="image-tile">
           {
-            view !== 'product' && 
-              <img className='product-image' src={ image } alt="Image not found"/>
-          }
-          {
-            (view === 'product' || view === 'cart') && 
+            (view === 'product') ? 
               <a href={ product.productLink } target="_blank" rel="noreferrer">
                 <img className='product-image' src={ image } alt="Image not found"/>
               </a>   
+              :
+              <img className='product-image' src={ image } alt="Image not found"/>
           }
         </figure>
         <section className="text-tile">

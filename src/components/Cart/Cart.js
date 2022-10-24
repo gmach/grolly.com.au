@@ -6,18 +6,17 @@ export async function loader({ params }) {}
 export async function action() {}
 
 export default function Cart() {
-  const { data } = useContext(RootContext);
-  const cart = data ? data.cart : []
+  const { state, dispatch } = useContext(RootContext);
   const view = 'cart'
   return (
     <>
       <h1 className="cartHeader">
         {
-          cart.length > 0 &&
+          state.cart && state.cart.length > 0 &&
           <>
             <div>
-              Total shopping price <span className="cartTotal">{ data.total }</span>&nbsp;
-              You saved <span className="cartSavingTotal">{ data.diffTotal }</span>
+              Total shopping price <span className="cartTotal">{ state.total }</span>&nbsp;
+              You saved <span className="cartSavingTotal">{ state.diffTotal }</span>
             </div>
             {/* {
               data && data.isStale && 
@@ -32,10 +31,10 @@ export default function Cart() {
           </>          
         }
       </h1>
-      <TileContainer data={cart} view={view} />
+      <TileContainer data={state.cart} view={view} />
       <div className="cartHeader">
         {
-          cart.length > 0 ?
+          state.cart && state.cart.length > 0 ?
             <div>
               {/* <button className="saveCart btn btn-primary btn-margin"  onClick={data.saveCartHandler}>
                 Save Cart

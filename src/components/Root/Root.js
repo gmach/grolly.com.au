@@ -1,12 +1,59 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useReducer } from "react";
 import { Outlet } from "react-router-dom";
 import Header from '../Header'
 import Footer from '../Footer'
 import SpinnerLoader from '../SpinnerLoader'
-let RootContext
+import { sleep } from '../../config'
+
+export const RootContext = createContext();
 
 export const Root = () => {
-  const [data, setData] = useState({
+
+  const reducer = (state, action) => {
+    const processCart = action => {
+      const item = action.payload
+      if (typeof item !== 'object') 
+        throw Error('Item not added. Expected object!')
+      let cart = [...state.cart]
+      const index = cart.findIndex(el => el.id == item.id && el.stockCode == item.stockCode)
+      let cartMessage
+      if (action.type === 'addToCart') {
+        cartMessage = 'Item already exists in your shopping cart!'
+        if (index === -1) {
+          cart.push(item)
+          cartMessage = 'Item has been added to your shopping cart'
+        }
+      } else if (action.type === 'removeFromCart') {
+        cartMessage = 'Item does not exist in your shopping cart!'
+        if (index > -1) {
+          cart.splice(index, 1)    
+          cartMessage = 'Item has been removed from your shopping cart'
+        }
+      }
+      return {
+        ...state,
+        cart,
+        cartMessage
+      }
+    }       
+    switch (action.type) {
+      case 'addToCart':
+      case 'removeFromCart': {
+        return processCart(action)
+      }
+      case 'upsert':
+        return {
+          ...state,
+          ...action.payload
+        }
+      case 'init':
+        return action.payload
+      default:
+        throw new Error();
+    }
+  }
+  
+  const [state, dispatch] = useReducer(reducer, {
     cart: []
   });
 
@@ -31,21 +78,34 @@ export const Root = () => {
       if (dateDiff / day > 1)
         isStale = true
     }
-    
-    setData({
-      cart: userCart,
-      total: '$' + total.toFixed(2),
-      diffTotal: '$' + diffTotal.toFixed(2),
-      isStale,
-      isEmpty
+    dispatch({type: 'init', 
+      payload: {
+        cart: userCart,
+        total: '$' + total.toFixed(2),
+        diffTotal: '$' + diffTotal.toFixed(2),
+        isStale,
+        isEmpty
+      }
     })
-    localStorage.userCart = JSON.stringify(userCart)
   }, [])
 
-  RootContext = createContext({ data, setData });
-
+  useEffect(() => {
+    const doAsync = async () => {
+      if (state.cartMessage) {
+        await sleep(2000)
+        dispatch({
+          type: 'upsert', 
+          payload: { cartMessage : null }
+        })
+        const userCart = [...state.cart]
+        localStorage.userCart = JSON.stringify(userCart)
+      }
+    }
+    doAsync()
+  }, [state])
+  
   return (
-    <RootContext.Provider value={{ data, setData }}>
+    <RootContext.Provider value={{ state, dispatch }}>
       <Header/>
       <SpinnerLoader/>
       <Outlet/>
@@ -53,5 +113,3 @@ export const Root = () => {
     </RootContext.Provider>
   );
 }
-
-export { RootContext }

@@ -6,7 +6,6 @@ import {
   selectProductById
 } from '../../features/products/productsSlice'
 import { addToCart } from '../../features/cart/cartSlice'
-import SpinnerLoader from '../SpinnerLoader'
 import { useParams } from "react-router-dom";
 import { ApiUrl } from '../../config'
 import { isAdmin } from '../../config'
@@ -28,7 +27,6 @@ export default function Product() {
 	const status = useSelector(state => state.todos.status)
 	if (item === undefined) {//load fresh from server
 		dispatch(fetchProduct(params.productId))
-		return 	<SpinnerLoader/>
 	}
 	let percent = item.diffPercent?item.diffPercent:0;
 	let diff = item.diff?item.diff:0;
