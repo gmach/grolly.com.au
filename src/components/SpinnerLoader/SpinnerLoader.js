@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 
 export const SpinnerLoader = () => {
-  const status = useSelector(state => state.todos.status)
+  const status = useSelector(state => state.products.status)
   return status === 'loading' ? 
     <>
       <div className="spinner-wrapper">

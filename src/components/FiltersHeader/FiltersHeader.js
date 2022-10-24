@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 
 export default function FiltersHeader( { prodsFound, totalCount }) {
   const dispatch = useDispatch()
-  const selectedCategoryId = useSelector(state => state.todos.categoryId)
+  const selectedCategoryId = useSelector(state => state.products.categoryId)
   const showCategories = selectedCategoryId !== ''  
   const { filter } = useSelector(state => state.filters)
   const handleSelect = (e) => {

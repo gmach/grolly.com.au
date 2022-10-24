@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import useToggle from '../../hooks/useToggle'
 import { useSelector, useDispatch } from "react-redux"
 import {
@@ -21,22 +21,34 @@ export async function action() {}
 export default function Product() {
   const params = useParams();
 	const dispatch = useDispatch()
-	const [showMatches, toggleMatches] = useToggle()
 	const [matches, setMatches] = useState([])
-	let item = useSelector((state) => selectProductById(state, params.productId)) //load from redux store
-	const status = useSelector(state => state.todos.status)
-	if (item === undefined) {//load fresh from server
-		dispatch(fetchProduct(params.productId))
+	const item = useSelector((state) => selectProductById(state, params.productId)) //load from redux store
+	const status = useSelector(state => state.products.status)
+	let targetType, comparisonMsg
+	if (item) {
+		let percent = item.diffPercent?item.diffPercent:0;
+		let diff = item.diff?item.diff:0;
+		if (item.type != 'both') {
+				percent = item.discountPercent?item.discountPercent:0;
+				diff = item.discount?item.discount:0;
+		}
+		targetType = item.type === 'coles' ? 'Woolworths' : 'Coles';
+		comparisonMsg = (diff == 0 && percent == 0)?'Same Price':('Saving of $' + diff + ' / ' + (percent?percent:'0') + '%');
+		// item.hasMatches = (item.target == null);
 	}
-	let percent = item.diffPercent?item.diffPercent:0;
-	let diff = item.diff?item.diff:0;
-	if (item.type != 'both') {
-			percent = item.discountPercent?item.discountPercent:0;
-			diff = item.discount?item.discount:0;
-	}
-	const targetType = item.type === 'coles' ? 'Woolworths' : 'Coles';
-	const comparisonMsg = (diff == 0 && percent == 0)?'Same Price':('Saving of $' + diff + ' / ' + (percent?percent:'0') + '%');
-	// item.hasMatches = (item.target == null);
+	
+	useEffect(() => {
+		const runAsync = async () => {
+			if (item === undefined) {//load fresh from server
+				await dispatch(fetchProduct(params.productId))
+				console.log('wh')
+			}
+
+		}
+		runAsync()
+		
+	}, [])
+	
 	const getMatches = async () => {
 		let response = await fetch(ApiUrl + '/matches/' +  item.id + '/' + isAdmin);
 		response = await response.json()
@@ -45,18 +57,19 @@ export default function Product() {
 				return m;
 		})
 		setMatches(response)
-		toggleMatches()
 	}
 	if (isAdmin) {
 		getMatches()
 		.catch(console.error);
 	}
-	const classNameTile = 'product-tile ' + item.type
-	const classNameWinner = 'winner ' + item.winner
+	const classNameTile = 'product-tile ' + (item ? item.type : '')
+	const classNameWinner = 'winner ' + (item ?item.winner : '')
 	const view = 'product'
   return (
 	<>
-	<div className="product-container">
+	{
+		item && 
+		<div className="product-container">
 		<BackButton/>
 		<div className="tile-wrapper">
 			<Tile product={item} view={view} className={classNameTile}/>
@@ -77,7 +90,7 @@ export default function Product() {
 					<h2>
 						Product only at <span className="exclusive">{ item.type }</span>
 						{
-							!showMatches && 
+							matches.length === 0 && 
 							<div>
 								Click <i onClick={getMatches} className="fas fa-link"></i> to find nearest matches from { targetType }
 							</div>
@@ -126,13 +139,15 @@ export default function Product() {
 		</div>
 		} */}
 		{
-			(showMatches && matches.length > 0) && 
+			(matches.length > 0) && 
 			<>
 				<h2 className="subheading">Disclaimer : These are only best matches found and may not be correct.</h2>
 				<TileContainer data={matches} view={view} />
 			</>
 		}
-	</div>
+	</div>		
+	}
+
 	</>
 	)
 /* <script type="text/ng-template" id="suggestTemplate.html">

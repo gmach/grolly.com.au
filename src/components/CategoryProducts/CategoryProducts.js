@@ -25,7 +25,7 @@ export default function CategoryProducts() {
   const dispatch = useDispatch()
   const { filter } = useSelector(state => state.filters)
     // const filter = params.filter
-  const totalCount = useSelector(state => state.todos.totalCount)  
+  const totalCount = useSelector(state => state.products.totalCount)  
   const capitalizedFilter = filter.charAt(0).toUpperCase() + filter.slice(1);
   const selectedFilter = StatusFilters[capitalizedFilter]
 

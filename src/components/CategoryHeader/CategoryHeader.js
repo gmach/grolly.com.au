@@ -4,7 +4,7 @@ import { Categories } from '../../config'
 import { useSelector } from "react-redux";
 
 const _CategoryHeader = ({ showCategories, toggleShowCategories }) => {
-  const selectedCategoryId = useSelector(state => state.todos.categoryId)
+  const selectedCategoryId = useSelector(state => state.products.categoryId)
   const categoryName = Categories[selectedCategoryId]
   const updownClass = 'fas fa-arrow-' + (showCategories ? 'up' : 'down')
   const headerMsg = selectedCategoryId ? 
