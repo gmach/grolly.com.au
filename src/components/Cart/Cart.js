@@ -1,12 +1,12 @@
 import { useContext } from "react"
 import { RootContext } from "../Root"
 import TileContainer from "../TileContainer";
-export async function loader({ params }) {}
 
+export async function loader() {}
 export async function action() {}
 
 export default function Cart() {
-  const { state, dispatch } = useContext(RootContext);
+  const { state } = useContext(RootContext);
   const view = 'cart'
   return (
     <>

@@ -1,6 +1,7 @@
 import TileMatches from '../TileMatches'
 import { isAdmin } from '../../config'
 import useToggle from '../../hooks/useToggle'
+import { Link } from 'react-router-dom'
 
 export const Tile = ({product, view, className}) => {
   let formattedDate = new Date(Date.parse(product.dateAdded)).toLocaleString("en-GB", {timeZone: "Australia/Brisbane", hour12: true})
@@ -66,11 +67,11 @@ export const Tile = ({product, view, className}) => {
       <div className="tile-body">
         <figure className="image-tile">
           {
-            (view === 'product') ? 
-              <a href={ product.productLink } target="_blank" rel="noreferrer">
-                <img className='product-image' src={ image } alt="Image not found"/>
-              </a>   
-              :
+            // (view === 'product') ? 
+            //   <Link to={{ pathname: product.productLink }} target="_blank" rel="noreferrer">
+            //     <img className='product-image' src={ image } alt="Image not found"/>
+            //   </Link>   
+            //   :
               <img className='product-image' src={ image } alt="Image not found"/>
           }
         </figure>

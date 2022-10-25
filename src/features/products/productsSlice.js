@@ -31,9 +31,9 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', async (c
   return response
 })
 
-export const fetchProduct = createAsyncThunk('products/fetchProduct', async (productId, {dispatch, getState}) => {
+export const fetchProduct = createAsyncThunk('products/fetchProduct', async (id, {dispatch, getState}) => {
   const RESTURL = 'http://localhost:1234';
-  const url = RESTURL + '/product/' + productId
+  const url = RESTURL + '/product/' + id
   + '/' + isAdmin;
   let response = await window.fetch(url)
   response = await response.json()
@@ -97,19 +97,9 @@ const productsSlice = createSlice({
         state.status = 'loading'
       })
       .addCase(fetchProduct.fulfilled, (state, action) => {
-        productsAdapter.addOne(state, action.payload)
+        productsAdapter.upsertOne(state, action.payload)
         state.status = 'idle'
       })
-      // .addCase(saveNewProduct.pending, (state, action) => {
-      //   state.status = 'saving'
-      // })      
-      // .addCase(saveNewProduct.fulfilled, (state, action) => {
-      //   // productsAdapter.addOne()
-      //   const products = action.payload
-      //   state.entities[products.id] = products
-      //   state.ids = Object.keys(state.entities)
-      //   state.status = 'idle'
-      // })
   }
 })  
 

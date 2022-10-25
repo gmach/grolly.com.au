@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import {
 	fetchProduct,
-  selectProductById
+  selectProductById,
+	selectFilteredproducts
 } from '../../features/products/productsSlice'
 import { useParams } from "react-router-dom";
 import { ApiUrl, isAdmin } from '../../config'
@@ -22,12 +23,14 @@ export default function Product() {
 	useEffect(() => { // Must run before if (!item) conditional check to ensure hooks always run same condition
 		const runAsync = async () => {
 			if (item === undefined) //load fresh from server
-				dispatch(fetchProduct(params.productId))
+				dispatch(fetchProduct(params.stockCode))
 		}
 		runAsync()
-	}, [])
+	}, [params.stockCode])
 
-	const item = useSelector((state) => selectProductById(state, params.productId)) //load from redux store
+	//load from redux store
+	const item = useSelector(state => Object.values(state.products.entities).find(product => product.stockCode == params.stockCode))
+	// const item = useSelector((state) => selectProductById(state, params.productId)) 
 	if (!item)
 		return null
 	
@@ -41,7 +44,6 @@ export default function Product() {
 	const comparisonMsg = (diff == 0 && percent == 0)?'Same Price':('Saving of $' + diff + ' / ' + (percent?percent:'0') + '%');
 	const classNameTile = 'product-tile ' + item.type
 	const classNameWinner = 'winner ' + item.winner
-	const view = 'product'
 
 	const getMatches = async () => {
 		let response = await fetch(ApiUrl + '/matches/' +  item.id + '/' + isAdmin);
@@ -56,7 +58,8 @@ export default function Product() {
 		getMatches()
 		.catch(console.error);
 	}
-
+	
+	const view = 'product'
   return (
 	<>
 		<div className="product-container">
