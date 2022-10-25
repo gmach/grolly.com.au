@@ -23,14 +23,14 @@ export default function Product() {
 	useEffect(() => { // Must run before if (!item) conditional check to ensure hooks always run same condition
 		const runAsync = async () => {
 			if (item === undefined) //load fresh from server
-				dispatch(fetchProduct(params.stockCode))
+				dispatch(fetchProduct(params.productId))
 		}
 		runAsync()
-	}, [params.stockCode])
+	}, [params.productId])
 
 	//load from redux store
-	const item = useSelector(state => Object.values(state.products.entities).find(product => product.stockCode == params.stockCode))
-	// const item = useSelector((state) => selectProductById(state, params.productId)) 
+	// const item = useSelector(state => Object.values(state.products.entities).find(product => product.stockCode == params.stockCode))
+	const item = useSelector((state) => selectProductById(state, params.productId)) 
 	if (!item)
 		return null
 	

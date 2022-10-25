@@ -64,7 +64,7 @@ const router = createBrowserRouter([
       //   action: categoryProductsAction    
       // },
       {
-        path: "product/:stockCode",
+        path: "product/:productId",
         element: <Product />,
         loader: productLoader,
         action: productAction,

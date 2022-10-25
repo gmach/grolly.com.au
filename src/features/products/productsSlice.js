@@ -35,9 +35,9 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', async (c
   }
 })
 
-export const fetchProduct = createAsyncThunk('products/fetchProduct', async (id, {dispatch, getState}) => {
+export const fetchProduct = createAsyncThunk('products/fetchProduct', async (productId, {dispatch, getState}) => {
   const RESTURL = 'http://localhost:1234';
-  const url = RESTURL + '/product/' + id
+  const url = RESTURL + '/product/' + productId
   + '/' + isAdmin;
   let response = await window.fetch(url)
   response = await response.json()
