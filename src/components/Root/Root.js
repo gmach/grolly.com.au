@@ -4,6 +4,7 @@ import Header from '../Header'
 import Footer from '../Footer'
 import SpinnerLoader from '../SpinnerLoader'
 import { sleep } from '../../config'
+import useToggle from "../../hooks/useToggle";
 
 export const RootContext = createContext();
 
@@ -56,7 +57,7 @@ export const Root = () => {
   const [state, dispatch] = useReducer(reducer, {
     cart: []
   });
-
+  const [showCategories, toggleShowCategories] = useToggle()
   useEffect(() => {
     let userCart = localStorage.userCart; 
     if (userCart != null)
@@ -105,7 +106,7 @@ export const Root = () => {
   }, [state])
   
   return (
-    <RootContext.Provider value={{ state, dispatch }}>
+    <RootContext.Provider value={{ state, dispatch, showCategories, toggleShowCategories }}>
       <Header/>
       <SpinnerLoader/>
       <Outlet/>

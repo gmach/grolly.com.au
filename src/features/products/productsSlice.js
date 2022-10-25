@@ -28,7 +28,11 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', async (c
   + '/isAdmin/' + isAdmin;
   let response = await window.fetch(url)
   response = await response.json()
-  return response
+  return {
+    categoryId,
+    totalCount: response.totalCount,
+    records: response.records
+  }
 })
 
 export const fetchProduct = createAsyncThunk('products/fetchProduct', async (id, {dispatch, getState}) => {
@@ -47,36 +51,17 @@ const productsSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {
-    // productsAdded(state, action) {
-    //   const products = action.payload
-    //   state.entities[products.id] = products;
-    //   state.status = 'idle'
-    // },
     setCategoryId(state, action) {
       state.categoryId = action.payload
-    },
-    // productsDeleted(state, action) {
-    //   delete state.entities[action.payload]
-    // }
-    productsDeleted: productsAdapter.removeOne,
-    completedCleared(state, action) {
-      // Object.values(state.entities).forEach(products => {
-      //   if (products.completed)
-      //     delete state.entities[products.id]
-      // })
-      const completedIds = Object.values(state.entities)
-        .filter((products) => products.completed)
-        .map((products) => products.id)
-      productsAdapter.removeMany(state, completedIds)
     }
-  },
+  },  
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.pending, (state, action) => {
         state.status = 'loading'
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
-        let { records, totalCount } = action.payload
+        let { categoryId, totalCount, records } = action.payload
         const productSort = (a, b) => {
           let percent_a = a.diffPercent?a.diffPercent:0;
           let percent_b = b.diffPercent?b.diffPercent:0;
@@ -89,8 +74,12 @@ const productsSlice = createSlice({
           return 0;
         }
         records = records.sort(productSort)
-        productsAdapter.setAll(state, records)
+        records.forEach((record) => {
+          record.categoryId = categoryId
+        });
+        productsAdapter.upsertMany(state, records)
         state.totalCount = totalCount
+        state.categoryId = categoryId
         state.status = 'idle'
       })
       .addCase(fetchProduct.pending, (state, action) => {
@@ -122,27 +111,23 @@ export const selectProductIds = createSelector(
   products => products.map(products => products.id)
 )
 
-export const selectFilteredproducts = createSelector(
+export const selectFilteredProducts = createSelector(
   selectProducts,
   state => state.filters,
   (products, filters) => {
-    const {status, colors} = filters
-    const showAllCompletions = status === StatusFilters.All
-    if (showAllCompletions && colors.length === 0) {
-      return products
-    }
-    const completedStatus = status === StatusFilters.Completed
-    // Return either active or completed products based on filter
-    return products.filter(products => {
-      const statusMatches =
-        showAllCompletions || products.completed === completedStatus
-      const colorMatches = colors.length === 0 || colors.includes(products.color)
-      return statusMatches && colorMatches
+    return products.filter(product => {
+      let res =  filters.filter === 'all' || product.type === filters.filter
+      return res
     })
-  }
-)
+})
 
-export const selectFilteredProductIds = createSelector(
-  selectFilteredproducts,
-  products => products.map(products => products.id)
-)
+export const selectFilteredCategoryProducts = createSelector(
+  selectFilteredProducts,
+  state => state.products.categoryId,
+  (products, categoryId ) => {
+    return products.filter(product => {
+      let res = product.categoryId === categoryId
+      return res
+    })
+  })  
+

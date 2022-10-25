@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Categories } from '../../config'
 import { useSelector } from "react-redux";
+import { RootContext } from "../Root";
 
-const _CategoryHeader = ({ showCategories, toggleShowCategories }) => {
+const _CategoryHeader = () => {
+  const { showCategories, toggleShowCategories } = useContext(RootContext);
   const selectedCategoryId = useSelector(state => state.products.categoryId)
   const categoryName = Categories[selectedCategoryId]
   const updownClass = 'fas fa-arrow-' + (showCategories ? 'up' : 'down')
@@ -15,7 +17,7 @@ const _CategoryHeader = ({ showCategories, toggleShowCategories }) => {
   const handleClick = () => toggleShowCategories()
   return (
       <Link className="btnbrowse"
-        to={`/categories/${selectedCategoryId}`}
+        to={`/categories`}
         onClick={handleClick}
       > 
           { headerMsg }

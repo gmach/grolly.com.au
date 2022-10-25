@@ -34,7 +34,7 @@ from '../Cart'
 import About from '../About'
 import Privacy from '../Privacy'
 import Error from '../Error'
-// import DefaultHome from '../DefaultHome'
+import DefaultHome from '../DefaultHome'
 
 const router = createBrowserRouter([
   {
@@ -44,7 +44,7 @@ const router = createBrowserRouter([
     // loader: rootLoader,
     // action: rootAction,
     children: [
-      { index: true, element: <Categories /> },
+      { index: true, element: <DefaultHome /> },
       {
         path: "categories",
         element: <Categories />,

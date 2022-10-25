@@ -1,19 +1,15 @@
 import { NavLink, Outlet } from "react-router-dom";
 import CategoryHeader from '../CategoryHeader'
 import { Categories as CategoriesObj } from '../../config'
-import useToggle from '../../hooks/useToggle'
-import { setCategoryId } from '../../features/products/productsSlice'
-import { useDispatch } from "react-redux";
+import { useContext } from "react";
+import { RootContext } from "../Root";
 
 export const Categories = () => {
   let categories = Object.entries(CategoriesObj);
-  const [showCategories, toggleShowCategories] = useToggle()
-    // const [categoryId, setCategoryId] = useState(1)
-  const dispatch = useDispatch();
-  const handleClick = categoryId => dispatch(setCategoryId(categoryId))
+  const { showCategories } = useContext(RootContext);
   return (
     <>
-      <CategoryHeader showCategories={showCategories} toggleShowCategories={toggleShowCategories}/>
+      <CategoryHeader />
       <main className="main-container">
         <div className="main-content">
         {
@@ -27,7 +23,6 @@ export const Categories = () => {
                   <div className="catitem" key={categoryId}>
                     <NavLink className='catlink thumb' 
                       to={`/categories/${categoryId}`}
-                      onClick={()=>handleClick(categoryId)}
                     >
                       {categoryName} 
                     </NavLink>

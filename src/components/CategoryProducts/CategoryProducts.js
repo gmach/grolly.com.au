@@ -1,11 +1,10 @@
-import { useEffect } from "react";
+import { memo,  useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux"
 import { useParams } from "react-router-dom";
 import {
   fetchProducts,
-  selectProducts
+  selectFilteredProducts
 } from '../../features/products/productsSlice'
-import { StatusFilters } from '../../features/filters/filtersSlice'
 import TileContainer from "../TileContainer";
 import FiltersHeader from "../FiltersHeader";
 
@@ -13,31 +12,31 @@ export async function loader({ params }) {
     // store.dispatch(fetchProducts(params.categoryId))
 }
 
-export async function action() {
-  
-}
+export async function action() {}
 
-export default function CategoryProducts() {
-  // const data = useLoaderData();
-  const data = useSelector(state => selectProducts(state))
+const _CategoryProducts = () => {
+  const data = useSelector(state => selectFilteredProducts(state))
   const params = useParams();
   const categoryId = parseInt(params.categoryId, 10)
   const dispatch = useDispatch()
-  const { filter } = useSelector(state => state.filters)
-    // const filter = params.filter
   const totalCount = useSelector(state => state.products.totalCount)  
-  const capitalizedFilter = filter.charAt(0).toUpperCase() + filter.slice(1);
-  const selectedFilter = StatusFilters[capitalizedFilter]
+  const status = useSelector(state => state.products.status)
 
-  useEffect(() => {
-    dispatch(fetchProducts(categoryId))
-  }, [categoryId]);
+  useEffect(() => { 
+		const runAsync = async () => {
+			// if (data.length == 0) //load fresh from server
+        dispatch(fetchProducts(categoryId))
+		}
+		runAsync()
+	}, [categoryId])
 
   const view = 'category'
-  return  (
+  return status === 'loading' ? null :
     <>
       <FiltersHeader prodsFound={data.length} totalCount={totalCount}/>
-      <TileContainer data={data} view={view} selectedFilter={selectedFilter} />
+      <TileContainer data={data} view={view} />
     </>
-  )
 }
+
+const CategoryProducts = memo(_CategoryProducts);
+export default CategoryProducts

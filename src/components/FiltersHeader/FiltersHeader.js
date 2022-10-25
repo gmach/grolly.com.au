@@ -1,20 +1,20 @@
 import { StatusFilters, statusFilterChanged } from '../../features/filters/filtersSlice'
 import { useSelector, useDispatch } from "react-redux"
+import { fetchProducts } from '../../features/products/productsSlice'
 
 export default function FiltersHeader( { prodsFound, totalCount }) {
   const dispatch = useDispatch()
   const selectedCategoryId = useSelector(state => state.products.categoryId)
-  const showCategories = selectedCategoryId !== ''  
   const { filter } = useSelector(state => state.filters)
   const handleSelect = (e) => {
     const newFilter = e.target.value
     dispatch(statusFilterChanged(newFilter))
-    // navigate('/categories/' + categoryId + '/' + newFilter);
+    dispatch(fetchProducts(selectedCategoryId))
   }
   return (
     <>
     {
-      showCategories &&
+      selectedCategoryId !== '' &&
       <div className="filtersHeader">
         <span className="prodsfound">{ prodsFound } of { totalCount } products found.</span>
         <label htmlFor="selectedType">
