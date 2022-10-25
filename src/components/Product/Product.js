@@ -22,33 +22,31 @@ export default function Product() {
   const params = useParams();
 	const dispatch = useDispatch()
 	const [matches, setMatches] = useState([])
-	const item = useSelector((state) => selectProductById(state, params.productId)) //load from redux store
-	const status = useSelector(state => state.products.status)
-	let targetType, comparisonMsg
-	if (item) {
-		let percent = item.diffPercent?item.diffPercent:0;
-		let diff = item.diff?item.diff:0;
-		if (item.type != 'both') {
-				percent = item.discountPercent?item.discountPercent:0;
-				diff = item.discount?item.discount:0;
-		}
-		targetType = item.type === 'coles' ? 'Woolworths' : 'Coles';
-		comparisonMsg = (diff == 0 && percent == 0)?'Same Price':('Saving of $' + diff + ' / ' + (percent?percent:'0') + '%');
-		// item.hasMatches = (item.target == null);
-	}
 	
 	useEffect(() => {
 		const runAsync = async () => {
-			if (item === undefined) {//load fresh from server
-				await dispatch(fetchProduct(params.productId))
-				console.log('wh')
-			}
-
+			if (item === undefined) //load fresh from server
+				dispatch(fetchProduct(params.productId))
 		}
 		runAsync()
-		
 	}, [])
+
+	const item = useSelector((state) => selectProductById(state, params.productId)) //load from redux store
+	if (!item)
+		return null
 	
+	let percent = item.diffPercent?item.diffPercent:0;
+	let diff = item.diff?item.diff:0;
+	if (item.type != 'both') {
+			percent = item.discountPercent?item.discountPercent:0;
+			diff = item.discount?item.discount:0;
+	}
+	const targetType = item.type === 'coles' ? 'Woolworths' : 'Coles';
+	const comparisonMsg = (diff == 0 && percent == 0)?'Same Price':('Saving of $' + diff + ' / ' + (percent?percent:'0') + '%');
+	const classNameTile = 'product-tile ' + item.type
+	const classNameWinner = 'winner ' + item.winner
+	const view = 'product'
+
 	const getMatches = async () => {
 		let response = await fetch(ApiUrl + '/matches/' +  item.id + '/' + isAdmin);
 		response = await response.json()
@@ -62,13 +60,9 @@ export default function Product() {
 		getMatches()
 		.catch(console.error);
 	}
-	const classNameTile = 'product-tile ' + (item ? item.type : '')
-	const classNameWinner = 'winner ' + (item ?item.winner : '')
-	const view = 'product'
+
   return (
 	<>
-	{
-		item && 
 		<div className="product-container">
 		<BackButton/>
 		<div className="tile-wrapper">
@@ -145,9 +139,7 @@ export default function Product() {
 				<TileContainer data={matches} view={view} />
 			</>
 		}
-	</div>		
-	}
-
+		</div>		
 	</>
 	)
 /* <script type="text/ng-template" id="suggestTemplate.html">
