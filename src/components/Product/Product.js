@@ -1,21 +1,17 @@
 import { useEffect, useState } from 'react'
-import useToggle from '../../hooks/useToggle'
 import { useSelector, useDispatch } from "react-redux"
 import {
 	fetchProduct,
   selectProductById
 } from '../../features/products/productsSlice'
-import { addToCart } from '../../features/cart/cartSlice'
 import { useParams } from "react-router-dom";
-import { ApiUrl } from '../../config'
-import { isAdmin } from '../../config'
+import { ApiUrl, isAdmin } from '../../config'
 import Tile from '../Tile'
 import BackButton from "../BackButton";
 import TileContainer from '../TileContainer';
 import { CartActions } from '../Cart/CartActions';
 
-export async function loader({ params }) {}
-
+export async function loader() {}
 export async function action() {}
 
 export default function Product() {
@@ -23,7 +19,7 @@ export default function Product() {
 	const dispatch = useDispatch()
 	const [matches, setMatches] = useState([])
 	
-	useEffect(() => {
+	useEffect(() => { // Must run before if (!item) conditional check to ensure hooks always run same condition
 		const runAsync = async () => {
 			if (item === undefined) //load fresh from server
 				dispatch(fetchProduct(params.productId))
