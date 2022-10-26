@@ -8,25 +8,23 @@ import Tile from "../Tile"
 export default function TileContainer( { data, view }) {
   const dispatch = useDispatch()
   let page = useSelector(state => state.products.page)
-  const getNewDataHandler = () => {
-    dispatch(fetchProducts(++page))
-  }
+  const getNewDataHandler = () => dispatch(fetchProducts(++page))
 
   return (
     <InfiniteScroll getNewData={getNewDataHandler}>
-    <div className="products-container"> 
-    {
-      data && data.map(item => {
-        const clsName = 'product-tile match ' + item.type
-        return (
-          <Link to={`/product/${item.id}`} key={item.stockCode}>
-            <Tile product={item} view={view} className={clsName}/>
-          </Link>
-        )
-      })
-    }
-    </div>
-    <ScrollUp/>
+      <div className="products-container"> 
+      {
+        data && data.map(item => {
+          const clsName = 'product-tile match ' + item.type
+          return (
+            <Link to={`/product/${item.id}`} key={item.stockCode}>
+              <Tile product={item} view={view} className={clsName}/>
+            </Link>
+          )
+        })
+      }
+      </div>
+      <ScrollUp/>
     </InfiniteScroll>
   )
 }
