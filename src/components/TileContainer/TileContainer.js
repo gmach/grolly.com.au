@@ -15,7 +15,7 @@ export default function TileContainer( { data, view }) {
 
   return (
     <InfiniteScroll getNewData={getNewDataHandler}>
-    <div className="products-container">
+    <div className="products-container"> 
     {
       data && data.map(item => {
         const clsName = 'product-tile match ' + item.type
