@@ -1,7 +1,5 @@
-import TileMatches from '../TileMatches'
 import { isAdmin } from '../../config'
 import useToggle from '../../hooks/useToggle'
-import { Link } from 'react-router-dom'
 
 export const Tile = ({product, view, className}) => {
   let formattedDate = new Date(Date.parse(product.dateAdded)).toLocaleString("en-GB", {timeZone: "Australia/Brisbane", hour12: true})

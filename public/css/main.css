@@ -4,6 +4,12 @@ html {
   font-size: 8px;
 }
 
+
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
 /* line 16, ../scss/main.scss */
 ul {
   margin: 0;
