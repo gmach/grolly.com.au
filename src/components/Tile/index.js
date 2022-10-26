@@ -1,1 +1,2 @@
-export { Tile as default } from "./Tile";
+export * from "./Tile";
+export { default } from "./Tile";

@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from "react-redux"
 import { useParams } from "react-router-dom";
 import {
   fetchProducts,
-  selectFilteredProducts
+  selectFilteredProducts,
+  setCategoryId
 } from '../../features/products/productsSlice'
 import TileContainer from "../TileContainer";
 import FiltersHeader from "../FiltersHeader";
@@ -14,7 +15,7 @@ export async function loader({ params }) {
 
 export async function action() {}
 
-const _CategoryProducts = () => {
+const CategoryProducts = memo(() => {
   const data = useSelector(state => selectFilteredProducts(state))
   const params = useParams();
   const categoryId = parseInt(params.categoryId, 10)
@@ -25,7 +26,8 @@ const _CategoryProducts = () => {
   useEffect(() => { 
 		const runAsync = async () => {
 			// if (data.length == 0) //load fresh from server
-        dispatch(fetchProducts(categoryId))
+      dispatch(setCategoryId(categoryId))
+      dispatch(fetchProducts())
 		}
 		runAsync()
 	}, [categoryId])
@@ -36,7 +38,6 @@ const _CategoryProducts = () => {
       <FiltersHeader prodsFound={data.length} totalCount={totalCount}/>
       <TileContainer data={data} view={view} />
     </>
-}
+})
 
-const CategoryProducts = memo(_CategoryProducts);
 export default CategoryProducts

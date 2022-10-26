@@ -1,7 +1,7 @@
 import { isAdmin } from '../../config'
 import useToggle from '../../hooks/useToggle'
 
-export const Tile = ({product, view, className}) => {
+export default function Tile ({product, view, className}) {
   let formattedDate = new Date(Date.parse(product.dateAdded)).toLocaleString("en-GB", {timeZone: "Australia/Brisbane", hour12: true})
   if (formattedDate === 'Invalid Date') {
     let dp = product.dateAdded.split(',')[0]

@@ -1,23 +1,20 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom"
 import { fetchProducts } from "../../features/products/productsSlice";
+import InfiniteScroll from "../InfiniteScroll";
 import ScrollUp from "../ScrollUp"
-import { Tile } from "../Tile/Tile"
+import Tile from "../Tile"
 
 export default function TileContainer( { data, view }) {
   const dispatch = useDispatch()
-  const categoryId = useSelector(state => state.products.categoryId)
-  window.onscroll = () => {
-    let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
-    if (bottomOfWindow) {
-        // $scope.page++;
-        // $scope.getProducts(true);
-        dispatch(fetchProducts(categoryId))
-    }
-};
+  let page = useSelector(state => state.products.page)
+  const getNewDataHandler = () => {
+    dispatch(fetchProducts(++page))
+  }
 
   return (
-    <>
+    <InfiniteScroll getNewData={getNewDataHandler}>
     <div className="products-container">
     {
       data && data.map(item => {
@@ -31,6 +28,6 @@ export default function TileContainer( { data, view }) {
     }
     </div>
     <ScrollUp/>
-    </>
+    </InfiniteScroll>
   )
 }

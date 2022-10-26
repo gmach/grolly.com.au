@@ -1,15 +1,15 @@
-import React, { useContext } from "react";
+import React, { memo, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Categories } from '../../config'
 import { useSelector } from "react-redux";
 import { RootContext } from "../Root";
 
-const _CategoryHeader = () => {
+const CategoryHeader = memo(() => {
   const { showCategories, toggleShowCategories } = useContext(RootContext);
-  const selectedCategoryId = useSelector(state => state.products.categoryId)
-  const categoryName = Categories[selectedCategoryId]
+  const categoryId = useSelector(state => state.products.categoryId)
+  const categoryName = Categories[categoryId]
   const updownClass = 'fas fa-arrow-' + (showCategories ? 'up' : 'down')
-  const headerMsg = selectedCategoryId ? 
+  const headerMsg = categoryId ? 
     <span>
       Browsing {categoryName} <i className={updownClass}></i>
     </span> 
@@ -23,6 +23,5 @@ const _CategoryHeader = () => {
           { headerMsg }
       </Link>
   );
-}
-const CategoryHeader = React.memo(_CategoryHeader);
+})
 export default CategoryHeader

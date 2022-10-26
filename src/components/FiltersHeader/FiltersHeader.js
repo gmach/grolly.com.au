@@ -4,17 +4,17 @@ import { fetchProducts } from '../../features/products/productsSlice'
 
 export default function FiltersHeader( { prodsFound, totalCount }) {
   const dispatch = useDispatch()
-  const selectedCategoryId = useSelector(state => state.products.categoryId)
+  const categoryId = useSelector(state => state.products.categoryId)
   const { filter } = useSelector(state => state.filters)
   const handleSelect = (e) => {
     const newFilter = e.target.value
     dispatch(statusFilterChanged(newFilter))
-    dispatch(fetchProducts(selectedCategoryId))
+    dispatch(fetchProducts())
   }
   return (
     <>
     {
-      selectedCategoryId !== '' &&
+      categoryId !== '' &&
       <div className="filtersHeader">
         <span className="prodsfound">{ prodsFound } of { totalCount } products found.</span>
         <label htmlFor="selectedType">

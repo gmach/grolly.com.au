@@ -14,14 +14,15 @@ const SnackBar = forwardRef((props, ref) => {
       setTimeout(() => setShowSnackBar(false), 3000)
     }
   }))
-  
+
+  const cssStyles = { 
+    backgroundColor : props.type === SnackBarType.success ? '#00F593' : '#FF0033',
+    color : props.type === SnackBarType.success ? 'black' : 'white'
+  }
   return (
     <div className="snackbar" 
       id={ showSnackBar ? "show" : "hide" }
-      style={{ 
-        backgroundColor : props.type === SnackBarType.success ? '#00F593' : '#FF0033',
-        color : props.type === SnackBarType.success ? 'black' : 'white'
-      }}
+      style={cssStyles}
     >
       <div className="symbol">
         { props.type === SnackBarType.success ? <h1>&#x2713;</h1> : <h1>&#x2715;</h1> }
