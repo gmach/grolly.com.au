@@ -3,15 +3,17 @@ import { Link } from "react-router-dom";
 import { Categories } from '../../config'
 import { useSelector } from "react-redux";
 import { RootContext } from "../Root";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
 
 const CategoryHeader = memo(() => {
   const { showCategories, toggleShowCategories } = useContext(RootContext);
   const categoryId = useSelector(state => state.products.categoryId)
   const categoryName = Categories[categoryId]
-  const updownClass = 'fas fa-arrow-' + (showCategories ? 'up' : 'down')
+  const icon = showCategories ? faArrowUp : faArrowDown
   const headerMsg = categoryId ? 
     <span>
-      Browsing {categoryName} <i className={updownClass}></i>
+      Browsing {categoryName} <FontAwesomeIcon icon={icon} />
     </span> 
     : 'Click to choose category'
   const handleClick = () => toggleShowCategories()

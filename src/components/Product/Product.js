@@ -5,6 +5,8 @@ import {
   selectProductById
 } from '../../features/products/productsSlice'
 import { useParams } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLink } from '@fortawesome/free-solid-svg-icons'
 import { ApiUrl, isAdmin } from '../../config'
 import Tile from '../Tile'
 import BackButton from "../BackButton";
@@ -84,7 +86,9 @@ export default function Product() {
 						{
 							matches.length === 0 && 
 							<div>
-								Click <i onClick={getMatches} className="fas fa-link"></i> to find nearest matches from { targetType }
+								Click 
+								<span className="getMatches"><FontAwesomeIcon onClick={getMatches} icon={faLink} /></span>
+								to find nearest matches from { targetType }
 							</div>
 						}
 					</h2>

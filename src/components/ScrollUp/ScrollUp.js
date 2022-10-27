@@ -1,4 +1,6 @@
 import useScroll from '../../hooks/useScroll'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronCircleUp } from '@fortawesome/free-solid-svg-icons'
 
 export default function ScrollUp() {
   const [scrollTo] = useScroll()
@@ -7,6 +9,8 @@ export default function ScrollUp() {
   }
   
   return (
-    <span className="scrollup" onClick={scrollUp}><i className="fas fa-chevron-circle-up"></i></span>      
+    <span className="scrollup" onClick={scrollUp}>
+      <FontAwesomeIcon icon={faChevronCircleUp} />
+    </span>      
   )
 }

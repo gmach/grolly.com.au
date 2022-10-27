@@ -1,4 +1,4 @@
-import "./SnackBar.css"
+import "./SnackBar.scss"
 import { useState, forwardRef, useImperativeHandle } from "react"
 export const SnackBarType = {
   success: 'Success',

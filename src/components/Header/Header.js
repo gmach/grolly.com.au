@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch, faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import { useContext, useEffect, useRef } from "react"
 import { RootContext } from "../Root"
 import SnackBar from "../SnackBar";
 import useScroll from "../../hooks/useScroll";
-
+import logoImage from '../../img/GroceryHawker-03.png';
 export const Header = () => {
   const { state } = useContext(RootContext);
   const snackBarRef = useRef(null)
@@ -29,10 +31,20 @@ export const Header = () => {
   return (
     <nav className="nav-container">
       <div className="nav-bar">
-        <Link to="/" className="nav-logo nav-item"><img alt="Logo" className='logo' src="/img/GroceryHawker-03.png"/></Link>
+        <Link to="/" className="nav-logo nav-item">
+          <img alt="Logo" className='logo' src={logoImage}/>
+        </Link>
         <Link to="barcode" className="nav-item scanMenu"><div className="barcodescanner"></div></Link>
-        <Link to="search" className="nav-item searchMenu"><div><i className="fas fa-search"></i></div></Link>
-        <Link to="cart" className="nav-item shopcart"><div><i className="fas fa-shopping-cart"></i>{cartSize}</div></Link>
+        <Link to="search" className="nav-item searchMenu">
+          <div>
+            <FontAwesomeIcon icon={faSearch} />
+          </div>
+          </Link>
+        <Link to="cart" className="nav-item shopcart">
+          <div>
+          <FontAwesomeIcon icon={faShoppingCart} />{cartSize}
+          </div>
+        </Link>
         <SnackBar 
           message={cartMessage} 
           type={messageType} 

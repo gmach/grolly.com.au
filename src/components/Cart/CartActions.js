@@ -1,5 +1,7 @@
 import { useContext } from "react"
 import { RootContext } from "../Root"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlusCircle, faMinusCircle} from '@fortawesome/free-solid-svg-icons'
 // import {
 // 	addToCart,
 //   removeFromCart
@@ -34,10 +36,10 @@ export function CartActions({ item }) {
   return (
     <>
       <button className="btn btn-primary addCart" onClick={addToCartHandler}>
-        <i className="fas fa-plus-circle"></i>
+        <FontAwesomeIcon icon={faPlusCircle} />
       </button>
       <button className="btn btn-primary removeCart" onClick={removeFromCartHandler}>
-        <i className="fas fa-minus-circle"></i>
+        <FontAwesomeIcon icon={faMinusCircle} />
       </button>
     </>
   )

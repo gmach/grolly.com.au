@@ -8,9 +8,13 @@ export const SpinnerLoader = React.memo(() => {
   const wrapRef = useRef()
   
   useEffect(() => {
-    document.addEventListener("scroll", () => {  //window.onscroll = () => {  
-      wrapRef.current.style.top = (document.documentElement.scrollTop + 200) + 'px'
-    })
+    const scrollHandler = () => {  
+      if (document.getElementById("spinner-wrapper"))
+        document.getElementById("spinner-wrapper").style.top = (document.documentElement.scrollTop + 200) + 'px'
+        // wrapRef.current.style.top = (document.documentElement.scrollTop + 200) + 'px'
+    }
+    document.addEventListener("scroll", scrollHandler) //window.onscroll = scrollHandler
+    return () => document.removeEventListener("scroll", scrollHandler)
   }, [])  
   
   const isSearching = (navigation.state === "loading" &&
@@ -19,7 +23,7 @@ export const SpinnerLoader = React.memo(() => {
 
   return (status === 'loading' || isSearching) ? 
     <>
-      <div className="spinner-wrapper" ref={wrapRef}>
+      <div className="spinner-wrapper" ref={wrapRef} id="spinner-wrapper">
         <div className="loadingio-spinner-spinner-ev6jh5v9rqq"><div className="ldio-5h29m0fq6k6">
           <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
         </div></div>

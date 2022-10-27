@@ -1,5 +1,11 @@
 import { isAdmin } from '../../config'
 import useToggle from '../../hooks/useToggle'
+import placeHolderImage from '../../img/img_product-placeholder.png';
+import bothLogoImage from '../../img/both-logo.png';
+import colesLogoImage from '../../img/coles-logo.png';
+import woolworthsLogoImage from '../../img/woolworths-logo.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUnlink, faLink } from '@fortawesome/free-solid-svg-icons'
 
 export default function Tile ({product, view, className}) {
   let formattedDate = new Date(Date.parse(product.dateAdded)).toLocaleString("en-GB", {timeZone: "Australia/Brisbane", hour12: true})
@@ -24,7 +30,7 @@ export default function Tile ({product, view, className}) {
     product.largeImage :
       product.smallImage ?
         product.smallImage :
-          '/img/img_product-placeholder.png'
+          placeHolderImage
 
   const [showMatches, toggleShowMatches] = useToggle()          
   // //TODO
@@ -35,11 +41,16 @@ export default function Tile ({product, view, className}) {
   //       else
   //           $scope.$parent.showMatches = false
   // }
-  const classNameShowMatches = 'fas ' + showMatches ? 'fa-unlink' : 'fa-link'
+  const icon = showMatches ? faUnlink : faLink
+  let productLogoImage = bothLogoImage
+  if (product.type === 'woolworths')
+    productLogoImage = woolworthsLogoImage
+  else if (product.type === 'coles')
+    productLogoImage = colesLogoImage
   return (
     <div className={className}>
       <div className="tile-header">
-        <img className="product-logo" src={`/img/${product.type}-logo.png`}/>
+        <img className="product-logo" src={productLogoImage}/>
       </div>
       {
         isAdmin && product.type !== 'both' &&
@@ -54,11 +65,11 @@ export default function Tile ({product, view, className}) {
             }
             {
               product.winner === 'woolworths' && 
-                <img className="product-logo" src="/img/woolworths-logo.png"/>
+                <img className="product-logo" src={woolworthsLogoImage}/>
             }
             {
               product.winner === 'coles' && 
-                <img className="product-logo" src="/img/coles-logo.png"/>
+                <img className="product-logo" src={colesLogoImage}/>
             }
           </section>
       }     
@@ -79,7 +90,7 @@ export default function Tile ({product, view, className}) {
         {
           (view === 'product' && product.hasMatches) && 
           <span className='hasMatches' onClick={toggleShowMatches}>
-            <i className={classNameShowMatches}/>
+            <FontAwesomeIcon icon={icon} />
           </span>          
         }
         

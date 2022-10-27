@@ -9,18 +9,17 @@
   display: flex;
   align-items: center;
   text-align : center;
-}
 
-.symbol {
-  flex: 20%;
+  .symbol {
+    flex: 20%;
+  }
+  
+  .message {
+    flex: 80%;
+    text-align: left;
+    font-weight: bold;
+  }
 }
-
-.message {
-  flex: 80%;
-  text-align: left;
-  font-weight: bold;
-}
-
 
 #show {
   visibility: visible;
@@ -31,7 +30,7 @@
   visibility: hidden;
 }
 
-@keyframes fadeIn {
+keyframes fadeIn {
   from {
     bottom: 0;
     opacity: 0;
