@@ -33,11 +33,12 @@ const CategoryProducts = memo(() => {
 	}, [categoryId])
 
   const view = 'category'
-  return status === 'loading' ? null :
+  return (
     <>
       <FiltersHeader prodsFound={data.length} totalCount={totalCount}/>
       <TileContainer data={data} view={view} />
     </>
+  )
 })
 
 export default CategoryProducts
