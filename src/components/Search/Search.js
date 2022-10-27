@@ -53,10 +53,6 @@ export default function Search() {
             name="q"
             defaultValue={q}
           />
-          <div
-            className="sr-only"
-            aria-live="polite"
-          ></div>
           <button type="submit" className="searchBtn btn btn-primary">Search</button>
         </Form>
         {

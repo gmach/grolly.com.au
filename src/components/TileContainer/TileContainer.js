@@ -8,7 +8,10 @@ import Tile from "../Tile"
 export default function TileContainer( { data, view }) {
   const dispatch = useDispatch()
   let page = useSelector(state => state.products.page)
-  const getNewDataHandler = () => dispatch(fetchProducts(++page))
+  const getNewDataHandler = () => {
+    if (location.pathname.startsWith("/categories/"))
+      dispatch(fetchProducts(++page))
+  }
 
   return (
     <InfiniteScroll getNewData={getNewDataHandler}>
