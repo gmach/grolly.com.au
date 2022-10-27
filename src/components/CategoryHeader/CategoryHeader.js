@@ -15,9 +15,10 @@ const CategoryHeader = memo(() => {
     </span> 
     : 'Click to choose category'
   const handleClick = () => toggleShowCategories()
+  const toLink = categoryId ? '/categories' : (showCategories ? '/' : '/categories')
   return (
       <Link className="btnbrowse"
-        to={`/categories`}
+        to={toLink}
         onClick={handleClick}
       > 
           { headerMsg }

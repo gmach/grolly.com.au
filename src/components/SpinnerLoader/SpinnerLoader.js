@@ -1,6 +1,7 @@
+import React from "react";
 import { useSelector } from "react-redux";
 
-export const SpinnerLoader = () => {
+export const SpinnerLoader = React.memo(() => {
   const status = useSelector(state => state.products.status)
   return status === 'loading' ? 
     <>
@@ -11,4 +12,4 @@ export const SpinnerLoader = () => {
       </div>
     </>
     : null
-}
+})

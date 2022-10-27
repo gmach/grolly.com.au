@@ -738,19 +738,26 @@ pre {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 50%;
   margin: 15px auto;
+}
+
+/* line 608, ../scss/main.scss */
+.searchWrap .searchBox {
+  border: 3px solid #163f76;
+  border-radius: 5px;
+  width: 70%;
+  height: 50px;
+  font-size: 25px;
+}
+.searchWrap .searchBtn {
+  width: 20%;
+  height: 50px;
 }
 /* line 604, ../scss/main.scss */
 .searchWrap .searchBox, .searchWrap .searchBtn {
-  flex: 0 1;
   margin: 0 10px;
 }
-/* line 608, ../scss/main.scss */
-.searchWrap .searchBox {
-  border: 1px solid #163f76;
-  border-radius: 5px;
-}
-
 /* line 616, ../scss/main.scss */
 .subheading {
   padding-left: 15px;
