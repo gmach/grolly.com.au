@@ -12,7 +12,7 @@ export default function TileContainer( { data, view }) {
     if (location.pathname.startsWith("/categories/"))
       dispatch(fetchProducts(++page))
   }
-
+  
   return (
     <InfiniteScroll getNewData={getNewDataHandler}>
       <div className="products-container"> 

@@ -47,7 +47,6 @@ export default function Search() {
           <input
             id="q"
             className="searchBox"
-            aria-label="Search contacts"
             placeholder="Search"
             type="search"
             name="q"

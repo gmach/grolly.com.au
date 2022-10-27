@@ -545,13 +545,6 @@ a.btn.green-border:hover {
   padding-left: 20px;
 }
 
-/* line 461, ../scss/main.scss */
-.product-title {
-  flex: 1 1 100%;
-  font-weight: bold;
-  text-align: left;
-}
-
 /* line 466, ../scss/main.scss */
 .img-responsive {
   max-width: 100%;
@@ -737,31 +730,6 @@ pre {
   cursor: pointer;
 }
 
-/* line 599, ../scss/main.scss */
-.searchWrap {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50%;
-  margin: 15px auto;
-}
-
-/* line 608, ../scss/main.scss */
-.searchWrap .searchBox {
-  border: 3px solid #163f76;
-  border-radius: 5px;
-  width: 70%;
-  height: 50px;
-  font-size: 25px;
-}
-.searchWrap .searchBtn {
-  width: 20%;
-  height: 50px;
-}
-/* line 604, ../scss/main.scss */
-.searchWrap .searchBox, .searchWrap .searchBtn {
-  margin: 0 10px;
-}
 /* line 616, ../scss/main.scss */
 .subheading {
   padding-left: 15px;
@@ -1546,18 +1514,53 @@ a.btnbrowse {
   width: 100%;
 }
 
-/* line 1227, ../scss/main.scss */
-.products-container {
-  margin: 0 15px;
-}
-
 /* line 1230, ../scss/main.scss */
 .stalecart {
   font-style: italic;
   margin-top: 15px;
 }
 
+/* line 461, ../scss/main.scss */
+.product-title, .text-item {
+  flex: 1 1 100%;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+
+/* line 599, ../scss/main.scss */
+.searchWrap {
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0 10px;
+}
+
+/* line 608, ../scss/main.scss */
+.searchBox {
+  border: 3px solid #163f76;
+  border-radius: 5px;
+  width: 100%;
+  height: 50px;
+  font-size: 25px;
+}
+.searchBtn {
+  width: 20%;
+  height: 50px;
+  font-size: 20px;
+  margin: 2% 25%;
+}
+
 @media only screen and (min-width: 480px) {
+  .searchWrap {
+    width: 50%;
+  }
+  .searchBox {
+    width: 70%;
+  }
+  .searchBtn {
+    width: 20%;
+  }
   /* line 1237, ../scss/main.scss */
   .main-content {
     display: flex;
@@ -1582,6 +1585,7 @@ a.btnbrowse {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(25%, 1fr));
     grid-gap: 0px 5px;
+    margin: 0 15px;
   }
 }
 /* line 1264, ../scss/main.scss */
