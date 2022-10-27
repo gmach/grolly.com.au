@@ -1,7 +1,6 @@
 import {
   useLoaderData,
-  Form,
-  useNavigation
+  Form
 } from "react-router-dom";
 
 import { useEffect } from "react";
@@ -37,18 +36,11 @@ export async function action({ request }) {}
 
 export default function Search() {
   const { data, q } = useLoaderData();
-  const navigation = useNavigation();
   useEffect(() => {
     document.getElementById("q").value = q;
   }, [q]);
-
-  const searching =
-    navigation.location &&
-    new URLSearchParams(navigation.location.search).has(
-      "q"
-    );
-
   const view =  'search'
+  
   return (
     <>
       <Form className="searchWrap" id="search-form" role="search" action="/search" method="get">
@@ -60,17 +52,6 @@ export default function Search() {
             type="search"
             name="q"
             defaultValue={q}
-            // onChange={(event) => {
-            //   const isFirstSearch = q == null;
-            //   submit(event.currentTarget.form, {
-            //     replace: !isFirstSearch,
-            //   });
-            // }}              
-          />
-          <div
-            id="search-spinner"
-            aria-hidden
-            hidden={!searching}
           />
           <div
             className="sr-only"
@@ -79,9 +60,9 @@ export default function Search() {
           <button type="submit" className="searchBtn btn btn-primary">Search</button>
         </Form>
         {
-          data.length > 0 &&         
+          q &&         
       <>
-        <h2 className="subheading">Search Results for { q } </h2>
+        <h2 className="subheading text-center">Search Results for <scan className="qSearch">{ q }</scan></h2>
         <div className="categoryHeader">
           <span className="prodsfound">{ data.length } products found.</span>
         </div>

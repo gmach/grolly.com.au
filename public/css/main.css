@@ -99,7 +99,9 @@ h2 {
   list-style-type: none;
   padding: 20px;
 }
-
+.qSearch {
+  color: green
+}
 /* line 105, ../scss/main.scss */
 a.btnbrowse {
   color: #163f76 !important;
@@ -107,7 +109,7 @@ a.btnbrowse {
   border: 1px solid #ff4532;
   box-sizing: border-box;
   line-height: 27px;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 800;
   text-align: center;
   padding: 8px 39px;
@@ -721,7 +723,9 @@ pre {
   background-repeat: no-repeat;
   background-size: 50%;
 }
-
+.text-center {
+  font-size: 25px ;
+}
 /* line 589, ../scss/main.scss */
 .hasMatches {
   color: #163f76;
@@ -753,6 +757,7 @@ pre {
 .searchWrap .searchBtn {
   width: 20%;
   height: 50px;
+  font-size: 20px;
 }
 /* line 604, ../scss/main.scss */
 .searchWrap .searchBox, .searchWrap .searchBtn {
@@ -1014,6 +1019,9 @@ input:checked + .slider:before {
 .filtersHeader {
   display: flex;
   justify-content: space-between;
+}
+.prodsfound {
+  font-size: 20px;
 }
 /* line 816, ../scss/main.scss */
 .filtersHeader .prodsfound {
