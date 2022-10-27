@@ -5,9 +5,8 @@ import {
 } from "react-router-dom";
 
 import { useEffect } from "react";
-import { isAdmin } from '../../config'
+import { isAdmin, ApiUrl } from '../../config'
 import TileContainer from '../TileContainer';
-
 export async function loader({ request }) {
   let url = new URL(request.url);
   let searchTerm = url.searchParams.get("q");
@@ -16,8 +15,7 @@ export async function loader({ request }) {
   // const q = updates.q
   if (!searchTerm)
     return { data: [], q: '' };  
-  const RESTURL = 'http://localhost:1234';//'https://groceryhawker-api.au.ngrok.io';// https://localhost:1234';
-  let response = await fetch(RESTURL + '/search', 
+  let response = await fetch(ApiUrl + '/search', 
     {
       method: 'POST',
       headers: {

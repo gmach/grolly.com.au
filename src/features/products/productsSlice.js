@@ -4,7 +4,7 @@ import {
   createAsyncThunk,
   createEntityAdapter
 } from '@reduxjs/toolkit'
-import { isAdmin } from '../../config'
+import { isAdmin, ApiUrl } from '../../config'
 
 const productsAdapter = createEntityAdapter()
 export const initialState = productsAdapter.getInitialState({
@@ -19,10 +19,9 @@ export const initialState = productsAdapter.getInitialState({
 // If you need to handle any action in reducer then put in extraReducers in createSlice
 
 export const fetchProducts = createAsyncThunk('products/fetchProducts', async (page = 1, {dispatch, getState}) => {
-  const RESTURL = 'http://localhost:1234';
   const categoryId = getState().products.categoryId
   const filter = getState().filters.filter
-  const url = RESTURL + '/category/' + categoryId
+  const url = ApiUrl + '/category/' + categoryId
   + '/filter/' + filter
   + '/page/' + page
   + '/isAdmin/' + isAdmin;
@@ -61,8 +60,7 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', async (p
 })
 
 export const fetchProduct = createAsyncThunk('products/fetchProduct', async (productId, {dispatch, getState}) => {
-  const RESTURL = 'http://localhost:1234';
-  const url = RESTURL + '/product/' + productId
+  const url = ApiUrl + '/product/' + productId
   + '/' + isAdmin;
   let response = await fetch(url)
   response = await response.json()
