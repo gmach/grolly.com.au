@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigation } from "react-router-dom";
 
 export const SpinnerLoader = React.memo(() => {
-  let status = useSelector(state => state.products.status)
+  const status = useSelector(state => state.products.status)
   const navigation = useNavigation();
   const wrapRef = useRef()
   
@@ -16,7 +16,6 @@ export const SpinnerLoader = React.memo(() => {
   const isSearching = (navigation.state === "loading" &&
                         navigation.location &&
                         new URLSearchParams(navigation.location.search).has("q"))
-                        status = 'loading'
 
   return (status === 'loading' || isSearching) ? 
     <>
