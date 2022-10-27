@@ -1,16 +1,10 @@
-let RESTURL = 'http://localhost:1234';//'https://groceryhawker-api.au.ngrok.io';// https://localhost:1234';
-let SEARCHURL = 'http://localhost:9200';
-let isProd = location.hostname == 'www.groceryhawker.com';
-if (isProd) {
-    RESTURL = 'https://www.groceryhawker.com:1234';
-    //SEARCHURL = 'https://213656d6.ngrok.io:9200';
-}
-let isNGrok = location.hostname == 'groceryhawker.au.ngrok.io';
-if (isNGrok) {
-    RESTURL = 'https://groceryhawker-api.au.ngrok.io';
-    //  SEARCHURL = 'https://213656d6.ngrok.io:9200';
-}
-// RESTURL = 'https://www.groceryhawker.com:1234';
+const EC2_IP = '54.252.132.5'
+const EC2_DOMAIN_NAME = 'ec2-54-252-132-5.ap-southeast-2.compute.amazonaws.com'
+const EC2_HOSTNAME = 'ip-172-31-27-208.ap-southeast-2.compute.internal'
+const isProd = location.hostname === EC2_IP
+const API_HOST = isProd ? EC2_IP : 'localhost'
+let RESTURL = 'http://' + API_HOST + ':1234';
+let SEARCHURL = 'http://' + API_HOST + ':9200';
 let app = angular.module('app', ['ui.router', 'ngAnimate', 'ui.bootstrap', 'ngSanitize']);
 
 app.config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
