@@ -40,7 +40,7 @@ export default function Search() {
     document.getElementById("q").value = q;
   }, [q]);
   const view =  'search'
-  
+
   return (
     <>
       <Form className="searchWrap" id="search-form" role="search" action="/search" method="get">
@@ -62,7 +62,7 @@ export default function Search() {
         {
           q &&         
       <>
-        <h2 className="subheading text-center">Search Results for <scan className="qSearch">{ q }</scan></h2>
+        <h2 className="subheading text-center">Search Results for <span className="qSearch">{ q }</span></h2>
         <div className="categoryHeader">
           <span className="prodsfound">{ data.length } products found.</span>
         </div>

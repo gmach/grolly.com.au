@@ -14,10 +14,6 @@ export const initialState = productsAdapter.getInitialState({
   page: 0
 }) // will autogenerate normalized state object { ids: [], entities: {} }
 
-// Autogenerate thunk action creators and types for managing loading async call status (pending ie loading/saving in progress, fulfilled ie success, rejected ie error)
-// In dispatching these thunks it will auto dispatch the pending action->make async call->dispatch fulfilled/rejected action
-// If you need to handle any action in reducer then put in extraReducers in createSlice
-
 export const fetchProducts = createAsyncThunk('products/fetchProducts', async (page = 1, {dispatch, getState}) => {
   const categoryId = getState().products.categoryId
   const filter = getState().filters.filter
@@ -43,7 +39,6 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', async (p
   records.forEach((record) => {
     record.categoryId = categoryId
   })
-
   for (let item of records) {
     if (item.children) {
       for (let c of item.children) {
@@ -66,8 +61,6 @@ export const fetchProduct = createAsyncThunk('products/fetchProduct', async (pro
   response = await response.json()
   return response
 })
-
-// export const saveNewProduct = createAsyncThunk('products/saveNewProduct', async (product, {dispatch, getState}) => {
 
 /* Autogenerate Reducer and action creators */
 const productsSlice = createSlice({
@@ -101,9 +94,7 @@ const productsSlice = createSlice({
 })  
 
 export const {
-  setCategoryId,
-  productsDeleted,
-  completedCleared,
+  setCategoryId
 } = productsSlice.actions
 
 export default productsSlice.reducer
@@ -119,23 +110,25 @@ export const selectProductIds = createSelector(
   products => products.map(products => products.id)
 )
 
-export const selectFilteredProducts = createSelector(
+export const selectCategoryProducts = createSelector(
   selectProducts,
+  state => state.products.categoryId,
+  (products, categoryId) => {
+    return products.filter(product => {
+      let res =  product.categoryId === categoryId
+      return res
+    })
+  }
+)
+
+export const selectFilteredCategoryProducts = createSelector(
+  selectCategoryProducts,
   state => state.filters,
   (products, filters) => {
     return products.filter(product => {
       let res =  filters.filter === 'all' || product.type === filters.filter
       return res
     })
-})
-
-export const selectFilteredCategoryProducts = createSelector(
-  selectFilteredProducts,
-  state => state.products.categoryId,
-  (products, categoryId ) => {
-    return products.filter(product => {
-      let res = product.categoryId === categoryId
-      return res
-    })
-  })  
-
+  }
+)
+  

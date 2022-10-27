@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { useParams } from "react-router-dom";
 import {
   fetchProducts,
-  selectFilteredProducts,
+  selectFilteredCategoryProducts,
   setCategoryId
 } from '../../features/products/productsSlice'
 import TileContainer from "../TileContainer";
@@ -16,7 +16,7 @@ export async function loader({ params }) {
 export async function action() {}
 
 const CategoryProducts = memo(() => {
-  const data = useSelector(state => selectFilteredProducts(state))
+  const data = useSelector(state => selectFilteredCategoryProducts(state))
   const params = useParams();
   const categoryId = parseInt(params.categoryId, 10)
   const dispatch = useDispatch()

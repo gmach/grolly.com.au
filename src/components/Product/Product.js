@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import {
 	fetchProduct,
-  selectProductById,
-	selectFilteredproducts
+  selectProductById
 } from '../../features/products/productsSlice'
 import { useParams } from "react-router-dom";
 import { ApiUrl, isAdmin } from '../../config'

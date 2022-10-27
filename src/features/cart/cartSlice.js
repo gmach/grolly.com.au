@@ -1,91 +1,43 @@
 import {
   createSlice,
   createSelector,
-  createAsyncThunk,
   createEntityAdapter
 } from '@reduxjs/toolkit'
 import { StatusFilters } from '../filters/filtersSlice'
-import { isAdmin } from '../../config'
 import _ from 'lodash'
 const cartItemsAdapter = createEntityAdapter()
-export const initialState = cartItemsAdapter.getInitialState({
-  cartChanged: false
-}) // will autogenerate normalized state object { ids: [], entities: {} }
+export const initialState = cartItemsAdapter.getInitialState() // will autogenerate normalized state object { ids: [], entities: {} }
 
 /* Autogenerate Reducer and action creators */
 const cartItemsSlice = createSlice({
   name: 'cartItems',
   initialState,
   reducers: {
-    // todoAdded(state, action) {
-    //   const todo = action.payload
-    //   state.entities[todo.id] = todo;
-    //   state.status = 'idle'
-    // },
-    addToCart(state, action) {
-      const item = action.payload
-      let cart = state.cartItems.cart
-      let startSize = state.cartItems.cart.length;
-      item.datedAdded = new Date().toString().substr(0,21);
-      cart.push(item);
-      let newCart = _.uniqWith(cart, (val1, val2) => {
-          return val1.id == val2.id && val1.stockCode == val2.stockCode;
-      });
-      state.cartChanged = newCart.length > startSize
-      state.cart = newCart
-    },
-    // todoDeleted(state, action) {
-    //   delete state.entities[action.payload]
-    // }
+    addToCart: cartItemsAdapter.addOne,
     removeFromCart: cartItemsAdapter.removeOne,
     allCompleted(state, action) {
       Object.values(state.entities).forEach((todo) => {
         todo.completed = true
       })
     },
-   
-    // cartItemsLoading(state, action) {
-    //   state.status = 'loading'
-    // },
-    // cartItemsLoaded(state, action) {
-    //   const newEntities = {}
-    //   action.payload.forEach((todo) => {
-    //     newEntities[todo.id] = todo
-    //   })
-    //   state.entities = newEntities
-    //   state.status = 'idle'
-    // },
-    // cartItemsSaving(state, action) {
-    //   state.status = 'saving'
-    // }
   },
   
 })  
 
 export const {
-  setCategoryId,
   addToCart,
-  todoColorSelected,
-  todoDeleted,
-  allCompleted,
-  completedCleared,
+  removeFromCart
 } = cartItemsSlice.actions
 
 export default cartItemsSlice.reducer
 
 export const {
-  selectAll: selectProducts,
-  selectById: selectProductById,
+  selectAll: selectCartItems,
+  selectById: selectCartItemById,
 } = cartItemsAdapter.getSelectors((state) => state.cartItems)
 
-/* Selectors */
-export const selectTodoIds = createSelector(
-  selectProducts,
-  cartItems => cartItems.map(todo => todo.id)
-)
-
 export const selectFilteredcartItems = createSelector(
-  selectProducts,
+  selectCartItems,
   state => state.filters,
   (cartItems, filters) => {
     const {status, colors} = filters
@@ -102,9 +54,4 @@ export const selectFilteredcartItems = createSelector(
       return statusMatches && colorMatches
     })
   }
-)
-
-export const selectFilteredTodoIds = createSelector(
-  selectFilteredcartItems,
-  cartItems => cartItems.map(todo => todo.id)
 )
