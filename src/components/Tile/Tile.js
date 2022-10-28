@@ -6,6 +6,7 @@ import colesLogoImage from '../../img/coles-logo.png';
 import woolworthsLogoImage from '../../img/woolworths-logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUnlink, faLink } from '@fortawesome/free-solid-svg-icons'
+import './styles.scss'
 
 export default function Tile ({product, view, className}) {
   let formattedDate = new Date(Date.parse(product.dateAdded)).toLocaleString("en-GB", {timeZone: "Australia/Brisbane", hour12: true})
@@ -61,7 +62,7 @@ export default function Tile ({product, view, className}) {
           <section>
             {
               (product.type !== 'coles' && product.isAvailable) || product.type === 'coles' && 
-                <span className="diff">{ comparisonMsg }</span>
+                <span className="diff">{ comparisonMsg }FUCK ME TILES</span>
             }
             {
               product.winner === 'woolworths' && 

@@ -1,0 +1,88 @@
+.tile-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 1%;
+}
+
+.product-tile {
+  flex: 1;
+  margin: 10px 1%;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  cursor: pointer;
+  color: rgb(74,74,74);
+}
+
+.product-tile.match {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-content: space-between;
+}
+
+.winner {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10px;
+  margin: 0 1%;
+  margin-top: 20px;
+  flex: 1 1 100%;
+  text-align: center;
+}
+
+.winner:hover {
+  border-width: 3px;
+}
+
+.winner .winner-name {
+  text-transform: capitalize;
+}
+
+.winner.woolworths {
+  border-color: green;
+}
+
+.winner.coles {
+  border-color: red;
+}
+
+.woolworths {
+  border-width: 1px;
+}
+
+.woolworths:hover {
+  border-color: green;
+  border-width: 3px;
+}
+
+.coles {
+  border-width: 1px;
+}
+
+.coles:hover {
+  border-color: red;
+  border-width: 3px;
+}
+
+.both {
+  border-width: 1px;
+}
+
+.both:hover {
+  border-color: yellow;
+  border-width: 3px;
+}
+
+.exclusive {
+  text-transform: capitalize;
+}
+
+.getMatches {
+  margin: 10px
+}
+
+.subheading {
+  padding-left: 15px;
+}

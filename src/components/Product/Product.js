@@ -12,6 +12,7 @@ import Tile from '../Tile'
 import BackButton from "../BackButton";
 import TileContainer from '../TileContainer';
 import { CartActions } from '../Cart/CartActions';
+import './styles.scss'
 
 export async function loader() {}
 export async function action() {}
@@ -63,7 +64,6 @@ export default function Product() {
 	const view = 'product'
   return (
 	<>
-		<div className="product-container">
 		<BackButton/>
 		<div className="tile-wrapper">
 			<Tile product={item} view={view} className={classNameTile}/>
@@ -95,61 +95,17 @@ export default function Product() {
 				}
 				{
 					(item.type !== 'coles' && item.isAvailable) || item.type === 'coles' && 
-					<h2>{ comparisonMsg }</h2>
+					<h2>{ comparisonMsg }sdfdsfdffd</h2>
 				}
 			</div>
 		</div>
-		{/* {
-			isAdmin && item.type != 'both' &&
-			<div className="suggestionswrap">
-			<input id="suggestField" type="text" className="form-control" ng-model="ngModelOptionsSelected" ng-model-options="modelOptions"
-					placeholder="Search for target match ..."
-					uib-typeahead="suggest as suggest.n for suggest in getSuggestions($viewValue) | limitTo:5"
-					typeahead-loading="loadingSuggestions"
-					typeahead-no-results="noResults"
-					typeahead-on-select="onSelect($item)"
-					typeahead-test valueemplate-url="suggestTemplate.html"
-			/>
-			<i ng-show="loadingLocations" className="glyphicon glyphicon-refresh"></i>
-			<div className="addResults">addresults</div>
-			<div ng-show="noResults">
-				<i className="glyphicon glyphicon-remove"></i> No Results Found
-			</div>
-			<div className="promptAddQC" ng-show="matchedItem">Replace With this match?
-				<button className="cancelAddQC btn btn-primary" type="button" ng-click="cancelReplaceMatch()">
-					Cancel
-				</button>
-				<button className="AddQC btn btn-success" type="button" ng-click="replaceMatch()">
-					OK
-				</button>
-			</div>
-			<button className="AddQC btn btn-success" type="button" ng-click="popup(item)">
-				Show Search
-			</button>
-
-			<button ng-click="showMatches = !showMatches">
-				<span ng-show="!showMatches">Show Matches</span>
-				<span ng-show="showMatches">Hide Matches</span>
-			</button>
-			<span ng-show="isAdmin" className="barcode">{ item.barcode }</span>
-		</div>
-		} */}
 		{
 			(matches.length > 0) && 
 			<>
 				<h2 className="subheading">Disclaimer : These are only best matches found and may not be correct.</h2>
 				<TileContainer data={matches} view={view} />
 			</>
-		}
-		</div>		
+		}	
 	</>
 	)
-/* <script type="text/ng-template" id="suggestTemplate.html">
-	<div className="suggestion">
-		<img className='suggest-image' ng-src="https://shop.coles.com.au{match.model.t}" width="16"/>
-		<span className='suggest-name'>{match.model.m}</span>
-		<span ng-bind-html="match.model.n | uibTypeaheadHighlight:query"></span>
-		<span className="suggest-size">{match.model.a.O3}</span>
-	</div>
-</script>  */
 }

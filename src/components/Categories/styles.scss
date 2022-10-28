@@ -24,5 +24,18 @@
   }
 }
 
+@media only screen and (min-width: 480px) {
+  .main-content {
+    display: flex;
+    flex-wrap: wrap;
 
+    .categories-pane {
+      flex: 1 1 25%;
+    }
+
+    .content-pane {
+      flex: 1 1 75%;
+    }
+  }
+}
 

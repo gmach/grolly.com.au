@@ -29,9 +29,6 @@ html {
   color: #4a4a4a;
 }
 
-.getMatches {
-  margin: 10px
-}
 
 .text-center {
   text-align: center;
@@ -55,43 +52,8 @@ li {
 }
 
 
-/* line 56, ../scss/main.scss */
 h2 {
   font-size: 2.6rem;
-}
-
-
-.products-container {
-  margin: 0 15px;
-}
-@media only screen and (min-width: 480px) {
-  /* line 1237, ../scss/main.scss */
-  .main-content {
-    display: flex;
-    flex-wrap: wrap;
-
-    .categories-pane {
-      flex: 1 1 25%;
-    }
-
-    .content-pane {
-      flex: 1 1 75%;
-    }
-
-    .products-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(25%, 1fr));
-      grid-gap: 0px 5px;
-      margin: 0 15px;
-    }
-  }
-
-}
-
-
-/* line 466, ../scss/main.scss */
-.img-responsive {
-  max-width: 100%;
 }
 
 
@@ -109,117 +71,6 @@ footer {
 }
 
 
-
-/* line 216, ../scss/main.scss */
-.tile-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 1%;
-}
-
-/* line 221, ../scss/main.scss */
-.product-tile {
-  flex: 1;
-  margin: 10px 1%;
-  padding: 10px;
-  text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  cursor: pointer;
-  color: rgb(74,74,74);
-}
-/* line 229, ../scss/main.scss */
-.product-tile.match {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-content: space-between;
-}
-
-
-/* line 240, ../scss/main.scss */
-.exclusive {
-  text-transform: capitalize;
-}
-
-/* line 259, ../scss/main.scss */
-.preservelines {
-  white-space: pre-line;
-}
-
-
-.tile-body {
-  box-sizing: content-box;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-/* line 276, ../scss/main.scss */
-.winner {
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 10px;
-  margin: 0 1%;
-  margin-top: 20px;
-  flex: 1 1 100%;
-  text-align: center;
-}
-/* line 284, ../scss/main.scss */
-.winner:hover {
-  border-width: 3px;
-}
-/* line 287, ../scss/main.scss */
-.winner .winner-name {
-  text-transform: capitalize;
-}
-/* line 290, ../scss/main.scss */
-.winner.woolworths {
-  border-color: green;
-}
-/* line 293, ../scss/main.scss */
-.winner.coles {
-  border-color: red;
-}
-
-/* line 300, ../scss/main.scss */
-.woolworths {
-  border-width: 1px;
-}
-/* line 302, ../scss/main.scss */
-.woolworths:hover {
-  border-color: green;
-  border-width: 3px;
-}
-
-/* line 307, ../scss/main.scss */
-.coles {
-  border-width: 1px;
-}
-/* line 309, ../scss/main.scss */
-.coles:hover {
-  border-color: red;
-  border-width: 3px;
-}
-.both {
-  border-width: 1px;
-}
-/* line 309, ../scss/main.scss */
-.both:hover {
-  border-color: yellow;
-  border-width: 3px;
-}
-/* line 314, ../scss/main.scss */
-.product-image {
-  cursor: pointer;
-  width: 100%;
-}
-
-/* line 318, ../scss/main.scss */
-.tile-header, .tile-footer {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
 
 /* line 323, ../scss/main.scss */
 .price-footer {
@@ -239,33 +90,6 @@ footer {
 /* line 333, ../scss/main.scss */
 .favourite {
   flex: 0 1 auto;
-}
-
-/* line 336, ../scss/main.scss */
-.image-tile {
-  display: flex;
-  flex: 1 1 100%;
-  align-items: center;
-}
-@media screen and (min-width: 960px) {
-  /* line 336, ../scss/main.scss */
-  .image-tile {
-    flex-basis: 45%;
-  }
-}
-
-/* line 344, ../scss/main.scss */
-.text-tile {
-  display: flex;
-  flex: 1 1 100%;
-  flex-wrap: wrap;
-}
-@media screen and (min-width: 960px) {
-  /* line 344, ../scss/main.scss */
-  .text-tile {
-    flex-basis: 45%;
-    margin-left: 5%;
-  }
 }
 
 /* line 354, ../scss/main.scss */
@@ -293,10 +117,6 @@ footer {
 }
 
 
-/* line 392, ../scss/main.scss */
-.cartsaved {
-  margin-left: 15px;
-}
 
 
 /* line 439, ../scss/main.scss */
@@ -310,31 +130,6 @@ footer {
   content: "X";
 }
 
-/* line 446, ../scss/main.scss */
-.notification-panel .notification-panel-body {
-  padding: 34px 17px 17px;
-}
-
-/* line 452, ../scss/main.scss */
-.product-text {
-  display: flex;
-  flex: 1 1 50%;
-  flex-wrap: wrap;
-  align-items: baseline;
-  /* items’ vertical alignment .  The align-items property on the flex container determines how flex items are laid out along the cross axis ON THE CURRENT LINE! */
-  justify-content: space-between;
-  /* items’ horizontal alignment. The justify-content property on the flex container stipulates how the flex items are laid out along the main axis ON THE CURRENT LINE!  */
-  align-content: space-between;
-  /* lines’ vertical alignment. This applies to ENTIRE LINES when there is extra space in the cross axis. */
-  padding-left: 20px;
-}
-
-/* line 461, ../scss/main.scss */
-.product-title {
-  flex: 1 1 100%;
-  font-weight: bold;
-  text-align: left;
-}
 
 /* line 572, ../scss/main.scss */
 .logo {
@@ -342,37 +137,13 @@ footer {
   margin-left: 15px;
 }
 
-/* line 576, ../scss/main.scss */
-.product-logo {
-  height: 20px;
-  vertical-align: sub;
-  cursor: pointer;
-}
 
-/* line 581, ../scss/main.scss */
-.barcodescanner {
-  background-image: url("/img/scanner.png");
-  width: 125px;
-  height: 35px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 50%;
-}
-/* line 589, ../scss/main.scss */
-.hasMatches {
-  color: #163f76;
-  font-size: 25px;
-}
 
 /* line 593, ../scss/main.scss */
 .fa-link {
   cursor: pointer;
 }
 
-/* line 616, ../scss/main.scss */
-.subheading {
-  padding-left: 15px;
-}
 
 /* line 619, ../scss/main.scss */
 .price-info {
@@ -386,40 +157,7 @@ footer {
   float: left;
 }
 
-/* line 627, ../scss/main.scss */
-.small {
-  font-size: small;
-}
 
-/* line 630, ../scss/main.scss */
-.was {
-  text-decoration: line-through;
-}
-
-/* line 634, ../scss/main.scss */
-.w100 {
-  width: 100%;
-}
-
-/* line 637, ../scss/main.scss */
-.productprice {
-  font-weight: bold;
-}
-
-/* line 640, ../scss/main.scss */
-.unitPrice {
-  font-size: 1.8rem;
-}
-
-/* line 643, ../scss/main.scss */
-.productprice .productdiscount {
-  display: none;
-}
-
-/* line 647, ../scss/main.scss */
-.productprice:hover .productdiscount {
-  display: inline-block;
-}
 
 /* line 651, ../scss/main.scss */
 .text-wrapper {

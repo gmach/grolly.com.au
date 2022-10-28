@@ -4,6 +4,7 @@ import { fetchProducts } from "../../features/products/productsSlice";
 import InfiniteScroll from "../InfiniteScroll";
 import ScrollUp from "../ScrollUp"
 import Tile from "../Tile"
+import './styles.scss'
 
 export default function TileContainer( { data, view }) {
   const dispatch = useDispatch()
