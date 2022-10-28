@@ -1,7 +1,7 @@
 import { StatusFilters, statusFilterChanged } from '../../features/filters/filtersSlice'
 import { useSelector, useDispatch } from "react-redux"
 import { fetchProducts } from '../../features/products/productsSlice'
-
+import './styles.scss'
 export default function FiltersHeader( { prodsFound, totalCount }) {
   const dispatch = useDispatch()
   const categoryId = useSelector(state => state.products.categoryId)
@@ -17,7 +17,6 @@ export default function FiltersHeader( { prodsFound, totalCount }) {
       categoryId !== '' &&
       <div className="filtersHeader">
         <span className="prodsfound">{ prodsFound } of { totalCount } products found.</span>
-        <label htmlFor="selectedType">
           <select 
             className="selectedType" 
             id="selectedType" 
@@ -37,7 +36,6 @@ export default function FiltersHeader( { prodsFound, totalCount }) {
                 })
               }
           </select>
-        </label>
       </div>  
     }
     </>

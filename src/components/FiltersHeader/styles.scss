@@ -1,0 +1,19 @@
+.filtersHeader {
+  display: flex;
+  justify-content: space-between;
+
+  .prodsfound {
+    flex: 1;
+    font-weight: 800;
+    margin-left: 15px;
+    margin-top: 15px;
+    font-size: 2.5rem;
+  }
+
+  .selectedType {
+    flex: 0 150px;
+    margin-right: 15px;
+    margin-top: 15px;
+    font-size: 2.5rem;
+  }
+}

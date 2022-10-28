@@ -6,6 +6,7 @@ import { RootContext } from "../Root"
 import SnackBar from "../SnackBar";
 import useScroll from "../../hooks/useScroll";
 import logoImage from '../../img/GroceryHawker-03.png';
+import './styles.scss'
 export const Header = () => {
   const { state } = useContext(RootContext);
   const snackBarRef = useRef(null)
@@ -32,18 +33,16 @@ export const Header = () => {
     <nav className="nav-container">
       <div className="nav-bar">
         <Link to="/" className="nav-logo nav-item">
-          <img alt="Logo" className='logo' src={logoImage}/>
+          <img alt="Logo" className='logo' src="/img/GroceryHawker-03.png"/>
         </Link>
-        <Link to="barcode" className="nav-item scanMenu"><div className="barcodescanner"></div></Link>
+        <Link to="barcode" className="nav-item scanMenu">
+          <div className="barcodescanner"></div>
+        </Link>
         <Link to="search" className="nav-item searchMenu">
-          <div>
-            <FontAwesomeIcon icon={faSearch} />
-          </div>
-          </Link>
+          <FontAwesomeIcon icon={faSearch} size="2xl"/>
+        </Link>
         <Link to="cart" className="nav-item shopcart">
-          <div>
-          <FontAwesomeIcon icon={faShoppingCart} />{cartSize}
-          </div>
+          <FontAwesomeIcon icon={faShoppingCart} size="2xl"/><span className="cartSize">{cartSize}</span>
         </Link>
         <SnackBar 
           message={cartMessage} 
@@ -52,5 +51,35 @@ export const Header = () => {
         />
       </div>
     </nav>
+
+    // <header>
+    //   <div className="nav-bar">
+    //     <li className="nav-item">
+    //       <Link to="/">
+    //         <div className="navd-logo"/>
+    //       </Link>
+    //     </li>
+    //     <li className="nav-item">
+    //       <Link to="barcode">
+    //         <div className="barcodde-scanner"/>
+    //       </Link>
+    //     </li>
+    //     <li className="nav-item">
+    //       <Link to="search">
+    //         <FontAwesomeIcon icon={faSearch} size="2xl"/>
+    //       </Link>
+    //     </li>      
+    //     <li className="nav-item">
+    //       <Link to="cart">
+    //         <FontAwesomeIcon icon={faShoppingCart} size="2xl"/><span className="cartSize">{cartSize}</span>
+    //       </Link>
+    //     </li>
+    //   </div>
+    //     <SnackBar 
+    //       message={cartMessage} 
+    //       type={messageType} 
+    //       ref={snackBarRef}
+    //     />
+    // </header>
   )
 }

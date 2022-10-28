@@ -101,7 +101,7 @@ export const Root = () => {
     <RootContext.Provider value={{ state, dispatch, showCategories, toggleShowCategories }}>
       <Header/>
       <SpinnerLoader/>
-      <Outlet/>
+      <Outlet/> 
       <Footer/>
     </RootContext.Provider>
   );

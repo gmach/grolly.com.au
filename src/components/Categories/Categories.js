@@ -3,6 +3,7 @@ import CategoryHeader from '../CategoryHeader'
 import { Categories as CategoriesObj } from '../../config'
 import { useContext } from "react";
 import { RootContext } from "../Root";
+import './styles.scss'
 
 export const Categories = () => {
   let categories = Object.entries(CategoriesObj);
@@ -21,7 +22,7 @@ export const Categories = () => {
                 const [categoryId, categoryName] = category
                 return (
                   <div className="catitem" key={categoryId}>
-                    <NavLink className='catlink thumb' 
+                    <NavLink className='catlink' 
                       to={`/categories/${categoryId}`}
                     >
                       {categoryName} 

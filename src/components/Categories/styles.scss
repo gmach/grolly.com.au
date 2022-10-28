@@ -1,0 +1,28 @@
+.categories-pane {
+  background-color: #f6f6f6;
+
+  .catitem {
+    line-height: 1.53;
+    padding: 9px 8px 9px 17px;
+  
+    .catlink {
+      color: #163f76;
+      font-weight: bold;
+      font-size: 15px;
+      letter-spacing: -0.5px;
+      text-align: left;
+      overflow: initial;
+      width: auto;
+      min-width: 238px;
+      white-space: initial;
+      text-overflow: ellipsis;
+      text-decoration: none;
+      &:hover {
+        color: #ff4532;
+      }
+    }
+  }
+}
+
+
+

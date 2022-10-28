@@ -1,11 +1,11 @@
 export const Footer = () => {
   return (
-    <footer className="text-center">
+    <footer>
       <ul>
-        <li className="footer">
+        <li className="footerLinks">
           <a href="/about">About</a>
         </li>
-        <li className="footer">
+        <li className="footerLinks">
           <a href="/privacy">Privacy</a>
         </li>        
       </ul>

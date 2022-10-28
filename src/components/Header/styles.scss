@@ -1,0 +1,82 @@
+
+$header-bg-color: #f6f6f6;
+
+header {
+  width: 100%;
+  min-height: 75px;
+  background-color: $header-bg-color;
+
+  .nav-bar { 
+    display: flex;
+    flex-flow: row wrap; 
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    
+    .nav-item { 
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    .nav-logo {
+      background-image: url("/img/GroceryHawker-03.png");
+      min-height: 60px;
+      width: 125px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 100%;
+    }
+
+    .barcode-scanner {
+      background-image: url("/img/scanner.png");
+      width: 125px;
+      height: 35px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 50%;
+    }
+    
+    .cartSize {
+      font-size: 1.5em;
+      padding-left: 10px;
+    }
+  }
+}
+
+
+// /* line 60, ../scss/main.scss */
+// .nav-container {
+//   display: flex;
+//   flex-wrap: wrap;
+// }
+
+// /* line 67, ../scss/main.scss */
+// .nav-container {
+//   background-color: #f6f6f6;
+// }
+
+// /* line 71, ../scss/main.scss */
+// .nav-bar {
+//   flex: 1;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   margin: 10px;
+// }
+// /* line 77, ../scss/main.scss */
+// .nav-bar .nav-item {
+//   list-style-type: none;
+//   cursor: pointer;
+// }
+// /* line 81, ../scss/main.scss */
+// .nav-bar i {
+//   width: 30px;
+//   font-size: 25px;
+//   cursor: pointer;
+// }
+
+// /* line 572, ../scss/main.scss */
+// .nav-logo {
+//   max-width: 200px;
+//   margin-left: 15px;
+// }
