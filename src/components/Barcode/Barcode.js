@@ -1,8 +1,8 @@
 import { BarcodeReader, BarcodeScanner } from "dynamsoft-javascript-barcode";
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-
 import './Barcode.css'
+import './styles.scss'
 
 BarcodeReader.license = 'DLS2eyJoYW5kc2hha2VDb2RlIjoiMTAxMzkyNDAyLVRYbFhaV0pRY205cVgyUmljZyIsIm9yZ2FuaXphdGlvbklEIjoiMTAxMzkyNDAyIiwiY2hlY2tDb2RlIjo4OTQ4OTMyMDF9';
 BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.3.1/dist/";
@@ -97,7 +97,7 @@ const Barcode = () => {
     }, [])
 
   return (
-    <> 
+    <div className="text-center"> 
     {/* <div className="centerbtn">
         <button ng-click="$root.goBack()" className="btn btn-primary" type="button">
         GO BACK
@@ -114,21 +114,21 @@ const Barcode = () => {
     }    
     {
         barcodeError.isError && 
-        <div className="text-center nobarcodfound alert alert-danger">
+        <div className="text-center nobarcodefound alert-danger">
             { barcodeError.errorMsg }     
         </div>        
     }
     {
        !barcode && 
-       <div id="div-video-container" ref={elRef} className="component-barcode-scanner">
-       <svg className="dce-bg-loading" viewBox="0 0 1792 1792"><path d="M1760 896q0 176-68.5 336t-184 275.5-275.5 184-336 68.5-336-68.5-275.5-184-184-275.5-68.5-336q0-213 97-398.5t265-305.5 374-151v228q-221 45-366.5 221t-145.5 406q0 130 51 248.5t136.5 204 204 136.5 248.5 51 248.5-51 204-136.5 136.5-204 51-248.5q0-230-145.5-406t-366.5-221v-228q206 31 374 151t265 305.5 97 398.5z"></path></svg>
-       <div className="dce-video-container"></div>
-       <div className="dce-scanarea">
-           <div className="dce-scanlight"></div>
-       </div>
-   </div>       
+        <div id="div-video-container" ref={elRef} className="component-barcode-scanner">
+            <svg className="dce-bg-loading" viewBox="0 0 1792 1792"><path d="M1760 896q0 176-68.5 336t-184 275.5-275.5 184-336 68.5-336-68.5-275.5-184-184-275.5-68.5-336q0-213 97-398.5t265-305.5 374-151v228q-221 45-366.5 221t-145.5 406q0 130 51 248.5t136.5 204 204 136.5 248.5 51 248.5-51 204-136.5 136.5-204 51-248.5q0-230-145.5-406t-366.5-221v-228q206 31 374 151t265 305.5 97 398.5z"></path></svg>
+            <div className="dce-video-container"></div>
+            <div className="dce-scanarea">
+                <div className="dce-scanlight"></div>
+            </div>
+        </div>       
     }
-    </>
+    </div>
   );
 }
 

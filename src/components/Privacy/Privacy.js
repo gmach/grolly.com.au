@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import './styles.scss'
 
 export const Privacy = () => {
   return (
-    <>
+    <div className="privacy">
       <h1>Privacy Policy</h1>
 
       <p>Last updated: February 08, 2020</p>
@@ -157,6 +158,6 @@ export const Privacy = () => {
       <ul>
         <li>By email: bitbod@runbox.com</li>
       </ul>
-    </>
+    </div>
   )
 }

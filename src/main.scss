@@ -35,6 +35,13 @@ html {
 
 .text-center {
   text-align: center;
+  font-size: 2.5rem ;
+}
+
+.alert-danger {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
 }
 
 .active {
@@ -88,14 +95,6 @@ h2 {
 }
 
 
-.scrollup {
-  position: fixed;
-  font-size: 40px;
-  opacity: 0.5;
-  right: 20px;
-  top: 600px;
-  cursor: pointer;
-}
 footer {
   width: 100%;
   max-height: 7rem;
@@ -141,28 +140,6 @@ footer {
 /* line 240, ../scss/main.scss */
 .exclusive {
   text-transform: capitalize;
-}
-
-/* line 243, ../scss/main.scss */
-.nobarcodfound {
-  padding-left: 15px;
-  margin-bottom: 5px;
-}
-
-/* line 248, ../scss/main.scss */
-.processingbarcode {
-  margin: 15px auto;
-  width: 300px;
-}
-/* line 251, ../scss/main.scss */
-.processingbarcode .barcode {
-  color: #163f76;
-  font-weight: bold;
-}
-
-/* line 256, ../scss/main.scss */
-.about {
-  margin: 15px;
 }
 
 /* line 259, ../scss/main.scss */
@@ -307,102 +284,20 @@ footer {
   flex: 0 1 auto;
 }
 
-/* line 364, ../scss/main.scss */
-.addCart, .removeCart {
-  margin-top: 20px;
-  font-size: 30px;
-}
 
-/* line 368, ../scss/main.scss */
-.aboutlink {
-  color: #163f76;
-  font-weight: bold;
-  text-decoration: none;
-}
-/* line 372, ../scss/main.scss */
-.aboutlink:hover {
-  color: #ff4532;
-}
 
-/* line 376, ../scss/main.scss */
-.cartHeader {
-  display: flex;
-  justify-content: center;
-  font-size: 24px;
-  margin: 20px;
-}
-
-/* line 382, ../scss/main.scss */
-.dateAdded {
-  font-size: 2.1rem;
-}
 
 /* line 385, ../scss/main.scss */
 .scanMenu, .shopcart {
   color: #163f76;
 }
 
-/* line 388, ../scss/main.scss */
-.centerbtn {
-  text-align: center;
-  margin: 10px 0;
-}
 
 /* line 392, ../scss/main.scss */
 .cartsaved {
   margin-left: 15px;
 }
 
-/* line 395, ../scss/main.scss */
-.notification-panel {
-  z-index: 201;
-  position: absolute;
-  top: 19%;
-  right: 0;
-  width: 302px;
-  background-color: #20252b;
-  color: #f9fbfb;
-  border-color: #163f76;
-  border: 1px solid;
-  border-top-width: 3px;
-  transform: translateY(0px);
-  overflow-y: visible;
-  visibility: visible;
-  opacity: 1;
-  transition: transform 0.5s ease-in 0s, opacity 0.3s ease-in 0.3s;
-  margin-bottom: 17px;
-  font-size: 15px;
-  text-align: center;
-  cursor: default;
-}
-
-/* line 416, ../scss/main.scss */
-.notification-panel.changed {
-  transition: all 5s linear;
-  display: none;
-}
-
-/* line 420, ../scss/main.scss */
-.notification-panel .notification-panel-top-arrow {
-  position: absolute;
-  top: -11px;
-  left: calc(50% - 8px);
-  width: 0;
-  height: 0;
-  cursor: pointer;
-  border-left: 8.5px solid transparent;
-  border-right: 8.5px solid transparent;
-  border-bottom: 8.5px solid #24b94e;
-}
-
-/* line 432, ../scss/main.scss */
-.notification-panel .icon.btn-close {
-  position: absolute;
-  cursor: pointer;
-  top: 12px;
-  right: 12px;
-  font-size: 10px !important;
-}
 
 /* line 439, ../scss/main.scss */
 .icon.icon-cross {
@@ -463,9 +358,6 @@ footer {
   background-repeat: no-repeat;
   background-size: 50%;
 }
-.text-center {
-  font-size: 25px ;
-}
 /* line 589, ../scss/main.scss */
 .hasMatches {
   color: #163f76;
@@ -477,31 +369,6 @@ footer {
   cursor: pointer;
 }
 
-/* line 599, ../scss/main.scss */
-.searchWrap {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50%;
-  margin: 15px auto;
-}
-
-/* line 608, ../scss/main.scss */
-.searchWrap .searchBox {
-  border: 3px solid #163f76;
-  border-radius: 5px;
-  width: 70%;
-  height: 50px;
-  font-size: 25px;
-}
-.searchWrap .searchBtn {
-  width: 20%;
-  height: 50px;
-}
-/* line 604, ../scss/main.scss */
-.searchWrap .searchBox, .searchWrap .searchBtn {
-  margin: 0 10px;
-}
 /* line 616, ../scss/main.scss */
 .subheading {
   padding-left: 15px;

@@ -11,7 +11,7 @@ header {
     flex-flow: row wrap; 
     justify-content: space-between;
     align-items: center;
-    padding-top: 10px;
+    padding: 10px;
     
     .nav-item { 
       font-size: 2rem;
@@ -21,7 +21,7 @@ header {
     .nav-logo {
       background-image: url("/img/GroceryHawker-03.png");
       min-height: 60px;
-      width: 125px;
+      width: 313px;
       background-position: center;
       background-repeat: no-repeat;
       background-size: 100%;
@@ -42,41 +42,3 @@ header {
     }
   }
 }
-
-
-// /* line 60, ../scss/main.scss */
-// .nav-container {
-//   display: flex;
-//   flex-wrap: wrap;
-// }
-
-// /* line 67, ../scss/main.scss */
-// .nav-container {
-//   background-color: #f6f6f6;
-// }
-
-// /* line 71, ../scss/main.scss */
-// .nav-bar {
-//   flex: 1;
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   margin: 10px;
-// }
-// /* line 77, ../scss/main.scss */
-// .nav-bar .nav-item {
-//   list-style-type: none;
-//   cursor: pointer;
-// }
-// /* line 81, ../scss/main.scss */
-// .nav-bar i {
-//   width: 30px;
-//   font-size: 25px;
-//   cursor: pointer;
-// }
-
-// /* line 572, ../scss/main.scss */
-// .nav-logo {
-//   max-width: 200px;
-//   margin-left: 15px;
-// }

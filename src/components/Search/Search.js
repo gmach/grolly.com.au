@@ -6,6 +6,8 @@ import {
 import { useEffect } from "react";
 import { isAdmin, ApiUrl } from '../../config'
 import TileContainer from '../TileContainer';
+import './styles.scss'
+
 export async function loader({ request }) {
   let url = new URL(request.url);
   let searchTerm = url.searchParams.get("q");
@@ -58,7 +60,7 @@ export default function Search() {
           q &&         
       <>
         <h2 className="subheading text-center">Search Results for <span className="qSearch">{ q }</span></h2>
-        <div className="categoryHeader">
+        <div className="searchResults">
           <span className="prodsfound">{ data.length } products found.</span>
         </div>
         <TileContainer data={data} view={view} />         

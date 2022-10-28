@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useNavigation } from "react-router-dom";
+import './styles.scss'
 
 export const SpinnerLoader = React.memo(() => {
   const status = useSelector(state => state.products.status)
@@ -24,7 +25,7 @@ export const SpinnerLoader = React.memo(() => {
   return (status === 'loading' || isSearching) ? 
     <>
       <div className="spinner-wrapper" ref={wrapRef} id="spinner-wrapper">
-        <div className="loadingio-spinner-spinner-ev6jh5v9rqq"><div className="ldio-5h29m0fq6k6">
+        <div className="loadingio-spinner-wrapper"><div className="loading-spinner">
           <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
         </div></div>
       </div>

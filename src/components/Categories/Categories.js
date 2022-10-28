@@ -11,8 +11,7 @@ export const Categories = () => {
   return (
     <>
       <CategoryHeader />
-      <main className="main-container">
-        <div className="main-content">
+      <main className="main-content">
         {
           showCategories && 
           <>
@@ -33,13 +32,10 @@ export const Categories = () => {
             }
             </div>
             <div className="content-pane">
-              <div id="routedContent">
-                <Outlet />
-              </div>
+              <Outlet />
             </div>
           </>
         }
-        </div>
       </main>
       </>
   );

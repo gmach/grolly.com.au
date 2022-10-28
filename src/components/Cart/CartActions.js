@@ -2,6 +2,8 @@ import { useContext } from "react"
 import { RootContext } from "../Root"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlusCircle, faMinusCircle} from '@fortawesome/free-solid-svg-icons'
+import './styles.scss'
+
 // import {
 // 	addToCart,
 //   removeFromCart

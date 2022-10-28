@@ -1,0 +1,29 @@
+.qSearch {
+  color: green;
+}
+.searchResults {
+  font-size: 2.5rem;
+}
+
+.searchWrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  margin: 15px auto;
+
+  .searchBox {
+    border: 3px solid #163f76;
+    border-radius: 5px;
+    width: 70%;
+    height: 50px;
+    font-size: 25px;
+    margin: 0 10px;
+  }
+
+  .searchBtn {
+    width: 20%;
+    height: 50px;
+    margin: 0 10px;
+  }
+}

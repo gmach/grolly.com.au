@@ -1,0 +1,16 @@
+.nobarcodefound {
+  padding-left: 15px;
+  margin-bottom: 5px;
+}
+
+.processingbarcode {
+  margin: 15px auto;
+  width: 300px;
+}
+.foundbarcode {
+  color: green;
+}
+.processingbarcode .barcode {
+  color: #163f76;
+  font-weight: bold;
+}
