@@ -37,7 +37,7 @@ export default function Tile ({product, view, className}) {
           <section>
             {
               ((product.type !== 'coles' && product.isAvailable) || product.type === 'coles') && 
-                <span className="diff">{ product.comparisonMsg ? product.comparisonMsg : '' + (product.type === 'both' ? ' at ' : '') }</span>
+                <span className="diff">{ (product.comparisonMsg ? product.comparisonMsg : '') + (product.type === 'both' ? ' at ' : '') }</span>
             }
             {
               product.winner === 'woolworths' && 

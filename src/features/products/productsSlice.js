@@ -39,7 +39,7 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', async (p
   records.forEach((record) => {
     record.categoryId = categoryId
   })
-  records.forEach(postProcessProduct)
+  postProcessProducts(records)
   return {
     page,
     records,
@@ -47,13 +47,21 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', async (p
   }
 })
 
+export const postProcessProducts = products => {
+  products.forEach(postProcessProduct)
+}
+
 const postProcessProduct = product => {
+  try {
   if (product.children) {
     for (let c of product.children) {
       if (c.coles)
         product.coles = c.coles
     }
   }
+
+
+
   let formattedDate = new Date(Date.parse(product.dateAdded)).toLocaleString("en-GB", {timeZone: "Australia/Brisbane", hour12: true})
   if (formattedDate === 'Invalid Date') {
     let dp = product.dateAdded.split(',')[0]
@@ -76,7 +84,10 @@ const postProcessProduct = product => {
     ? (diff == 0 && percent == 0)?'Same Price at both':('Saving of $' + diff + ' / ' + (percent?percent:'0') + '%' ) 
     : ''
   product.comparisonMsg = comparisonMsg
-	product.targetType = product.type === 'coles' ? 'Woolworths' : 'Coles';
+  product.targetType = product.type === 'coles' ? 'Woolworths' : 'Coles';
+} catch (e) {
+  console.log(e)
+}
 }
 
 export const fetchProduct = createAsyncThunk('products/fetchProduct', async (productId, {dispatch, getState}) => {

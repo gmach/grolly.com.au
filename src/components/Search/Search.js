@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { isAdmin, ApiUrl } from '../../config'
 import TileContainer from '../TileContainer';
 import './styles.scss'
+import { postProcessProducts } from "../../features/products/productsSlice";
 
 export async function loader({ request }) {
   let url = new URL(request.url);
@@ -31,7 +32,9 @@ export async function loader({ request }) {
     }
   )
   response = await response.json()
-  return { data: response.records, q: searchTerm };  
+  const data = response.records
+  postProcessProducts(data)
+  return { data, q: searchTerm };  
 }
 
 export async function action({ request }) {}
