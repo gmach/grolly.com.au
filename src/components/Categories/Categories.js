@@ -1,5 +1,4 @@
 import { NavLink, Outlet } from "react-router-dom";
-import CategoryHeader from '../CategoryHeader'
 import { Categories as CategoriesObj } from '../../config'
 import { useContext } from "react";
 import { RootContext } from "../Root";
@@ -10,7 +9,6 @@ export const Categories = () => {
   const { showCategories } = useContext(RootContext);
   return (
     <>
-      <CategoryHeader />
       <main className="main-content">
         {
           showCategories && 

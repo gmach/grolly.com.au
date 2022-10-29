@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigation } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import { useContext, useEffect, useRef } from "react"
@@ -6,6 +6,7 @@ import { RootContext } from "../Root"
 import SnackBar from "../SnackBar";
 import useScroll from "../../hooks/useScroll";
 import './styles.scss'
+import CategoryHeader from "../CategoryHeader";
 export const Header = () => {
   const { state } = useContext(RootContext);
   const snackBarRef = useRef(null)
@@ -27,7 +28,10 @@ export const Header = () => {
     }
     doAsync()
   }, [cartMessage])
-
+  const navigation = useNavigation()
+  const navigationPath = navigation.location ? navigation.location.pathname : ''
+  const locationPath = location.pathname
+  const showCategoryHeader = locationPath === '/categories' || navigationPath === ''
   return (
     <header>
       <div className="nav-bar">
@@ -57,6 +61,12 @@ export const Header = () => {
           type={messageType} 
           ref={snackBarRef}
         />
+      { 
+        showCategoryHeader &&
+        <CategoryHeader />
+      }
     </header>
+    
+
   )
 }

@@ -2,6 +2,8 @@
 $header-bg-color: #f6f6f6;
 
 header {
+  position: sticky;
+  top: 0px;
   width: 100%;
   min-height: 75px;
   background-color: $header-bg-color;

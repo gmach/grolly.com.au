@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setCategoryId } from '../../features/products/productsSlice';
-import CategoryHeader from '../CategoryHeader'
 import logoImage from '../../img/GroceryHawker-03.png';
 import './styles.scss'
 export const DefaultHome = () => {
@@ -12,7 +11,6 @@ export const DefaultHome = () => {
 
   return (
     <>
-    <CategoryHeader/>
       <div className="homepage">
         <img src={logoImage} alt="Logo Background"/>
       </div>
