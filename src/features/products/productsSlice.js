@@ -39,14 +39,7 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', async (p
   records.forEach((record) => {
     record.categoryId = categoryId
   })
-  for (let item of records) {
-    if (item.children) {
-      for (let c of item.children) {
-        if (c.coles)
-          item.coles = c.coles
-      }
-    }
-  }
+  records.forEach(postProcessProduct)
   return {
     page,
     records,
@@ -54,11 +47,42 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', async (p
   }
 })
 
+const postProcessProduct = product => {
+  if (product.children) {
+    for (let c of product.children) {
+      if (c.coles)
+        product.coles = c.coles
+    }
+  }
+  let formattedDate = new Date(Date.parse(product.dateAdded)).toLocaleString("en-GB", {timeZone: "Australia/Brisbane", hour12: true})
+  if (formattedDate === 'Invalid Date') {
+    let dp = product.dateAdded.split(',')[0]
+    let tp = product.dateAdded.split(',')[1]
+    dp = dp.split('/')
+    let nw = {...dp}
+    nw[0]=dp[1]
+    nw[1]=dp[0]
+    dp = nw.join('/')
+    formattedDate = new Date(dp + tp).toLocaleString("en-GB", {timeZone: "Australia/Brisbane", hour12: true})
+  }
+  product.formattedDate = formattedDate
+  let percent = product.diffPercent?product.diffPercent:0
+  let diff = product.diff?product.diff:0
+  if (product.type != 'both') {
+      percent = product.discountPercent?product.discountPercent:0
+      diff = product.discount?product.discount:0
+  }
+  const comparisonMsg = (diff == 0 && percent == 0)?'Same Price':('Saving of $' + diff + ' / ' + (percent?percent:'0') + '%')  
+  product.comparisonMsg = comparisonMsg
+	product.targetType = product.type === 'coles' ? 'Woolworths' : 'Coles';
+}
+
 export const fetchProduct = createAsyncThunk('products/fetchProduct', async (productId, {dispatch, getState}) => {
   const url = ApiUrl + '/product/' + productId
   + '/' + isAdmin;
   let response = await fetch(url)
   response = await response.json()
+  postProcessProduct(response)
   return response
 })
 

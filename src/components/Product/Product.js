@@ -35,15 +35,6 @@ export default function Product() {
 	const item = useSelector((state) => selectProductById(state, params.productId)) 
 	if (!item)
 		return null
-	
-	let percent = item.diffPercent?item.diffPercent:0;
-	let diff = item.diff?item.diff:0;
-	if (item.type != 'both') {
-			percent = item.discountPercent?item.discountPercent:0;
-			diff = item.discount?item.discount:0;
-	}
-	const targetType = item.type === 'coles' ? 'Woolworths' : 'Coles';
-	const comparisonMsg = (diff == 0 && percent == 0)?'Same Price':('Saving of $' + diff + ' / ' + (percent?percent:'0') + '%');
 	const classNameTile = 'product-tile ' + item.type
 	const classNameWinner = 'winner ' + item.winner
 
@@ -55,10 +46,6 @@ export default function Product() {
 				return m;
 		})
 		setMatches(response)
-	}
-	if (isAdmin) {
-		getMatches()
-		.catch(console.error);
 	}
 	
 	const view = 'product'
@@ -88,14 +75,14 @@ export default function Product() {
 							<div>
 								Click 
 								<span className="getMatches"><FontAwesomeIcon onClick={getMatches} icon={faLink} /></span>
-								to find nearest matches from { targetType }
+								to find nearest matches from { item.targetType }
 							</div>
 						}
 					</h2>
 				}
 				{
 					((item.type !== 'coles' && item.isAvailable) || item.type === 'coles') && 
-					<h2>{ comparisonMsg }sdfdsfdffd</h2>
+					<h2>{ item.comparisonMsg }</h2>
 				}
 			</div>
 		</div>
