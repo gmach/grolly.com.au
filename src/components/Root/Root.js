@@ -6,6 +6,7 @@ import SpinnerLoader from '../SpinnerLoader'
 import useToggle from "../../hooks/useToggle";
 import { SnackBarType } from "../SnackBar";
 import './mulifont.scss'
+import './styles.scss'
 
 export const RootContext = createContext();
 

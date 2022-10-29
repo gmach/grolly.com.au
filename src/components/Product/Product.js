@@ -94,7 +94,7 @@ export default function Product() {
 					</h2>
 				}
 				{
-					(item.type !== 'coles' && item.isAvailable) || item.type === 'coles' && 
+					((item.type !== 'coles' && item.isAvailable) || item.type === 'coles') && 
 					<h2>{ comparisonMsg }sdfdsfdffd</h2>
 				}
 			</div>
