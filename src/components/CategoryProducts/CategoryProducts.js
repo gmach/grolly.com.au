@@ -22,7 +22,6 @@ const CategoryProducts = memo(() => {
   const categoryId = parseInt(params.categoryId, 10)
   const dispatch = useDispatch()
   const totalCount = useSelector(state => state.products.totalCount)  
-  const status = useSelector(state => state.products.status)
 
   useEffect(() => { 
 		const runAsync = async () => {
