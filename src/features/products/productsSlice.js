@@ -72,7 +72,9 @@ const postProcessProduct = product => {
       percent = product.discountPercent?product.discountPercent:0
       diff = product.discount?product.discount:0
   }
-  const comparisonMsg = (diff == 0 && percent == 0)?'Same Price':('Saving of $' + diff + ' / ' + (percent?percent:'0') + '%')  
+  const comparisonMsg = product.type === 'both' 
+    ? (diff == 0 && percent == 0)?'Same Price at both':('Saving of $' + diff + ' / ' + (percent?percent:'0') + '%' ) 
+    : ''
   product.comparisonMsg = comparisonMsg
 	product.targetType = product.type === 'coles' ? 'Woolworths' : 'Coles';
 }

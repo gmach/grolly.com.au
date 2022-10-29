@@ -8,6 +8,22 @@ export async function action() {}
 export default function Cart() {
   const { state } = useContext(RootContext);
   const view = 'cart'
+
+  let total = 0;
+  let diffTotal = 0;
+  let isStale = false;
+  for (const item of state.cart) {
+    total += parseFloat(item.price);
+    diffTotal += item.diff ? parseFloat(item.diff) : 0
+    let da = new Date(item.datedAdded);
+    let day = 60 * 60 * 24 * 1000;
+    let daplus1 = new Date(da.getTime() + day);
+    let now = new Date();
+    let dateDiff = now - daplus1;
+    isStale = dateDiff / day > 1
+  }
+  total = '$' + total.toFixed(2)
+  diffTotal = '$' + diffTotal.toFixed(2)
   return (
     <>
       <h1 className="cartHeader">
@@ -15,8 +31,8 @@ export default function Cart() {
           state.cart && state.cart.length > 0 &&
           <>
             <div>
-              Total shopping price <span className="cartTotal">{ state.total }</span>&nbsp;
-              You saved <span className="cartSavingTotal">{ state.diffTotal }</span>
+              Total shopping price <span className="cartTotal">{ total }</span>&nbsp;
+              You saved <span className="cartSavingTotal">{ diffTotal }</span>
             </div>
             {/* {
               data && data.isStale && 

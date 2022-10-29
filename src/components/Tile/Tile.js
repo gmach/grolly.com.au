@@ -37,7 +37,7 @@ export default function Tile ({product, view, className}) {
           <section>
             {
               ((product.type !== 'coles' && product.isAvailable) || product.type === 'coles') && 
-                <span className="diff">{ product.comparisonMsg }</span>
+                <span className="diff">{ product.comparisonMsg ? product.comparisonMsg : '' + (product.type === 'both' ? ' at ' : '') }</span>
             }
             {
               product.winner === 'woolworths' && 
@@ -77,20 +77,26 @@ export default function Tile ({product, view, className}) {
           <div className="w100">
             <h2 className="productprice text-item">${ product.price }
               {
-                product.discount > 0 &&
+                view === 'product' && product.discount > 0 &&
                   <div className="small">
                     <span className="was">{ product.originalPrice }</span>
                     <span className="productdiscount text-item small">{ product.discount} / { product.discountPercent }%</span>
                   </div>
               }
             </h2>
-            <div className='dateAdded'>
+           {
+            view === 'product' && 
+              <div className='dateAdded'>
               Price on { product.formattedDate }
             </div>
+            } 
           </div>
-          <div className="w100">
-            <div className="unitPrice text-item">{ product.unitPrice }</div>
-          </div>     
+            {
+              view === 'product' &&    
+              <div className="w100">
+                <div className="unitPrice text-item">{ product.unitPrice }</div>
+              </div> 
+            }    
         </h3>  
       }
       {

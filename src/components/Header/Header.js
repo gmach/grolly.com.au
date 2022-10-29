@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigation } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import { useContext, useEffect, useRef } from "react"
@@ -28,6 +28,8 @@ export const Header = () => {
     }
     doAsync()
   }, [cartMessage])
+  const navigation = useNavigation()
+  const navigationPath = navigation.location ? navigation.location.pathname : ''
   const locationPath = location.pathname
   const showCategoryHeader = locationPath === '/categories' || locationPath === '/'
   return (
