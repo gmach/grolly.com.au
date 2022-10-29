@@ -1,9 +1,8 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Header from '../Header'
 import Footer from '../Footer'
 import SpinnerLoader from '../SpinnerLoader'
-import useToggle from "../../hooks/useToggle";
 import { SnackBarType } from "../SnackBar";
 import './mulifont.scss'
 import './styles.scss'
@@ -66,7 +65,7 @@ export const Root = () => {
   const [state, dispatch] = useReducer(reducer, {
     cart: []
   });
-  const [showCategories, toggleShowCategories] = useToggle()
+  const [showCategories, setShowCategories] = useState(true)
   useEffect(() => {
     let userCart = localStorage.userCart; 
     if (userCart != null)
@@ -81,7 +80,7 @@ export const Root = () => {
   }, [])
   
   return (
-    <RootContext.Provider value={{ state, dispatch, showCategories, toggleShowCategories }}>
+    <RootContext.Provider value={{ state, dispatch, showCategories, setShowCategories }}>
       <Header/>
       <SpinnerLoader/>
       <Outlet/> 

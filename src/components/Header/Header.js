@@ -8,7 +8,7 @@ import useScroll from "../../hooks/useScroll";
 import './styles.scss'
 import CategoryHeader from "../CategoryHeader";
 export const Header = () => {
-  const { state } = useContext(RootContext);
+  const { state, setShowCategories } = useContext(RootContext);
   const snackBarRef = useRef(null)
   const [scrollTo] = useScroll()
   const scrollUp = () => {
@@ -32,11 +32,12 @@ export const Header = () => {
   const navigationPath = navigation.location ? navigation.location.pathname : ''
   const locationPath = location.pathname
   const showCategoryHeader = locationPath === '/categories' || locationPath === '/'
+
   return (
     <header>
       <div className="nav-bar">
         <li className="nav-item">
-          <Link to="/">
+          <Link to="categories" onClick={()=>setShowCategories(true)}>
             <div className="nav-logo"/>
           </Link>
         </li>
@@ -61,10 +62,6 @@ export const Header = () => {
           type={messageType} 
           ref={snackBarRef}
         />
-      { 
-        showCategoryHeader &&
-        <CategoryHeader />
-      }
     </header>
     
 

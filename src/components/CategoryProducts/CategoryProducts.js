@@ -7,6 +7,7 @@ import {
   setCategoryId
 } from '../../features/products/productsSlice'
 import TileContainer from "../TileContainer";
+import CategoryHeader from "../CategoryHeader";
 import FiltersHeader from "../FiltersHeader";
 
 export async function loader({ params }) {
@@ -35,6 +36,7 @@ const CategoryProducts = memo(() => {
   const view = 'category'
   return (
     <>
+      <CategoryHeader />
       <FiltersHeader prodsFound={data.length} totalCount={totalCount}/>
       <TileContainer data={data} view={view} />
     </>

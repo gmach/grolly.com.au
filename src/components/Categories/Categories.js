@@ -6,13 +6,12 @@ import './styles.scss'
 
 export const Categories = () => {
   let categories = Object.entries(CategoriesObj);
-  const { showCategories } = useContext(RootContext);
+  const { showCategories, setShowCategories } = useContext(RootContext);
   return (
     <>
       <main className="main-content">
         {
           showCategories && 
-          <>
             <div className="categories-pane">
             { 
               categories.map(category => {
@@ -21,6 +20,7 @@ export const Categories = () => {
                   <div className="catitem" key={categoryId}>
                     <NavLink className='catlink' 
                       to={`/categories/${categoryId}`}
+                      onClick={()=>setShowCategories(false)}
                     >
                       {categoryName} 
                     </NavLink>
@@ -29,11 +29,10 @@ export const Categories = () => {
               })
             }
             </div>
+          }
             <div className="content-pane">
               <Outlet />
             </div>
-          </>
-        }
       </main>
       </>
   );
