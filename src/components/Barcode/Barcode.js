@@ -103,7 +103,7 @@ const Barcode = () => {
         GO BACK
         </button>
     </div>     */}
-    <p className="text-center">
+    <p className="barcodescan">
         Scan the product barcode with your camera.
     </p>
     {
