@@ -16,7 +16,7 @@ header {
     padding: 10px;
     
     .nav-item { 
-      font-size: 2rem;
+      font-size: 1.5rem;
       cursor: pointer;
     }
 
@@ -25,11 +25,11 @@ header {
   max-width: 100%;
   margin-left: 15px;
 }
-
+  
     .nav-logo {
       background-image: url("/img/GroceryHawker-03.png");
+      width: 150px;
       min-height: 60px;
-      width: 313px;
       background-position: center;
       background-repeat: no-repeat;
       background-size: 100%;
@@ -37,16 +37,39 @@ header {
 
     .barcode-scanner {
       background-image: url("/img/scanner.png");
-      width: 125px;
+      width: 50px;
       height: 35px;
       background-position: center;
       background-repeat: no-repeat;
-      background-size: 50%;
+      background-size: 100%;
     }
     
     .cartSize {
       font-size: 1.5em;
       padding-left: 10px;
+    }
+  }
+}
+
+@media only screen and (min-width: 480px) {
+  header {
+  
+    .nav-bar { 
+      justify-content: space-around;
+      
+      .nav-item { 
+        font-size: 2rem;
+        cursor: pointer;
+      }
+
+      .nav-logo {
+        width: 313px;
+      }
+
+      .barcode-scanner {
+        background-size: 50%;
+        width: 125px;
+      }
     }
   }
 }
