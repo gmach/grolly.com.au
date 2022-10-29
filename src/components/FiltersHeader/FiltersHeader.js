@@ -16,26 +16,26 @@ export default function FiltersHeader( { prodsFound, totalCount }) {
     {
       categoryId !== '' &&
       <div className="filtersHeader">
-        <span className="prodsfound">{ prodsFound } of { totalCount } products found.</span>
-          <select 
-            className="selectedType" 
-            id="selectedType" 
-            value={filter} 
-            onChange={handleSelect}
-            >
-              {
-                Object.entries(StatusFilters).map(([key, value]) => {
-                  return (
-                    <option 
-                      key={key} 
-                      value={value}
-                    >
-                      {key}
-                    </option>
-                  )
-                })
-              }
-          </select>
+        <h2 className="prodsfound">{ prodsFound } of { totalCount } products found.</h2>
+        <select 
+          className="selectedType" 
+          id="selectedType" 
+          value={filter} 
+          onChange={handleSelect}
+          >
+            {
+              Object.entries(StatusFilters).map(([key, value]) => {
+                return (
+                  <option 
+                    key={key} 
+                    value={value}
+                  >
+                    {key}
+                  </option>
+                )
+              })
+            }
+        </select>
       </div>  
     }
     </>

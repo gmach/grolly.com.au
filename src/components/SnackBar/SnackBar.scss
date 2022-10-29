@@ -1,7 +1,7 @@
 .snackbar {
   position: fixed;
-  right: 0%;
-  top: 10%;
+  right: -58%;
+  top: 18%;
   transform: translate(-50%, -50%);
   width: 400px;
   height: 80px;
@@ -50,5 +50,12 @@ keyframes fadeIn {
   to {
     bottom: 0;
     opacity: 0;
+  }
+}
+
+@media only screen and (min-width: 480px) {
+  .snackbar {
+    right: 0%;
+    top: 10%;
   }
 }

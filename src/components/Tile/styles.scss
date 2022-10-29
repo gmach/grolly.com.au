@@ -33,6 +33,7 @@
   display: flex;
   flex: 1 1 100%;
   flex-wrap: wrap;
+  align-items: center;
 }
 @media screen and (min-width: 960px) {
   .text-tile {
@@ -56,8 +57,6 @@
 
 .product-title {
   flex: 1 1 100%;
-  font-weight: bold;
-  text-align: left;
 }
 
 .hasMatches {
@@ -66,11 +65,13 @@
 }
 
 .dateAdded {
-  font-size: 2.1rem;
+  font-size: 1.6rem;
+  font-weight: 100;
 }
 
 .unitPrice {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
+  font-weight: 100;
 }
 
 
@@ -97,4 +98,17 @@
 
 .productprice {
   font-weight: bold;
+}
+
+
+
+@media only screen and (min-width: 480px) {
+  .dateAdded {
+    font-size: 2.5rem;
+  }
+  
+  .unitPrice {
+    font-size: 2.5rem;
+  }
+  
 }
