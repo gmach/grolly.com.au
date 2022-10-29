@@ -1,13 +1,18 @@
-.footer-menu { 
-  display: flex;
-  flex-flow: row wrap; 
-  justify-content: space-evenly;
-  align-items: center;
-  padding: 10px;
+footer {
+  width: 100%;
+  margin-top: 20px;
 
-  .footer-link { 
-    font-size: 2.5rem;
-    cursor: pointer;
+  .footer-menu { 
+    display: flex;
+    flex-flow: row wrap; 
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px;
+  
+    .footer-link { 
+      font-size: 2.5rem;
+      font-weight: 400;
+      cursor: pointer;
+    }
   }
-
 }

@@ -17,6 +17,11 @@
       white-space: initial;
       text-overflow: ellipsis;
       text-decoration: none;
+
+      &.active {
+        color: red;
+      }
+      
       &:hover {
         color: #ff4532;
       }
