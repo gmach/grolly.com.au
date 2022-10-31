@@ -1,8 +1,8 @@
 
 
-const EC2_IP = '54.252.132.5'
+const EC2_IP = '3.24.91.249'
 const EC2_DOMAIN_NAME = 'ec2-54-252-132-5.ap-southeast-2.compute.amazonaws.com'
-const EC2_HOSTNAME = 'ip-172-31-27-208.ap-southeast-2.compute.internal'
+const EC2_HOSTNAME = 'ip-172-26-7-81'
 const isProd = location.hostname === EC2_IP
 const API_HOST = isProd ? EC2_IP : 'localhost'
 const ApiUrl = 'http://' + API_HOST + ':1234';
