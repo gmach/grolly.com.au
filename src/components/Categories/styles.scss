@@ -1,36 +1,38 @@
-.categories-pane {
+.main-content {
   background-color: var(--root-theme-color);
+  .categories-pane {
 
-  .catitem {
-    line-height: 1.53;
-    padding: 9px 8px 9px 17px;
-  
-    .catlink {
-      color: var(--root-black-color);
-      font-family: var(--root-font-family);
-      font-weight: bolder;
-      font-size: 24px;
-      letter-spacing: -0.5px;
-      text-align: left;
-      overflow: initial;
-      width: auto;
-      min-width: 238px;
-      white-space: initial;
-      text-overflow: ellipsis;
-      text-decoration: none;
+    .catitem {
+      line-height: 1.53;
+      padding: 9px 8px 9px 17px;
+    
+      .catlink {
+        color: var(--root-black-color);
+        font-family: var(--root-font-family);
+        font-weight: bolder;
+        font-size: 24px;
+        letter-spacing: -0.5px;
+        text-align: left;
+        overflow: initial;
+        width: auto;
+        min-width: 238px;
+        white-space: initial;
+        text-overflow: ellipsis;
+        text-decoration: none;
 
-      &.active {
-        color: var(--root-green-color);
-      }
-      
-      &:hover {
-        color: var(--root-red-color);
+        &.active {
+          color: var(--root-green-color);
+        }
+        
+        &:hover {
+          color: var(--root-red-color);
+        }
       }
     }
   }
-}
-.content-pane {
-  background-color: white; //var(--root-yellow-color);
+  .content-pane {
+    
+  }
 }
 
 @media only screen and (min-width: 480px) {
