@@ -3,12 +3,14 @@ import { Categories as CategoriesObj } from '../../config'
 import { useContext } from "react";
 import { RootContext } from "../Root";
 import './styles.scss'
+import CategoryHeader from "../CategoryHeader";
 
 export const Categories = () => {
   let categories = Object.entries(CategoriesObj);
   const { showCategories, setShowCategories } = useContext(RootContext);
   return (
     <>
+      <CategoryHeader />
       <main className="main-content">
         {
           showCategories && 

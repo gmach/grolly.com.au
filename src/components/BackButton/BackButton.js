@@ -1,6 +1,5 @@
 
 import { useNavigate } from "react-router-dom"
-import './styles.scss'
 
 export default function BackButton() {
   const navigate = useNavigate();

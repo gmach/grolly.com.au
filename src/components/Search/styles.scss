@@ -1,5 +1,5 @@
 .qSearch {
-  color: green;
+  color: var(--root-green-color);
 }
 .searchResults {
   font-size: 2.5rem;
@@ -12,7 +12,7 @@
   margin: 15px auto;
 
   .searchBox {
-    border: 3px solid #163f76;
+    border: 3px solid var(--root-darkgreen-color);
     border-radius: 10px;
     height: 50px;
     font-size: 2.5rem;

@@ -1,7 +1,6 @@
 .main-content {
-  background-color: var(--root-theme-color);
   .categories-pane {
-
+    border-right: 1px solid var(--root-black-color);
     .catitem {
       line-height: 1.53;
       padding: 9px 8px 9px 17px;
@@ -21,7 +20,7 @@
         text-decoration: none;
 
         &.active {
-          color: var(--root-green-color);
+          color: var(--root-darkgreen-color);
         }
         
         &:hover {
@@ -30,8 +29,9 @@
       }
     }
   }
+
   .content-pane {
-    
+
   }
 }
 
@@ -41,11 +41,11 @@
     flex-wrap: wrap;
 
     .categories-pane {
-      flex: 1 1 25%;
+      padding-right: 20px;
     }
 
     .content-pane {
-      flex: 1 1 75%;
+      flex: 1 1;
     }
   }
 }

@@ -1,9 +1,11 @@
 
 :root {  
   --root-yellow-color: #fbfae6; //#ffc100;
-  --root-red-color: #ee352a;
-  --root-black-color: #010101; //#666666
-  --root-green-color: #00813f;
+  --root-red-color: #ee352a; //#F48269;
+  --root-black-color: #010101; 
+  --root-grey-color: #666666;
+  --root-green-color: #9BC2A2;
+  --root-darkgreen-color: #00813f; //44814F
   --root-theme-color: var(--root-yellow-color);
   --root-font-size: 8px;
   --root-font-family: 'Muli';
@@ -38,7 +40,8 @@ img {
 html {
   font-family: var(--root-font-family);
   font-size: var(--root-font-size);
-  color: #4a4a4a;
+  color: var(--root-black-color);
+  background-color: var(--root-theme-color);
 }
 
 .text-center {
@@ -50,6 +53,39 @@ html {
   color: #a94442;
   background-color: #f2dede;
   border-color: #ebccd1;
+}
+
+.centerbtn {
+  text-align: center;
+  margin: 10px 0;
+}
+
+.btn {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 2.5rem;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 10px;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: var(--root-darkgreen-color);
+  border-color: var(--root-black-color);
 }
 
 figure {
