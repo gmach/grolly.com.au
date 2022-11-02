@@ -16,7 +16,7 @@ const SnackBar = forwardRef((props, ref) => {
   }))
 
   const cssStyles = { 
-    backgroundColor : props.type === SnackBarType.success ? '#00F593' : '#FF0033',
+    backgroundColor : props.type === SnackBarType.success ? '#178841' : '#e01a22',
     color : props.type === SnackBarType.success ? 'black' : 'white'
   }
   return (
