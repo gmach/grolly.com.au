@@ -1,14 +1,15 @@
 .categories-pane {
-  background-color: #f6f6f6;
+  background-color: var(--root-theme-color);
 
   .catitem {
     line-height: 1.53;
     padding: 9px 8px 9px 17px;
   
     .catlink {
-      color: #163f76;
-      font-weight: bold;
-      font-size: 15px;
+      color: var(--root-black-color);
+      font-family: var(--root-font-family);
+      font-weight: bolder;
+      font-size: 24px;
       letter-spacing: -0.5px;
       text-align: left;
       overflow: initial;
@@ -19,14 +20,17 @@
       text-decoration: none;
 
       &.active {
-        color: red;
+        color: var(--root-green-color);
       }
       
       &:hover {
-        color: #ff4532;
+        color: var(--root-red-color);
       }
     }
   }
+}
+.content-pane {
+  background-color: white; //var(--root-yellow-color);
 }
 
 @media only screen and (min-width: 480px) {

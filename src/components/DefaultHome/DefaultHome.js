@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setCategoryId } from '../../features/products/productsSlice';
-import logoImage from '../../img/GroceryHawker-03.png';
+import logoImage from '../../img/grolly.png';
 import './styles.scss'
 export const DefaultHome = () => {
   const dispatch = useDispatch()

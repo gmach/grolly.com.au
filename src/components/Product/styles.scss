@@ -12,7 +12,9 @@
   border: 1px solid #ccc;
   border-radius: 10px;
   cursor: pointer;
-  color: rgb(74,74,74);
+
+  background-color: white;
+  color: var(--root-black-color);
 }
 
 .product-tile.match {

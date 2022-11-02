@@ -1,5 +1,6 @@
 
-$header-bg-color: #f6f6f6;
+$header-bg-color: var(--root-theme-color);
+
 
 header {
   position: sticky;
@@ -18,6 +19,11 @@ header {
     .nav-item { 
       font-size: 1.5rem;
       cursor: pointer;
+
+      a {
+        color: var(--root-black-color);
+        font-weight: bolder;
+      }
     }
 
 
@@ -27,7 +33,7 @@ header {
 }
   
     .nav-logo {
-      background-image: url("/img/GroceryHawker-03.png");
+      background-image: url("/img/grolly.png");
       width: 150px;
       min-height: 60px;
       background-position: center;

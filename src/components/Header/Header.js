@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch, faShoppingCart } from '@fortawesome/free-solid-svg-icons'
+import { faBarcode, faSearch, faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import { useContext, useEffect, useRef } from "react"
 import { RootContext } from "../Root"
 import SnackBar from "../SnackBar";
@@ -38,7 +38,7 @@ export const Header = () => {
         </li>
         <li className="nav-item">
           <Link to="barcode">
-            <div className="barcode-scanner"/>
+          <FontAwesomeIcon icon={faBarcode} size="2xl"/>
           </Link>
         </li>
         <li className="nav-item">

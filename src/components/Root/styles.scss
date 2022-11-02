@@ -1,7 +1,15 @@
 
 :root {  
-  --root-color: #163f76;
+  --root-yellow-color: #fbfae6; //#ffc100;
+  --root-red-color: #ee352a;
+  --root-black-color: #010101; //#666666
+  --root-green-color: #00813f;
+  --root-theme-color: var(--root-yellow-color);
   --root-font-size: 8px;
+  --root-font-family: 'Muli';
+  //'Work Sans,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol';
+  //'Muli', sans-serif;
+  // 'stratum-2-web",sans-serif';
 }
 
 * {
@@ -16,7 +24,11 @@
 
 a {
   text-decoration: none;
-  color: var(--root-color);
+  color: var(--root-black-color);
+  
+  &:hover {
+    color: var(--root-red-color);
+  }
 }
 
 img {
@@ -24,7 +36,7 @@ img {
 }
 
 html {
-  font-family: 'Muli', sans-serif;
+  font-family: var(--root-font-family);
   font-size: var(--root-font-size);
   color: #4a4a4a;
 }
