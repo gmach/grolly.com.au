@@ -2,9 +2,9 @@ const PROD_IP = '3.24.91.249'
 const PROD_DOMAIN = 'grolly.com.au'
 const isProd = location.hostname === PROD_DOMAIN
 console.log('Is this Prod? ' + (isProd ? ' Yes ': ' No '))
-const API_HOST = isProd ? PROD_IP : 'localhost'
-const ApiUrl = 'http://' + API_HOST + ':1234';
-const SearchUrl = 'http://' + API_HOST + ':9200';
+const API_HOST = isProd ? PROD_DOMAIN : 'localhost'
+const ApiUrl = 'https://' + API_HOST + ':1234';
+const SearchUrl = 'https://' + API_HOST + ':9200';
 
 const Categories = {
   // 0: "Top Diffs",
