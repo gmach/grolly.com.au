@@ -47,11 +47,11 @@ export default function Search() {
   const view =  'search'
 
   return (
-    <>
-      <Form className="searchWrap" id="search-form" role="search" action="/search" method="get">
+    <div class="searchWrap">
+      <Form id="search-form" role="search" action="/search" method="get">
           <input
             id="q"
-            className="searchBox"
+            // className="searchBox"
             placeholder="Search"
             type="search"
             name="q"
@@ -69,6 +69,6 @@ export default function Search() {
         <TileContainer data={data} view={view} />         
       </>
     }
-    </>   
+    </div>   
   )
 }
