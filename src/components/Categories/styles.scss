@@ -9,7 +9,7 @@
         color: var(--root-black-color);
         font-family: var(--root-font-family);
         font-weight: bolder;
-        font-size: var(--root-h1-size);
+        font-size: var(--root-mobile-font-size);
         letter-spacing: -0.5px;
         text-align: left;
         overflow: initial;
@@ -42,6 +42,13 @@
 
     .categories-pane {
       padding-right: 20px;
+
+      .catitem {
+      
+        .catlink {
+          font-size: var(--root-h1-size);
+        }
+      }
     }
 
     .content-pane {

@@ -3,7 +3,7 @@ const PROD_DOMAIN = 'grolly.com.au'
 const isProd = location.hostname === PROD_DOMAIN
 console.log('Is this Prod? ' + (isProd ? ' Yes ': ' No '))
 const API_HOST = isProd ? PROD_DOMAIN : 'localhost'
-const ApiUrl = 'https://' + API_HOST + ':1234';
+const ApiUrl = 'https://' + API_HOST + ':9117';
 const SearchUrl = 'https://' + API_HOST + ':9200';
 
 const Categories = {

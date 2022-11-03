@@ -7,7 +7,7 @@
   border: 1px solid var(--root-black-color);
   box-sizing: border-box;
   line-height: 27px;
-  font-size: var(--root-h1-size);
+  font-size: var(--root-mobile-font-size);
   font-weight: 800;
   padding: 8px 39px;
   text-decoration: none;
@@ -15,5 +15,11 @@
 
   &:hover {
     color: var(--root-red-color);
+  }
+}
+
+@media only screen and (min-width: 480px) {
+  .btnbrowse {
+    font-size: var(--root-h1-size);
   }
 }
