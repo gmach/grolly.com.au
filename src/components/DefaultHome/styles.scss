@@ -1,5 +1,14 @@
 
 .homepage {
   margin: 20px;
-  background-color: var(--root-theme-color);
+  background-image: url("../../img/grolly.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 100% 0%;
+  width: 50%;
+  height: 100%;
+
+  img {
+    max-width: 50%;
+  }
 }

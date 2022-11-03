@@ -12,7 +12,7 @@ export const DefaultHome = () => {
   return (
     <>
       <div className="homepage">
-        <img src={logoImage} alt="Logo Background"/>
+        {/* <img src={logoImage} alt="Logo Background"/> */}
       </div>
     </>
   )

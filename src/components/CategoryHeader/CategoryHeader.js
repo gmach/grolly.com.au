@@ -15,7 +15,7 @@ const CategoryHeader = memo(() => {
     <span>
       Browsing {categoryName} <FontAwesomeIcon icon={icon} />
     </span> 
-    : 'Click to choose category'
+    : 'Choose category from side menu'
   const toggleShowCategories = () => {
     setShowCategories(!showCategories)
   }    

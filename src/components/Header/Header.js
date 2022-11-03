@@ -26,7 +26,7 @@ export const Header = () => {
       }
     }
     doAsync()
-  }, [cartMessage])
+  }, [state.cart])
 
   return (
     <header>
