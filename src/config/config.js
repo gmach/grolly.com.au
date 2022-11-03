@@ -1,7 +1,8 @@
 const PROD_IP = '3.24.91.249'
 const PROD_HOSTNAME = 'ip-172-26-7-81'
 const isProd = location.hostname === PROD_IP
-console.log(isProd?'Is Prod':'')
+console.log('location.hostname ' + location.hostname)
+console.log('Is this Prod? ' + (isProd ? ' Yes ': ' No '))
 const API_HOST = isProd ? PROD_IP : 'localhost'
 const ApiUrl = 'http://' + API_HOST + ':1234';
 const SearchUrl = 'http://' + API_HOST + ':9200';
