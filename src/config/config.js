@@ -1,7 +1,6 @@
 const PROD_IP = '3.24.91.249'
-const PROD_HOSTNAME = 'ip-172-26-7-81'
-const isProd = location.hostname === PROD_IP
-console.log('location.hostname ' + location.hostname)
+const PROD_DOMAIN = 'grolly.com.au'
+const isProd = location.hostname === PROD_DOMAIN
 console.log('Is this Prod? ' + (isProd ? ' Yes ': ' No '))
 const API_HOST = isProd ? PROD_IP : 'localhost'
 const ApiUrl = 'http://' + API_HOST + ':1234';
