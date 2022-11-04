@@ -47,28 +47,30 @@ export default function Search() {
   const view =  'search'
 
   return (
+    <>
     <div className="searchWrap">
       <Form id="search-form" role="search" action="/search" method="get">
-          <input
-            id="q"
-            // className="searchBox"
-            placeholder="Search"
-            type="search"
-            name="q"
-            defaultValue={q}
-          />
-          <button type="submit" className="searchBtn btn btn-primary">Search</button>
-        </Form>
-        {
-          q &&         
+        <input
+          id="q"
+          // className="searchBox"
+          placeholder="Search"
+          type="search"
+          name="q"
+          defaultValue={q}
+        />
+        <button type="submit" className="searchBtn btn btn-primary">Search</button>
+      </Form>
+    </div>
+    {
+      q &&         
       <>
         <h2 className="subheading text-center">Search Results for <span className="qSearch">{ q }</span></h2>
         <div className="searchResults">
-          <span className="prodsfound">{ data.length } products found.</span>
+          <span className="searchResultsFound">{ data.length } products found.</span>
         </div>
         <TileContainer data={data} view={view} />         
       </>
-    }
-    </div>   
+    } 
+    </>
   )
 }
