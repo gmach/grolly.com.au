@@ -16,12 +16,13 @@ const CategoryHeader = memo(() => {
       Browsing {categoryName} <FontAwesomeIcon icon={icon} />
     </span> 
     : 'Choose category from side menu'
-  const toggleShowCategories = () => {
-    setShowCategories(!showCategories)
+  const handleClick = () => {
+    if (categoryId !== '')
+      setShowCategories(!showCategories)
   }    
   return (
       <Link className="btnbrowse"
-        onClick={toggleShowCategories}
+        onClick={handleClick}
       > 
           { headerMsg }
       </Link>
