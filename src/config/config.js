@@ -2,9 +2,11 @@ const PROD_IP = '3.24.91.249'
 const PROD_DOMAIN = 'grolly.com.au'
 const isProd = location.hostname === PROD_DOMAIN
 console.log('Is this Prod? ' + (isProd ? ' Yes ': ' No '))
+const API_PORT = 9117
 const API_HOST = isProd ? PROD_DOMAIN : 'localhost'
-const ApiUrl = 'https://' + API_HOST + ':9117';
-const SearchUrl = 'https://' + API_HOST + ':9200';
+const protocol = (isProd ? 'https' : 'http') + '://'
+const ApiUrl =  protocol + API_HOST + ':' + API_PORT;
+const SearchUrl = protocol + API_HOST + ':9200';
 
 const Categories = {
   // 0: "Top Diffs",
@@ -34,4 +36,4 @@ const BarcodeLicense = 'DLS2eyJoYW5kc2hha2VDb2RlIjoiMTAxMzkyNDAyLVRYbFhaV0pRY205
 
 const isAdmin = false // admin view
 
-export {ApiUrl, SearchUrl, Categories, StatusFilters, BarcodeLicense, isAdmin};
+export {ApiUrl, API_PORT, SearchUrl, Categories, StatusFilters, BarcodeLicense, isAdmin};

@@ -4,7 +4,6 @@ import {
   createEntityAdapter
 } from '@reduxjs/toolkit'
 import { StatusFilters } from '../filters/filtersSlice'
-import _ from 'lodash'
 const cartItemsAdapter = createEntityAdapter()
 export const initialState = cartItemsAdapter.getInitialState() // will autogenerate normalized state object { ids: [], entities: {} }
 
