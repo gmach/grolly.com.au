@@ -1,7 +1,7 @@
 const PROD_IP = '3.24.91.249'
 const PROD_DOMAIN = 'grolly.com.au'
 const isProd = location.hostname === PROD_DOMAIN
-console.log('Is this Prod? ' + (isProd ? ' Yes ': ' No '))
+// console.log('Is this Prod? ' + (isProd ? ' Yes ': ' No '))
 const API_PORT = 9117
 const API_HOST = isProd ? PROD_DOMAIN : 'localhost'
 const protocol = (isProd ? 'https' : 'http') + '://'
