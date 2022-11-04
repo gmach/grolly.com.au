@@ -11,15 +11,17 @@
 
   form {
     display: flex;
-    flex-wrap: wrap;
-    width: 85%;
+    flex-flow: column wrap;
+    width: 100%;
     margin: 0 auto;
   }
 
   input[type="search"] {
+    flex: 1 0 50%;
     border: 3px solid var(--root-darkgreen-color);
     border-radius: 10px;
     height: 50px;
+    margin-bottom: 10px;
     font-size: 2.5rem;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -28,20 +30,18 @@
     text-decoration: none;
     line-height: normal;
     max-height: 3em;
-    flex: 2 0 250px;
-  }
-  
-  input[type="search"]:focus {
-    color: white;
-    letter-spacing: .1em;
-    transition: background 400ms ease-in-out;
-    outline: none;
+
+    &:focus {
+      color: white;
+      letter-spacing: .1em;
+      transition: background 400ms ease-in-out;
+      outline: none;
+    }
   }
   
   button {
-    flex: 1 0 90px;
+    flex: 1 0 50%;
     max-height: 3em;
-    margin-top: 10px;
     margin-bottom: 10px;
     letter-spacing: .2em;
     text-transform: uppercase;
@@ -51,22 +51,32 @@
     cursor: pointer;
     height: 50px;
   }
-    
 }
 
 
 @media only screen and (min-width: 480px) {
   .searchWrap {
-    width: 50%;
+    width: 75%;
   
-    .searchBox {
-      width: 70%;
+    form {
+      flex-flow: row wrap;
     }
 
-    .searchBtn {
+    input[type="search"] {
+      width: 60%;
+      flex: auto;      
+    }
+
+    button {
       width: 30%;
-      margin-top: 0;
+      flex: auto;
       margin-left: 10px;
     }
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .searchWrap {
+    width: 50%;
   }
 }
