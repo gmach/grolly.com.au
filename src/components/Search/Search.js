@@ -47,7 +47,7 @@ export default function Search() {
   const view =  'search'
 
   return (
-    <div class="searchWrap">
+    <div className="searchWrap">
       <Form id="search-form" role="search" action="/search" method="get">
           <input
             id="q"
