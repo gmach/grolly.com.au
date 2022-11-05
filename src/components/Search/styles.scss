@@ -34,11 +34,10 @@
     text-decoration: none;
     line-height: normal;
     max-height: 3em;
-
+    letter-spacing: .1em;
+    
     &:focus {
-      color: white;
-      letter-spacing: .1em;
-      transition: background 400ms ease-in-out;
+
       outline: none;
     }
   }
