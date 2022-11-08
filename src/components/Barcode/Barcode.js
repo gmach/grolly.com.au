@@ -1,6 +1,7 @@
 import { BarcodeReader, BarcodeScanner } from "dynamsoft-javascript-barcode";
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { isAdmin, ApiUrl } from '../../config'
 import './Barcode.css'
 import './styles.scss'
 
@@ -50,9 +51,8 @@ const Barcode = () => {
                     return;
                 }
                 new Audio('./scanner-beep.mp3').play();
-                barcode ='9317948008038' //'9300601013692';
-                const RESTURL = 'http://localhost:1234'
-                let product = await fetch(RESTURL + '/barcode/' + barcode + '/' + false);
+                // barcode ='9317948008038' //'9300601013692';
+                let product = await fetch(ApiUrl + '/barcode/' + barcode + '/' + isAdmin);
                 product = await product.text();
                 if (product !== 'barcodeNotFound') {
                     product = JSON.parse(product)
