@@ -5,7 +5,7 @@ import { isAdmin, ApiUrl } from '../../config'
 import './Barcode.css'
 import './styles.scss'
 
-BarcodeReader.license = 'DLS2eyJoYW5kc2hha2VDb2RlIjoiMTAxNDgxMTIzLVRYbFhaV0pRY205cVgyUmljZyIsIm9yZ2FuaXphdGlvbklEIjoiMTAxNDgxMTIzIiwiY2hlY2tDb2RlIjoxOTE5NjM1OTc1fQ==';
+BarcodeReader.license = 'DLS2eyJoYW5kc2hha2VDb2RlIjoiMTAxNjQ1MjQ1LVRYbFhaV0pRY205cVgyUmljZyIsIm9yZ2FuaXphdGlvbklEIjoiMTAxNjQ1MjQ1IiwiY2hlY2tDb2RlIjoxMzAxMTU5Mjg1fQ==';
 BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.3.1/dist/";
 
 const Barcode = () => {
