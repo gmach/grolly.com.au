@@ -1,5 +1,5 @@
 import { createContext, useEffect, useReducer, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, redirect, useNavigate } from "react-router-dom";
 import Header from '../Header'
 import Footer from '../Footer'
 import SpinnerLoader from '../SpinnerLoader'
@@ -66,6 +66,9 @@ export const Root = () => {
     cart: []
   });
   const [showCategories, setShowCategories] = useState(true)
+
+  const navigate = useNavigate();
+
   useEffect(() => {
     let userCart = localStorage.userCart; 
     if (userCart != null)
@@ -77,6 +80,7 @@ export const Root = () => {
         cart: userCart
       }
     })
+    navigate("/categories");
   }, [])
   
   return (

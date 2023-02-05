@@ -1,8 +1,0 @@
-pkill -f "node"
-pkill -f "elastic"
-pkill -f "kibana"
-/usr/local/var/elasticsearch-7.17.6/bin/elasticsearch & 
-/usr/local/var/kibana-7.17.6-darwin-x86_64/bin/kibana &
-node /Users/admin/work/groceryhawker-api/src/server.js & 
-node /Users/admin/work/groceryhawker-react/www/www-server.js & 
-open -a "Google Chrome" http://localhost:8000
