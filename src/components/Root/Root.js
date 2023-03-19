@@ -1,21 +1,19 @@
-import { createContext, useEffect, useReducer, useState } from "react";
-import { Outlet, redirect, useNavigate } from "react-router-dom";
+import { createContext, useEffect, useReducer, useState } from 'react'
+import { Outlet, useNavigate } from 'react-router-dom'
 import Header from '../Header'
 import Footer from '../Footer'
 import SpinnerLoader from '../SpinnerLoader'
-import { SnackBarType } from "../SnackBar";
+import { SnackBarType } from '../SnackBar'
 import './mulifont.scss'
 import './styles.scss'
 
-export const RootContext = createContext();
+export const RootContext = createContext()
 
 export const Root = () => {
-
   const reducer = (state, action) => {
     const processCart = action => {
       const item = action.payload
-      if (typeof item !== 'object') 
-        throw Error('Item not added. Expected object!')
+      if (typeof item !== 'object') throw Error('Item not added. Expected object!')
       let cart = [...state.cart]
       const index = cart.findIndex(el => el.id == item.id && el.stockCode == item.stockCode)
       let cartMessage, messageType
@@ -31,7 +29,7 @@ export const Root = () => {
         cartMessage = 'Item does not exist in your shopping cart!'
         messageType = SnackBarType.fail
         if (index > -1) {
-          cart.splice(index, 1)    
+          cart.splice(index, 1)
           cartMessage = 'Item has been removed from your shopping cart'
           messageType = SnackBarType.success
         }
@@ -41,10 +39,10 @@ export const Root = () => {
         cart,
         snackBar: {
           cartMessage,
-          messageType
-        }
+          messageType,
+        },
       }
-    }       
+    }
     switch (action.type) {
       case 'addToCart':
       case 'removeFromCart': {
@@ -53,42 +51,39 @@ export const Root = () => {
       case 'upsert':
         return {
           ...state,
-          ...action.payload
+          ...action.payload,
         }
       case 'init':
         return action.payload
       default:
-        throw new Error();
+        throw new Error()
     }
   }
-  
+
   const [state, dispatch] = useReducer(reducer, {
-    cart: []
-  });
+    cart: [],
+  })
   const [showCategories, setShowCategories] = useState(true)
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   useEffect(() => {
-    let userCart = localStorage.userCart; 
-    if (userCart != null)
-      userCart = JSON.parse(userCart);
-    else 
-      userCart = [];
-    dispatch({type: 'init', 
+    const userCart = localStorage.userCart != null ? JSON.parse(localStorage.userCart) : []
+    dispatch({
+      type: 'init',
       payload: {
-        cart: userCart
-      }
+        cart: userCart,
+      },
     })
-    navigate("/categories");
+    navigate('/categories')
   }, [])
-  
+
   return (
     <RootContext.Provider value={{ state, dispatch, showCategories, setShowCategories }}>
-      <Header/>
-      <SpinnerLoader/>
-      <Outlet/> 
-      <Footer/>
+      <Header />
+      <SpinnerLoader />
+      <Outlet />
+      <Footer />
     </RootContext.Provider>
-  );
+  )
 }
