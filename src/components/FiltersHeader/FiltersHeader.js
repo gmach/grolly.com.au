@@ -11,6 +11,17 @@ export default function FiltersHeader( { prodsFound, totalCount }) {
     dispatch(statusFilterChanged(newFilter))
     dispatch(fetchProducts())
   }
+
+  const statusOptions = Object.entries(StatusFilters).map(([key, value]) => {
+    return (
+      <option 
+        key={key} 
+        value={value}
+      >
+        {key}
+      </option>
+    )
+  })
   return (
     <>
     {
@@ -23,18 +34,7 @@ export default function FiltersHeader( { prodsFound, totalCount }) {
           value={filter} 
           onChange={handleSelect}
           >
-            {
-              Object.entries(StatusFilters).map(([key, value]) => {
-                return (
-                  <option 
-                    key={key} 
-                    value={value}
-                  >
-                    {key}
-                  </option>
-                )
-              })
-            }
+            { statusOptions }
         </select>
       </div>  
     }

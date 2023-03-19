@@ -8,33 +8,37 @@ import CategoryHeader from "../CategoryHeader";
 export const Categories = () => {
   let categories = Object.entries(CategoriesObj);
   const { showCategories, setShowCategories } = useContext(RootContext);
+  const catItems = categories.map(category => {
+    const [categoryId, categoryName] = category
+    return (
+      <li 
+        className="catitem" 
+        key={categoryId}
+      >
+        <NavLink 
+          className='catlink' 
+          to={`/categories/${categoryId}`}
+          onClick={()=>setShowCategories(false)}
+        >
+          {categoryName} 
+        </NavLink>
+      </li>
+    )
+  })
+
   return (
     <>
       <CategoryHeader />
       <main className="main-content">
         {
           showCategories && 
-            <div className="categories-pane">
-            { 
-              categories.map(category => {
-                const [categoryId, categoryName] = category
-                return (
-                  <div className="catitem" key={categoryId}>
-                    <NavLink className='catlink' 
-                      to={`/categories/${categoryId}`}
-                      onClick={()=>setShowCategories(false)}
-                    >
-                      {categoryName} 
-                    </NavLink>
-                  </div>
-                )
-              })
-            }
-            </div>
-          }
-            <div className="content-pane">
-              <Outlet />
-            </div>
+            <ul className="categories-pane">
+              { catItems } 
+            </ul>
+        }
+        <div className="content-pane">
+          <Outlet />
+        </div>
       </main>
       </>
   );

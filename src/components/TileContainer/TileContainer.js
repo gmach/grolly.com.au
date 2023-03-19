@@ -20,20 +20,23 @@ export default function TileContainer( { data, view }) {
     navigate('/product/' + item.id);
   }
 
+  const dataItems = data && data.map(item => {
+    const clsName = 'product-tile match ' + item.type
+    return (
+      <li 
+        onClick={() => handleClick(item)} 
+        key={item.stockCode}
+      >
+        <Tile product={item} view={view} className={clsName}/>
+      </li>
+    )
+  })
+
   return (
     <InfiniteScroll getNewData={getNewDataHandler}>
-      <div className="products-container"> 
-      {
-        data && data.map(item => {
-          const clsName = 'product-tile match ' + item.type
-          return (
-            <div onClick={() => handleClick(item)} key={item.stockCode}>
-              <Tile product={item} view={view} className={clsName}/>
-            </div>
-          )
-        })
-      }
-      </div>
+      <ul className="products-container"> 
+        { dataItems }
+      </ul>
       <ScrollUp/>
     </InfiniteScroll>
   )
